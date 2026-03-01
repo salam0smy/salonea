@@ -56,6 +56,18 @@
     "staffNameEn": "Name in English (optional)",
     "staffPhoto": "Photo URL (optional)",
     "staffServices": "Services",
-    "noStaff": "No staff yet"
+    "noStaff": "No staff yet",
+    "bookingStatus": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "filterAll": "All",
+    "noBookings": "No bookings for this filter",
+    "completeBooking": "Complete",
+    "confirmCancelBooking": "Cancel this booking?",
+    "today": "Today",
+    "yesterday": "Yesterday"
   }
 }

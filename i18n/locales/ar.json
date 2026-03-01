@@ -56,6 +56,18 @@
     "staffNameEn": "الاسم بالإنجليزية (اختياري)",
     "staffPhoto": "رابط الصورة (اختياري)",
     "staffServices": "الخدمات",
-    "noStaff": "لا توجد موظفات بعد"
+    "noStaff": "لا توجد موظفات بعد",
+    "bookingStatus": {
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "completed": "مكتمل",
+      "cancelled": "ملغى"
+    },
+    "filterAll": "الكل",
+    "noBookings": "لا توجد حجوزات لهذا الفلتر",
+    "completeBooking": "إتمام",
+    "confirmCancelBooking": "إلغاء الحجز؟",
+    "today": "اليوم",
+    "yesterday": "أمس"
   }
 }
