@@ -39,6 +39,16 @@
     "addService": "إضافة خدمة",
     "addStaff": "إضافة موظفة",
     "newBooking": "حجز جديد",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "editService": "تعديل الخدمة",
+    "deleteService": "حذف الخدمة",
+    "confirmDelete": "هل أنتِ متأكدة؟",
+    "serviceName": "اسم الخدمة",
+    "serviceNameEn": "الاسم بالإنجليزية (اختياري)",
+    "servicePrice": "السعر (ر.س)",
+    "serviceDuration": "المدة (دقيقة)",
+    "serviceCategory": "التصنيف",
+    "serviceActive": "نشطة",
+    "noServices": "لا توجد خدمات بعد"
   }
 }

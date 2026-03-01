@@ -39,6 +39,16 @@
     "addService": "Add service",
     "addStaff": "Add staff",
     "newBooking": "New booking",
-    "logout": "Log out"
+    "logout": "Log out",
+    "editService": "Edit service",
+    "deleteService": "Delete service",
+    "confirmDelete": "Are you sure?",
+    "serviceName": "Service name",
+    "serviceNameEn": "Name in English (optional)",
+    "servicePrice": "Price (SAR)",
+    "serviceDuration": "Duration (minutes)",
+    "serviceCategory": "Category",
+    "serviceActive": "Active",
+    "noServices": "No services yet"
   }
 }
