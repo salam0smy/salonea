@@ -11,6 +11,15 @@ const route = useRoute()
 const colorMode = useColorMode()
 const { locale, setLocale } = useI18n()
 
+// Theme icon: fixed until mounted to avoid hydration mismatch (SSR has no colorMode)
+const themeIcon = ref<'i-heroicons-sun' | 'i-heroicons-moon'>('i-heroicons-moon')
+onMounted(() => {
+  themeIcon.value = colorMode.value === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'
+})
+watch(() => colorMode.value, (mode) => {
+  themeIcon.value = mode === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'
+})
+
 const localeDisplay = computed(() => locale.value === 'ar' ? 'العربية' : 'English')
 
 function toggleLocale() {
@@ -65,10 +74,10 @@ function isActive(to: string): boolean {
         v-for="item in navItems"
         :key="item.to"
         :to="item.to"
-        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors w-full"
+        class="flex items-center gap-3 py-2.5 rounded-xl text-sm transition-colors w-full"
         :class="isActive(item.to)
-          ? 'bg-(--color-surface-muted) text-(--color-text) font-medium'
-          : 'text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text)'"
+          ? 'bg-(--color-surface-muted) text-(--color-text) font-medium border-s-2 border-salona-500 ps-[10px] pe-3'
+          : 'text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) px-3'"
         @click="props.onClose?.()"
       >
         <UIcon :name="item.icon" class="w-5 h-5 shrink-0" />
@@ -90,16 +99,13 @@ function isActive(to: string): boolean {
           <span>{{ localeDisplay }}</span>
         </button>
 
-        <!-- Theme toggle -->
+        <!-- Theme toggle (icon from ref to avoid SSR/client colorMode hydration mismatch) -->
         <button
           class="p-1.5 rounded-lg text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) transition-colors"
-          :aria-label="colorMode.value === 'dark' ? $t('admin.nav.toggleLight') : $t('admin.nav.toggleDark')"
+          :aria-label="themeIcon === 'i-heroicons-sun' ? $t('admin.nav.toggleLight') : $t('admin.nav.toggleDark')"
           @click="toggleTheme"
         >
-          <UIcon
-            :name="colorMode.value === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'"
-            class="w-4 h-4"
-          />
+          <UIcon :name="themeIcon" class="w-4 h-4" />
         </button>
       </div>
 

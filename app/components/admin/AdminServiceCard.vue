@@ -23,7 +23,7 @@ function formatDuration(minutes: number): string {
 
 <template>
   <div
-    class="flex items-center justify-between gap-3 px-4 py-3 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
+    class="flex items-center justify-between gap-3 px-4 py-4 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
     :class="{ 'opacity-50': !service.isActive }"
   >
     <!-- Service info -->
@@ -31,6 +31,9 @@ function formatDuration(minutes: number): string {
       <p class="font-medium text-(--color-text) text-sm truncate">{{ service.name }}</p>
       <p class="text-xs text-(--color-text-muted) mt-0.5">
         {{ formatDuration(service.durationMinutes) }}
+      </p>
+      <p v-if="service.description" class="text-xs text-(--color-text-muted) mt-0.5 line-clamp-2">
+        {{ service.description }}
       </p>
     </div>
 

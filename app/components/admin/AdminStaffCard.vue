@@ -18,11 +18,11 @@ const initial = computed(() => props.staff.name.charAt(0))
 
 <template>
   <div
-    class="flex items-center gap-3 px-4 py-3 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
+    class="flex items-center gap-3 px-4 py-4 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
   >
     <!-- Photo placeholder -->
     <div
-      class="w-10 h-10 rounded-full bg-(--color-surface-muted) flex items-center justify-center shrink-0 text-(--color-text-muted) font-semibold text-sm select-none"
+      class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-semibold text-sm select-none bg-salona-50 text-salona-600 dark:bg-salona-950 dark:text-salona-300"
     >
       {{ initial }}
     </div>

@@ -104,13 +104,13 @@ const dateHeading = computed(() => {
         v-for="slot in timeSlots"
         :key="slot"
         class="flex items-start gap-3"
-        :class="slot.endsWith(':00') ? 'border-t border-gray-100' : ''"
+        :class="slot.endsWith(':00') ? 'border-t border-(--color-border)' : ''"
       >
         <!-- Time label (dir=ltr keeps digits in numeric order even in RTL layout) -->
         <div
-          class="w-12 shrink-0 pt-3 text-xs font-mono text-end"
+          class="w-12 shrink-0 pt-3 text-xs font-mono text-end text-(--color-text-muted)"
           dir="ltr"
-          :class="slot.endsWith(':30') ? 'text-gray-300' : 'text-gray-400'"
+          :class="slot.endsWith(':30') ? 'opacity-40' : 'opacity-70'"
         >
           {{ slot }}
         </div>
@@ -134,9 +134,12 @@ const dateHeading = computed(() => {
     </div>
 
     <!-- ── Empty state ────────────────────────────────────── -->
-    <p v-else class="text-center text-gray-400 py-16">
-      {{ $t('admin.calendar.noBookings') }}
-    </p>
+    <div v-else class="flex flex-col items-center justify-center py-20 gap-3">
+      <div class="w-12 h-12 rounded-2xl bg-(--color-surface-muted) flex items-center justify-center">
+        <UIcon name="i-heroicons-calendar-days" class="w-6 h-6 text-(--color-text-muted)" />
+      </div>
+      <p class="text-(--color-text-muted) text-sm">{{ $t('admin.calendar.noBookings') }}</p>
+    </div>
 
   </div>
 </template>

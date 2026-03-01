@@ -35,14 +35,14 @@
   --color-text-muted:    #8C8580;   /* secondary text, labels */
 }
 
-/* 5. Dark mode overrides — Nuxt UI's color-mode adds .dark to <html>; these take effect. */
+/* 5. Dark mode overrides — warm charcoal, hue 350 family (no violet). Nuxt UI adds .dark to <html>. */
 .dark {
-  --color-bg:            #16141A;   /* warm dark, slight purple undertone */
-  --color-surface:       #1E1C24;
-  --color-surface-muted: #252230;
-  --color-border:        #2E2A38;
-  --color-text:          #F5F3F0;
-  --color-text-muted:    #A09AA4;
+  --color-bg:            #19171A;   /* oklch(11% 0.006 350) — very dark warm near-black */
+  --color-surface:       #211E22;   /* oklch(14% 0.010 350) — card surface */
+  --color-surface-muted: #29262C;   /* oklch(18% 0.012 350) — section tones */
+  --color-border:        #342F38;   /* oklch(23% 0.015 350) — borders */
+  --color-text:          #F5F3F0;   /* warm near-white */
+  --color-text-muted:    #9E9099;   /* warmer, less lilac */
 }
 
 /* 6. Global base — antialiasing + Arabic line height per design doc (1.5-1.7 recommended) */

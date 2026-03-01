@@ -33,11 +33,22 @@ const canCancel = computed(
   () => props.booking.status !== 'completed' && props.booking.status !== 'cancelled',
 )
 const canComplete = computed(() => props.booking.status === 'confirmed')
+
+// Status-colored inline-start accent stripe
+const statusAccentClass = computed(() => ({
+  'border-s-amber-400': props.booking.status === 'pending',
+  'border-s-salona-400': props.booking.status === 'confirmed',
+  'border-s-green-500': props.booking.status === 'completed',
+  'border-s-[var(--color-border)]': props.booking.status === 'cancelled',
+}))
 </script>
 
 <template>
   <div
-    class="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
+    class="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-4
+           md:grid md:grid-cols-[1fr_192px_auto_auto] md:items-center md:gap-x-5
+           bg-(--color-surface) rounded-xl border border-(--color-border) border-s-2 transition-colors"
+    :class="statusAccentClass"
   >
     <!-- Customer info -->
     <div class="flex-1 min-w-0">
@@ -50,8 +61,8 @@ const canComplete = computed(() => props.booking.status === 'confirmed')
     </div>
 
     <!-- Appointment details -->
-    <div class="shrink-0 text-sm text-(--color-text-muted) text-end">
-      <p class="truncate max-w-36">{{ serviceName }}</p>
+    <div class="shrink-0 text-sm text-(--color-text-muted) text-end min-w-0">
+      <p class="truncate">{{ serviceName }}</p>
       <p class="text-xs text-(--color-text-muted) mt-0.5">
         {{ booking.time }}
         <span v-if="staffName"> · {{ staffName }}</span>

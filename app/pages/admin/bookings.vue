@@ -76,7 +76,7 @@ function formatDateHeading(date: string): string {
         v-for="group in bookingsByDate"
         :key="group.date"
       >
-        <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
+        <h2 class="text-sm font-medium text-(--color-text-muted) mb-3 pb-2 border-b border-(--color-border)">
           {{ formatDateHeading(group.date) }}
         </h2>
         <div class="space-y-2">
@@ -95,8 +95,11 @@ function formatDateHeading(date: string): string {
     </div>
 
     <!-- Empty state -->
-    <p v-else class="text-center text-gray-400 py-16">
-      {{ $t('admin.noBookings') }}
-    </p>
+    <div v-else class="flex flex-col items-center justify-center py-20 gap-3">
+      <div class="w-12 h-12 rounded-2xl bg-(--color-surface-muted) flex items-center justify-center">
+        <UIcon name="i-heroicons-clipboard-document-list" class="w-6 h-6 text-(--color-text-muted)" />
+      </div>
+      <p class="text-(--color-text-muted) text-sm">{{ $t('admin.noBookings') }}</p>
+    </div>
   </div>
 </template>
