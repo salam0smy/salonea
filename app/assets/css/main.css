@@ -1,2 +1,61 @@
+/* app/assets/css/main.css */
+
+/* 1. Tailwind + Nuxt UI base — must come first */
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+/* 2. IBM Plex Arabic — 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold) */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@300;400;500;600;700&display=swap');
+
+/* 3. Design tokens — extends Tailwind's theme, generates utility classes automatically.
+      --color-salona-* creates: bg-salona-500, text-salona-300, border-salona-200, etc.
+      --font-sans overrides the global sans-serif stack everywhere. */
+@theme {
+  --font-sans: 'IBM Plex Arabic', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --color-salona-50:  oklch(97% 0.010 350);
+  --color-salona-100: oklch(93% 0.020 350);
+  --color-salona-200: oklch(86% 0.050 350);
+  --color-salona-300: oklch(78% 0.075 350);
+  --color-salona-400: oklch(70% 0.090 350);
+  --color-salona-500: oklch(60% 0.090 350);  /* ~#C9748A — main accent */
+  --color-salona-600: oklch(52% 0.080 350);
+  --color-salona-700: oklch(44% 0.070 350);
+  --color-salona-800: oklch(36% 0.060 350);
+  --color-salona-900: oklch(28% 0.050 350);
+  --color-salona-950: oklch(20% 0.030 350);
+}
+
+/* 4. Semantic surface/background tokens — light mode defaults.
+      These are used directly in layouts via Tailwind's CSS variable shorthand:
+      bg-(--color-bg), bg-(--color-surface), border-(--color-border), etc. */
+:root {
+  --color-bg:            #FAFAF7;   /* warm off-white — replaces bg-gray-50 everywhere */
+  --color-surface:       #FFFFFF;   /* cards, sidebar, modals */
+  --color-surface-muted: #F4F2EF;   /* subtle section background */
+  --color-border:        #E8E4DE;   /* replaces border-gray-100 */
+  --color-text:          #1E1B1A;   /* near-black with warmth */
+  --color-text-muted:    #8C8580;   /* secondary text, labels */
+}
+
+/* 5. Dark mode overrides — Nuxt UI's color-mode adds .dark to <html>; these take effect. */
+.dark {
+  --color-bg:            #16141A;   /* warm dark, slight purple undertone */
+  --color-surface:       #1E1C24;
+  --color-surface-muted: #252230;
+  --color-border:        #2E2A38;
+  --color-text:          #F5F3F0;
+  --color-text-muted:    #A09AA4;
+}
+
+/* 6. Global base — antialiasing + Arabic line height per design doc (1.5-1.7 recommended) */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
