@@ -31,7 +31,10 @@
   },
   "admin": {
     "dashboard": "Dashboard",
-    "calendar": "Calendar",
+    "calendar": {
+      "label": "Calendar",
+      "noBookings": "No bookings for this day"
+    },
     "bookings": "Bookings",
     "services": "Services",
     "staff": "Staff",

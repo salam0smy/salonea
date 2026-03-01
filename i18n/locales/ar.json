@@ -31,7 +31,10 @@
   },
   "admin": {
     "dashboard": "لوحة التحكم",
-    "calendar": "التقويم",
+    "calendar": {
+      "label": "التقويم",
+      "noBookings": "لا توجد حجوزات لهذا اليوم"
+    },
     "bookings": "الحجوزات",
     "services": "الخدمات",
     "staff": "الموظفات",

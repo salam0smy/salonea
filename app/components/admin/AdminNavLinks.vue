@@ -10,7 +10,7 @@ const props = defineProps<{
 const route = useRoute()
 
 const navItems = [
-  { to: '/admin',          label: 'admin.calendar', icon: 'i-heroicons-calendar-days' },
+  { to: '/admin',          label: 'admin.calendar.label', icon: 'i-heroicons-calendar-days' },
   { to: '/admin/bookings', label: 'admin.bookings', icon: 'i-heroicons-clipboard-document-list' },
   { to: '/admin/services', label: 'admin.services', icon: 'i-heroicons-sparkles' },
   { to: '/admin/staff',    label: 'admin.staff',    icon: 'i-heroicons-users' },
