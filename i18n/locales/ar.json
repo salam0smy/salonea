@@ -1,0 +1,42 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "retry": "حاول مجددًا",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "back": "رجوع",
+    "next": "التالي",
+    "sar": "ر.س"
+  },
+  "booking": {
+    "title": "احجزي موعدك",
+    "selectService": "اختاري الخدمة",
+    "selectStaff": "اختاري الموظفة",
+    "noPreference": "بدون تفضيل",
+    "selectDate": "اختاري الموعد",
+    "yourDetails": "بياناتك",
+    "name": "الاسم",
+    "phone": "رقم الجوال",
+    "confirmBooking": "تأكيد الحجز",
+    "payOnline": "الدفع الإلكتروني",
+    "payAtSalon": "الدفع في الصالون",
+    "bookingConfirmed": "تم تأكيد الحجز",
+    "addToCalendar": "أضيفي للتقويم",
+    "shareViaWhatsapp": "شاركي عبر واتساب"
+  },
+  "admin": {
+    "dashboard": "لوحة التحكم",
+    "calendar": "التقويم",
+    "services": "الخدمات",
+    "staff": "الموظفات",
+    "settings": "الإعدادات",
+    "addService": "إضافة خدمة",
+    "addStaff": "إضافة موظفة",
+    "newBooking": "حجز جديد",
+    "logout": "تسجيل الخروج"
+  }
+}

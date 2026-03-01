@@ -1,0 +1,42 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "sar": "SAR"
+  },
+  "booking": {
+    "title": "Book your appointment",
+    "selectService": "Select a service",
+    "selectStaff": "Select a staff member",
+    "noPreference": "No preference",
+    "selectDate": "Pick a date & time",
+    "yourDetails": "Your details",
+    "name": "Name",
+    "phone": "Phone number",
+    "confirmBooking": "Confirm booking",
+    "payOnline": "Pay online",
+    "payAtSalon": "Pay at salon",
+    "bookingConfirmed": "Booking confirmed",
+    "addToCalendar": "Add to calendar",
+    "shareViaWhatsapp": "Share via WhatsApp"
+  },
+  "admin": {
+    "dashboard": "Dashboard",
+    "calendar": "Calendar",
+    "services": "Services",
+    "staff": "Staff",
+    "settings": "Settings",
+    "addService": "Add service",
+    "addStaff": "Add staff",
+    "newBooking": "New booking",
+    "logout": "Log out"
+  }
+}
