@@ -13,6 +13,10 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  imports: {
+    dirs: ['composables/**'],
+  },
+
   i18n: {
     locales: [
       { code: 'ar', language: 'ar-SA', dir: 'rtl', name: 'العربية', file: 'ar.json' },
@@ -26,7 +30,7 @@ export default defineNuxtConfig({
     redirectOptions: {
       login: '/login',
       callback: '/confirm',
-      exclude: ['/', '/[salon]', '/[salon]/**'],
+      exclude: ['/', '/*', '/*/**'],
     },
   },
 })
