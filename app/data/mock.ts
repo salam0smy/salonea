@@ -1,5 +1,5 @@
 // app/data/mock.ts
-import type { Tenant, ServiceCategory, Service, StaffMember, TenantSettings } from '~/app/types'
+import type { Tenant, ServiceCategory, Service, StaffMember, TenantSettings } from '~/types'
 
 export const mockTenant: Tenant = {
   id: 't1',
