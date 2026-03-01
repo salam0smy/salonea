@@ -8,7 +8,12 @@ const drawerOpen = ref(false)
 <template>
   <UApp>
     <div class="min-h-screen flex bg-gray-50">
-      <!-- Main content — flex-1, rendered first in DOM -->
+      <!-- Desktop sidebar — first in DOM so RTL flex places it on the right -->
+      <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-white border-e border-gray-100 h-screen sticky top-0">
+        <AdminNavLinks :tenant="mockTenant" />
+      </aside>
+
+      <!-- Main content -->
       <main class="flex-1 overflow-auto min-w-0">
         <!-- Mobile header (hidden on lg+) -->
         <header class="lg:hidden sticky top-0 z-10 bg-white border-b border-gray-100 px-4 h-14 flex items-center justify-between">
@@ -26,11 +31,6 @@ const drawerOpen = ref(false)
 
         <slot />
       </main>
-
-      <!-- Desktop sidebar (RTL: start = right side) -->
-      <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-white border-s border-gray-100 h-screen sticky top-0">
-        <AdminNavLinks :tenant="mockTenant" />
-      </aside>
 
       <!-- Mobile drawer -->
       <USlideover v-model:open="drawerOpen">
