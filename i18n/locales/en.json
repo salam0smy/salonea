@@ -43,6 +43,11 @@
     "addStaff": "Add staff",
     "newBooking": "New booking",
     "logout": "Log out",
+    "nav": {
+      "toggleDark": "Switch to dark mode",
+      "toggleLight": "Switch to light mode",
+      "switchLanguage": "Switch language"
+    },
     "editService": "Edit service",
     "deleteService": "Delete service",
     "confirmDelete": "Are you sure?",

@@ -43,6 +43,11 @@
     "addStaff": "إضافة موظفة",
     "newBooking": "حجز جديد",
     "logout": "تسجيل الخروج",
+    "nav": {
+      "toggleDark": "التحويل إلى الوضع الداكن",
+      "toggleLight": "التحويل إلى الوضع الفاتح",
+      "switchLanguage": "تغيير اللغة"
+    },
     "editService": "تعديل الخدمة",
     "deleteService": "حذف الخدمة",
     "confirmDelete": "هل أنتِ متأكدة؟",

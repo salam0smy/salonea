@@ -8,6 +8,18 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
+const colorMode = useColorMode()
+const { locale, setLocale } = useI18n()
+
+const localeDisplay = computed(() => locale.value === 'ar' ? 'العربية' : 'English')
+
+function toggleLocale() {
+  setLocale(locale.value === 'ar' ? 'en' : 'ar')
+}
+
+function toggleTheme() {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
 
 const navItems = [
   { to: '/admin',          label: 'admin.calendar.label', icon: 'i-heroicons-calendar-days' },
@@ -64,8 +76,34 @@ function isActive(to: string): boolean {
       </NuxtLink>
     </nav>
 
-    <!-- Logout (stub — no action yet) -->
-    <div class="p-2 border-t border-(--color-border) shrink-0">
+    <!-- Bottom controls -->
+    <div class="p-2 border-t border-(--color-border) shrink-0 space-y-0.5">
+      <!-- Utility row: language + theme -->
+      <div class="flex items-center justify-between px-3 py-2">
+        <!-- Language switcher -->
+        <button
+          class="flex items-center gap-2 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
+          :aria-label="$t('admin.nav.switchLanguage')"
+          @click="toggleLocale"
+        >
+          <UIcon name="i-heroicons-language" class="w-4 h-4 shrink-0" />
+          <span>{{ localeDisplay }}</span>
+        </button>
+
+        <!-- Theme toggle -->
+        <button
+          class="p-1.5 rounded-lg text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) transition-colors"
+          :aria-label="colorMode.value === 'dark' ? $t('admin.nav.toggleLight') : $t('admin.nav.toggleDark')"
+          @click="toggleTheme"
+        >
+          <UIcon
+            :name="colorMode.value === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+            class="w-4 h-4"
+          />
+        </button>
+      </div>
+
+      <!-- Logout -->
       <button
         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) w-full transition-colors"
       >
