@@ -1,0 +1,129 @@
+<!-- app/components/booking/BookingDatePicker.vue -->
+<script setup lang="ts">
+import type { Service, StaffMember } from '~/types'
+import { mockAvailableSlots } from '~/data/mock'
+
+const props = defineProps<{
+  service: Service
+  staff: StaffMember | null
+  selectedDate: string | null
+  selectedTime: string | null
+}>()
+
+const emit = defineEmits<{
+  'update:selectedDate': [v: string]
+  'update:selectedTime': [v: string]
+  'next': []
+  'back': []
+}>()
+
+// Next 14 days starting today
+const days = computed(() => {
+  const result = []
+  const today = new Date()
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(today)
+    d.setDate(today.getDate() + i)
+    result.push({
+      value: d.toISOString().split('T')[0],
+      dayName: d.toLocaleDateString('ar-SA', { weekday: 'short' }),
+      dayNum: d.getDate(),
+      isToday: i === 0,
+    })
+  }
+  return result
+})
+
+const availableSlots = computed(() =>
+  props.selectedDate ? mockAvailableSlots(props.selectedDate) : []
+)
+
+// Arabic 12-hour format: "10:00" → "١٠:٠٠ ص"
+function formatTime(time: string): string {
+  const [h, m] = time.split(':').map(Number)
+  const period = h < 12 ? 'ص' : 'م'
+  const hour = h % 12 || 12
+  return `${hour}:${m.toString().padStart(2, '0')} ${period}`
+}
+
+function selectDate(date: string) {
+  emit('update:selectedDate', date)
+  emit('update:selectedTime', '') // reset time when date changes
+}
+</script>
+
+<template>
+  <div class="pt-5 space-y-6">
+    <!-- Back -->
+    <button
+      class="flex items-center gap-1 text-sm text-gray-500"
+      @click="emit('back')"
+    >
+      <span class="inline-block rotate-180 rtl:rotate-0">←</span>
+      رجوع
+    </button>
+
+    <h2 class="text-xl font-semibold text-gray-900">اختاري الموعد</h2>
+
+    <!-- Date strip -->
+    <div class="space-y-2">
+      <p class="text-sm text-gray-500 font-medium">التاريخ</p>
+      <div class="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
+        <button
+          v-for="day in days"
+          :key="day.value"
+          class="shrink-0 flex flex-col items-center gap-1 w-[52px] py-3 rounded-2xl border text-center transition-all duration-150"
+          :class="selectedDate === day.value
+            ? 'bg-gray-900 text-white border-gray-900'
+            : 'bg-white border-gray-100 text-gray-700'"
+          @click="selectDate(day.value)"
+        >
+          <span class="text-[11px]">{{ day.dayName }}</span>
+          <span class="text-lg font-semibold leading-none">{{ day.dayNum }}</span>
+          <span v-if="day.isToday" class="text-[10px] opacity-60">اليوم</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Time slots grid -->
+    <template v-if="selectedDate">
+      <div class="space-y-2">
+        <p class="text-sm text-gray-500 font-medium">الوقت</p>
+        <div v-if="availableSlots.length" class="grid grid-cols-3 gap-2">
+          <button
+            v-for="slot in availableSlots"
+            :key="slot"
+            class="py-2.5 rounded-xl border text-sm text-center transition-all duration-150"
+            :class="selectedTime === slot
+              ? 'bg-gray-900 text-white border-gray-900 font-medium'
+              : 'bg-white border-gray-100 text-gray-700'"
+            @click="emit('update:selectedTime', slot)"
+          >
+            {{ formatTime(slot) }}
+          </button>
+        </div>
+        <p v-else class="text-sm text-gray-400 text-center py-6">
+          لا توجد مواعيد متاحة في هذا اليوم
+        </p>
+      </div>
+    </template>
+    <template v-else>
+      <p class="text-sm text-gray-400">اختاري تاريخاً لعرض الأوقات المتاحة</p>
+    </template>
+  </div>
+
+  <!-- Sticky CTA -->
+  <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
+    <div class="max-w-lg mx-auto">
+      <UButton
+        block
+        size="xl"
+        :disabled="!selectedDate || !selectedTime"
+        color="neutral"
+        @click="emit('next')"
+      >
+        التالي
+      </UButton>
+    </div>
+  </div>
+</template>
