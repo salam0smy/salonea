@@ -34,7 +34,7 @@ function handleSave(): void {
 </script>
 
 <template>
-  <div class="p-6 max-w-lg mx-auto">
+  <div>
     <!-- Page header -->
     <div class="mb-8">
       <h1 class="text-2xl font-semibold text-gray-900">
@@ -42,7 +42,7 @@ function handleSave(): void {
       </h1>
     </div>
 
-    <form class="space-y-8" @submit.prevent="handleSave">
+    <form class="space-y-8 max-w-2xl" @submit.prevent="handleSave">
 
       <!-- ── Profile section ─────────────────────────────── -->
       <section>
