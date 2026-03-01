@@ -23,21 +23,21 @@ function formatDuration(minutes: number): string {
 
 <template>
   <div
-    class="flex items-center justify-between gap-3 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:border-gray-200 transition-colors"
+    class="flex items-center justify-between gap-3 px-4 py-3 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
     :class="{ 'opacity-50': !service.isActive }"
   >
     <!-- Service info -->
     <div class="flex-1 min-w-0">
-      <p class="font-medium text-gray-900 text-sm truncate">{{ service.name }}</p>
-      <p class="text-xs text-gray-400 mt-0.5">
+      <p class="font-medium text-(--color-text) text-sm truncate">{{ service.name }}</p>
+      <p class="text-xs text-(--color-text-muted) mt-0.5">
         {{ formatDuration(service.durationMinutes) }}
       </p>
     </div>
 
     <!-- Price -->
     <div class="shrink-0 text-end">
-      <span class="font-semibold text-gray-900 text-sm">{{ service.price }}</span>
-      <span class="text-xs text-gray-400 me-0.5"> {{ $t('common.sar') }}</span>
+      <span class="font-semibold text-(--color-text) text-sm">{{ service.price }}</span>
+      <span class="text-xs text-(--color-text-muted) me-0.5"> {{ $t('common.sar') }}</span>
     </div>
 
     <!-- Actions -->

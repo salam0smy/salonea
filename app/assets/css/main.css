@@ -47,6 +47,7 @@
 
 /* 6. Global base — antialiasing + Arabic line height per design doc (1.5-1.7 recommended) */
 html {
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

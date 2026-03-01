@@ -37,22 +37,22 @@ const canComplete = computed(() => props.booking.status === 'confirmed')
 
 <template>
   <div
-    class="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 bg-white rounded-xl border border-gray-100 hover:border-gray-200 transition-colors"
+    class="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
   >
     <!-- Customer info -->
     <div class="flex-1 min-w-0">
-      <p class="font-medium text-gray-900 text-sm truncate">
+      <p class="font-medium text-(--color-text) text-sm truncate">
         {{ booking.contact.name }}
       </p>
-      <p class="text-xs text-gray-400 mt-0.5 font-mono" dir="ltr">
+      <p class="text-xs text-(--color-text-muted) mt-0.5 font-mono" dir="ltr">
         {{ booking.contact.phone }}
       </p>
     </div>
 
     <!-- Appointment details -->
-    <div class="shrink-0 text-sm text-gray-600 text-end">
+    <div class="shrink-0 text-sm text-(--color-text-muted) text-end">
       <p class="truncate max-w-36">{{ serviceName }}</p>
-      <p class="text-xs text-gray-400 mt-0.5">
+      <p class="text-xs text-(--color-text-muted) mt-0.5">
         {{ booking.time }}
         <span v-if="staffName"> · {{ staffName }}</span>
       </p>

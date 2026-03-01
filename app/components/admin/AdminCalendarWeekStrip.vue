@@ -18,10 +18,10 @@ defineEmits<{
       :key="day.date"
       class="flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-xl min-w-[48px] transition-colors shrink-0 cursor-pointer"
       :class="day.date === selectedDate
-        ? 'bg-gray-900 text-white'
+        ? 'bg-(--color-text) text-(--color-bg)'
         : day.date === today
-          ? 'bg-gray-100 text-gray-900'
-          : 'text-gray-500 hover:bg-gray-50'"
+          ? 'bg-(--color-surface-muted) text-(--color-text)'
+          : 'text-(--color-text-muted) hover:bg-(--color-surface-muted)'"
       @click="$emit('select', day.date)"
     >
       <!-- Abbreviated day name (e.g. "أحد") -->
@@ -36,7 +36,7 @@ defineEmits<{
       <div
         class="w-1.5 h-1.5 rounded-full mt-0.5 transition-opacity"
         :class="day.hasActiveBookings
-          ? (day.date === selectedDate ? 'bg-white opacity-60' : 'bg-gray-400')
+          ? (day.date === selectedDate ? 'bg-(--color-bg) opacity-60' : 'bg-(--color-text-muted)')
           : 'opacity-0 bg-transparent'"
       />
     </button>

@@ -27,7 +27,7 @@ function isActive(to: string): boolean {
 <template>
   <div class="flex flex-col h-full">
     <!-- Salon branding -->
-    <div class="p-4 border-b border-gray-100 flex items-center gap-3 shrink-0">
+    <div class="p-4 border-b border-(--color-border) flex items-center gap-3 shrink-0">
       <div
         v-if="tenant.logoUrl"
         class="w-9 h-9 rounded-xl overflow-hidden shrink-0"
@@ -42,8 +42,8 @@ function isActive(to: string): boolean {
         {{ tenant.name.charAt(0) }}
       </div>
       <div class="flex-1 min-w-0">
-        <p class="font-semibold text-gray-900 text-sm leading-tight truncate">{{ tenant.name }}</p>
-        <p class="text-xs text-gray-400 mt-0.5">{{ $t('admin.dashboard') }}</p>
+        <p class="font-semibold text-(--color-text) text-sm leading-tight truncate">{{ tenant.name }}</p>
+        <p class="text-xs text-(--color-text-muted) mt-0.5">{{ $t('admin.dashboard') }}</p>
       </div>
     </div>
 
@@ -55,8 +55,8 @@ function isActive(to: string): boolean {
         :to="item.to"
         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors w-full"
         :class="isActive(item.to)
-          ? 'bg-gray-100 text-gray-900 font-medium'
-          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'"
+          ? 'bg-(--color-surface-muted) text-(--color-text) font-medium'
+          : 'text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text)'"
         @click="props.onClose?.()"
       >
         <UIcon :name="item.icon" class="w-5 h-5 shrink-0" />
@@ -65,9 +65,9 @@ function isActive(to: string): boolean {
     </nav>
 
     <!-- Logout (stub — no action yet) -->
-    <div class="p-2 border-t border-gray-100 shrink-0">
+    <div class="p-2 border-t border-(--color-border) shrink-0">
       <button
-        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-900 w-full transition-colors"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) w-full transition-colors"
       >
         <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-5 h-5 shrink-0" />
         <span>{{ $t('admin.logout') }}</span>

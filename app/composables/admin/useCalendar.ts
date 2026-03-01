@@ -11,13 +11,13 @@ export interface StaffColorScheme {
 }
 
 const STAFF_COLORS: StaffColorScheme[] = [
-  { bg: 'bg-teal-50',   border: 'border-teal-300',   text: 'text-teal-700',   dot: 'bg-teal-400' },
-  { bg: 'bg-rose-50',   border: 'border-rose-300',   text: 'text-rose-700',   dot: 'bg-rose-400' },
-  { bg: 'bg-violet-50', border: 'border-violet-300', text: 'text-violet-700', dot: 'bg-violet-400' },
+  { bg: 'bg-teal-50 dark:bg-teal-950/50',     border: 'border-teal-300 dark:border-teal-800',     text: 'text-teal-700 dark:text-teal-300',     dot: 'bg-teal-400 dark:bg-teal-500' },
+  { bg: 'bg-rose-50 dark:bg-rose-950/50',     border: 'border-rose-300 dark:border-rose-800',     text: 'text-rose-700 dark:text-rose-300',     dot: 'bg-rose-400 dark:bg-rose-500' },
+  { bg: 'bg-violet-50 dark:bg-violet-950/50', border: 'border-violet-300 dark:border-violet-800', text: 'text-violet-700 dark:text-violet-300', dot: 'bg-violet-400 dark:bg-violet-500' },
 ]
 
 const NO_STAFF_COLOR: StaffColorScheme = {
-  bg: 'bg-gray-50', border: 'border-gray-200', text: 'text-gray-500', dot: 'bg-gray-300',
+  bg: 'bg-gray-50 dark:bg-gray-900/50', border: 'border-gray-200 dark:border-gray-700', text: 'text-gray-500 dark:text-gray-400', dot: 'bg-gray-300 dark:bg-gray-600',
 }
 
 // Stable staff → index mapping derived from mockStaff ordering

@@ -42,13 +42,13 @@ const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' =
     <div class="flex items-center gap-2 flex-1 min-w-0">
       <div class="w-2 h-2 rounded-full shrink-0" :class="colorScheme.dot" />
       <div class="min-w-0">
-        <p class="text-sm font-medium text-gray-900 truncate">
+        <p class="text-sm font-medium text-(--color-text) truncate">
           {{ booking.contact.name }}
         </p>
         <p class="text-xs truncate" :class="colorScheme.text">
           {{ serviceName }}
           <span v-if="staffName"> · {{ staffName }}</span>
-          <span class="text-gray-400"> · {{ durationMinutes }}د</span>
+          <span class="text-(--color-text-muted)"> · {{ durationMinutes }}د</span>
         </p>
       </div>
     </div>
