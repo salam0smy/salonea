@@ -1,6 +1,7 @@
 <!-- app/components/admin/AdminNavLinks.vue -->
 <script setup lang="ts">
 import type { Tenant } from '~/types'
+import { useAuth } from '~/composables/useAuth'
 
 const props = defineProps<{
   tenant: Tenant
@@ -10,6 +11,7 @@ const props = defineProps<{
 const route = useRoute()
 const colorMode = useColorMode()
 const { locale, setLocale } = useI18n()
+const { signOut } = useAuth()
 
 // Theme icon: fixed until mounted to avoid hydration mismatch (SSR has no colorMode)
 const themeIcon = ref<'i-heroicons-sun' | 'i-heroicons-moon'>('i-heroicons-moon')
@@ -112,6 +114,7 @@ function isActive(to: string): boolean {
       <!-- Logout -->
       <button
         class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) w-full transition-colors"
+        @click="signOut()"
       >
         <UIcon name="i-heroicons-arrow-right-on-rectangle" class="w-5 h-5 shrink-0" />
         <span>{{ $t('admin.logout') }}</span>

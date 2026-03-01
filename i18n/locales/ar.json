@@ -1,4 +1,19 @@
 {
+  "auth": {
+    "title": "تسجيل الدخول",
+    "subtitle": "أدخلي رقم جوالك لتسجيل الدخول",
+    "phoneLabel": "رقم الجوال",
+    "phonePlaceholder": "05XXXXXXXX",
+    "sendOtp": "أرسل رمز التحقق",
+    "otpLabel": "رمز التحقق",
+    "otpPlaceholder": "000000",
+    "verifyOtp": "تأكيد",
+    "resendOtp": "إعادة الإرسال",
+    "resendIn": "إعادة الإرسال بعد {seconds}ث",
+    "invalidPhone": "رقم الجوال غير صحيح",
+    "invalidOtp": "الرمز غير صحيح أو منتهي الصلاحية",
+    "changePhone": "تغيير الرقم"
+  },
   "common": {
     "loading": "جاري التحميل...",
     "error": "حدث خطأ",

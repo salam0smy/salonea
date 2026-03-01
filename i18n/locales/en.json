@@ -1,4 +1,19 @@
 {
+  "auth": {
+    "title": "Log in",
+    "subtitle": "Enter your phone number to sign in",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "05XXXXXXXX",
+    "sendOtp": "Send verification code",
+    "otpLabel": "Verification code",
+    "otpPlaceholder": "000000",
+    "verifyOtp": "Verify",
+    "resendOtp": "Resend",
+    "resendIn": "Resend in {seconds}s",
+    "invalidPhone": "Invalid phone number",
+    "invalidOtp": "Invalid or expired code",
+    "changePhone": "Change number"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Something went wrong",

@@ -10,6 +10,32 @@
 @theme {
   --font-sans: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
+  /* Warm gray — hue 30 (no blue). Replaces default blue-gray for inputs, borders, neutral UI. */
+  --color-gray-50:  oklch(98.5% 0.002 30);
+  --color-gray-100: oklch(96.5% 0.004 30);
+  --color-gray-200: oklch(93% 0.006 30);
+  --color-gray-300: oklch(88% 0.008 30);
+  --color-gray-400: oklch(70% 0.010 30);
+  --color-gray-500: oklch(55% 0.012 30);
+  --color-gray-600: oklch(45% 0.012 30);
+  --color-gray-700: oklch(35% 0.012 30);
+  --color-gray-800: oklch(25% 0.010 30);
+  --color-gray-900: oklch(18% 0.008 30);
+  --color-gray-950: oklch(13% 0.006 30);
+
+  /* Warm neutral — inputs/borders that use neutral stay warm. */
+  --color-neutral-50:  oklch(98.5% 0.002 30);
+  --color-neutral-100: oklch(96.5% 0.004 30);
+  --color-neutral-200: oklch(93% 0.006 30);
+  --color-neutral-300: oklch(88% 0.008 30);
+  --color-neutral-400: oklch(70% 0.010 30);
+  --color-neutral-500: oklch(55% 0.012 30);
+  --color-neutral-600: oklch(45% 0.012 30);
+  --color-neutral-700: oklch(35% 0.012 30);
+  --color-neutral-800: oklch(25% 0.010 30);
+  --color-neutral-900: oklch(18% 0.008 30);
+  --color-neutral-950: oklch(13% 0.006 30);
+
   --color-salona-50:  oklch(97% 0.010 350);
   --color-salona-100: oklch(93% 0.020 350);
   --color-salona-200: oklch(86% 0.050 350);

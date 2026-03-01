@@ -1,8 +1,178 @@
 <!-- app/pages/login.vue -->
+<script setup lang="ts">
+definePageMeta({ layout: false })
+
+const user = useSupabaseUser()
+const { sendOtp, verifyOtp, isLoading, error, clearError, normalizePhone } = useAuth()
+const { t } = useI18n()
+
+const step = ref<1 | 2>(1)
+const phone = ref('')
+const otp = ref('')
+const resendCooldown = ref(0)
+let cooldownTimer: ReturnType<typeof setInterval> | null = null
+
+// Already logged in → go to admin
+onMounted(() => {
+  if (user.value) {
+    navigateTo('/admin')
+  }
+})
+
+watch(user, (u) => {
+  if (u) navigateTo('/admin')
+}, { immediate: true })
+
+function startResendCooldown() {
+  resendCooldown.value = 60
+  if (cooldownTimer) clearInterval(cooldownTimer)
+  cooldownTimer = setInterval(() => {
+    resendCooldown.value -= 1
+    if (resendCooldown.value <= 0 && cooldownTimer) {
+      clearInterval(cooldownTimer)
+      cooldownTimer = null
+    }
+  }, 1000)
+}
+
+async function onSendOtp() {
+  const { ok } = await sendOtp(phone.value)
+  if (ok) {
+    step.value = 2
+    otp.value = ''
+    startResendCooldown()
+  }
+}
+
+async function onVerifyOtp() {
+  await verifyOtp(phone.value, otp.value)
+}
+
+async function onResend() {
+  if (resendCooldown.value > 0) return
+  const { ok } = await sendOtp(phone.value)
+  if (ok) startResendCooldown()
+}
+
+function backToPhone() {
+  step.value = 1
+  otp.value = ''
+  clearError()
+}
+
+onUnmounted(() => {
+  if (cooldownTimer) clearInterval(cooldownTimer)
+})
+
+const errorMessage = computed(() => {
+  if (!error.value) return null
+  if (error.value === 'invalid_phone') return t('auth.invalidPhone')
+  if (error.value === 'invalid_otp') return t('auth.invalidOtp')
+  return error.value
+})
+</script>
+
 <template>
-  <div class="min-h-screen flex items-center justify-center">
-    <UCard class="w-full max-w-sm">
-      <p class="text-center text-gray-500">{{ $t('common.loading') }}</p>
+  <div class="min-h-screen flex items-center justify-center p-4 bg-(--color-bg)">
+    <UCard
+      class="w-full max-w-sm !bg-(--color-surface) border border-(--color-border)"
+    >
+      <template #header>
+        <h1 class="text-lg font-semibold text-(--color-text)">
+          {{ $t('auth.title') }}
+        </h1>
+        <p class="text-sm text-(--color-text-muted) mt-1">
+          {{ $t('auth.subtitle') }}
+        </p>
+      </template>
+
+      <!-- Step 1: Phone -->
+      <form
+        v-if="step === 1"
+        class="space-y-4"
+        @submit.prevent="onSendOtp"
+      >
+        <UFormField :label="$t('auth.phoneLabel')">
+          <UInput
+            v-model="phone"
+            type="tel"
+            :placeholder="$t('auth.phonePlaceholder')"
+            size="lg"
+            autocomplete="tel"
+            :disabled="isLoading"
+            class="font-mono"
+          />
+        </UFormField>
+        <UAlert
+          v-if="errorMessage"
+          color="error"
+          :title="errorMessage"
+          class="text-sm"
+        />
+        <UButton
+          type="submit"
+          block
+          size="lg"
+          :loading="isLoading"
+          :label="$t('auth.sendOtp')"
+        />
+      </form>
+
+      <!-- Step 2: OTP -->
+      <form
+        v-else
+        class="space-y-4"
+        @submit.prevent="onVerifyOtp"
+      >
+        <p class="text-sm text-(--color-text-muted)">
+          {{ $t('auth.otpLabel') }} → {{ normalizePhone(phone) ?? phone }}
+        </p>
+        <UFormField :label="$t('auth.otpLabel')">
+          <UInput
+            v-model="otp"
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            :placeholder="$t('auth.otpPlaceholder')"
+            size="lg"
+            autocomplete="one-time-code"
+            :disabled="isLoading"
+            class="font-mono text-center tracking-widest"
+            @input="otp = otp.replace(/\D/g, '').slice(0, 6)"
+          />
+        </UFormField>
+        <UAlert
+          v-if="errorMessage"
+          color="error"
+          :title="errorMessage"
+          class="text-sm"
+        />
+        <UButton
+          type="submit"
+          block
+          size="lg"
+          :loading="isLoading"
+          :disabled="otp.length !== 6"
+          :label="$t('auth.verifyOtp')"
+        />
+        <div class="flex items-center justify-between text-sm">
+          <button
+            type="button"
+            class="text-(--color-primary) hover:underline"
+            @click="backToPhone"
+          >
+            {{ $t('auth.changePhone') }}
+          </button>
+          <button
+            type="button"
+            class="text-(--color-text-muted) hover:text-(--color-text) disabled:opacity-50"
+            :disabled="resendCooldown > 0"
+            @click="onResend"
+          >
+            {{ resendCooldown > 0 ? $t('auth.resendIn', { seconds: resendCooldown }) : $t('auth.resendOtp') }}
+          </button>
+        </div>
+      </form>
     </UCard>
   </div>
 </template>
