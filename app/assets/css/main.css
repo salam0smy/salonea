@@ -1,9 +1,6 @@
 /* app/assets/css/main.css */
 
-/* 1. Google Fonts — must precede all other statements in the final processed CSS */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@300;400;500;600;700&display=swap');
-
-/* 2. Tailwind + Nuxt UI base */
+/* 1. Tailwind + Nuxt UI base — font loaded via app.head in nuxt.config.ts */
 @import "tailwindcss";
 @import "@nuxt/ui";
 
@@ -11,7 +8,7 @@
       --color-salona-* creates: bg-salona-500, text-salona-300, border-salona-200, etc.
       --font-sans overrides the global sans-serif stack everywhere. */
 @theme {
-  --font-sans: 'IBM Plex Arabic', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   --color-salona-50:  oklch(97% 0.010 350);
   --color-salona-100: oklch(93% 0.020 350);

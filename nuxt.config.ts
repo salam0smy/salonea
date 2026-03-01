@@ -14,7 +14,7 @@ export default defineNuxtConfig({
 
   fonts: {
     families: [
-      { name: 'IBM Plex Arabic', provider: 'google', weights: [300, 400, 500, 600, 700] },
+      { name: 'IBM Plex Sans Arabic', provider: 'google', weights: [300, 400, 500, 600, 700] },
     ],
   },
 
