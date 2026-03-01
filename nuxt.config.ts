@@ -4,12 +4,19 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
+    '@nuxt/fonts',
     '@nuxt/ui',
     '@nuxtjs/supabase',
     '@nuxtjs/i18n',
     '@pinia/nuxt',
     '@nuxt/eslint',
   ],
+
+  fonts: {
+    families: [
+      { name: 'IBM Plex Arabic', provider: 'google', weights: [300, 400, 500, 600, 700] },
+    ],
+  },
 
   css: ['~/assets/css/main.css'],
 
