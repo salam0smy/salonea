@@ -1,39 +1,46 @@
 <!-- app/layouts/admin.vue -->
+<script setup lang="ts">
+import { mockTenant } from '~/data/mock'
+
+const drawerOpen = ref(false)
+</script>
+
 <template>
   <UApp>
     <div class="min-h-screen flex bg-gray-50">
-      <!-- Sidebar -->
-      <aside class="w-64 bg-white border-e border-gray-200 hidden lg:block">
-        <div class="p-4 border-b border-gray-200">
-          <p class="font-semibold text-gray-900">{{ $t('admin.dashboard') }}</p>
-        </div>
-        <nav class="p-2 space-y-1">
-          <UButton
-            v-for="item in navItems"
-            :key="item.to"
-            :to="item.to"
-            variant="ghost"
-            color="neutral"
-            class="w-full justify-start"
+      <!-- Main content — flex-1, rendered first in DOM -->
+      <main class="flex-1 overflow-auto min-w-0">
+        <!-- Mobile header (hidden on lg+) -->
+        <header class="lg:hidden sticky top-0 z-10 bg-white border-b border-gray-100 px-4 h-14 flex items-center justify-between">
+          <button
+            class="p-2 -ms-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
+            :aria-label="$t('common.menu')"
+            @click="drawerOpen = true"
           >
-            {{ $t(item.label) }}
-          </UButton>
-        </nav>
-      </aside>
+            <UIcon name="i-heroicons-bars-3" class="w-5 h-5" />
+          </button>
+          <p class="font-semibold text-gray-900 text-sm">{{ mockTenant.name }}</p>
+          <!-- Spacer keeps the name visually centred -->
+          <div class="w-9" aria-hidden="true" />
+        </header>
 
-      <!-- Main content -->
-      <main class="flex-1 overflow-auto">
         <slot />
       </main>
+
+      <!-- Desktop sidebar (RTL: start = right side) -->
+      <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-white border-s border-gray-100 h-screen sticky top-0">
+        <AdminNavLinks :tenant="mockTenant" />
+      </aside>
+
+      <!-- Mobile drawer -->
+      <USlideover v-model:open="drawerOpen">
+        <template #content>
+          <AdminNavLinks
+            :tenant="mockTenant"
+            :on-close="() => (drawerOpen = false)"
+          />
+        </template>
+      </USlideover>
     </div>
   </UApp>
 </template>
-
-<script setup lang="ts">
-const navItems = [
-  { to: '/admin', label: 'admin.calendar' },
-  { to: '/admin/services', label: 'admin.services' },
-  { to: '/admin/staff', label: 'admin.staff' },
-  { to: '/admin/settings', label: 'admin.settings' },
-]
-</script>
