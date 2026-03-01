@@ -49,6 +49,13 @@
     "serviceDuration": "Duration (minutes)",
     "serviceCategory": "Category",
     "serviceActive": "Active",
-    "noServices": "No services yet"
+    "noServices": "No services yet",
+    "editStaff": "Edit staff",
+    "deleteStaff": "Delete staff",
+    "staffName": "Name (Arabic)",
+    "staffNameEn": "Name in English (optional)",
+    "staffPhoto": "Photo URL (optional)",
+    "staffServices": "Services",
+    "noStaff": "No staff yet"
   }
 }

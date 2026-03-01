@@ -49,6 +49,13 @@
     "serviceDuration": "المدة (دقيقة)",
     "serviceCategory": "التصنيف",
     "serviceActive": "نشطة",
-    "noServices": "لا توجد خدمات بعد"
+    "noServices": "لا توجد خدمات بعد",
+    "editStaff": "تعديل الموظفة",
+    "deleteStaff": "حذف الموظفة",
+    "staffName": "الاسم بالعربي",
+    "staffNameEn": "الاسم بالإنجليزية (اختياري)",
+    "staffPhoto": "رابط الصورة (اختياري)",
+    "staffServices": "الخدمات",
+    "noStaff": "لا توجد موظفات بعد"
   }
 }
