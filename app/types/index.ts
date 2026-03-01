@@ -50,6 +50,20 @@ export interface BookingContact {
   phone: string
 }
 
+export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled'
+
+export interface Booking {
+  id: string
+  tenantId: string
+  serviceId: string
+  staffId: string | null
+  date: string           // 'YYYY-MM-DD' ISO date
+  time: string           // '09:00' 24h
+  contact: BookingContact
+  status: BookingStatus
+  createdAt: string      // ISO 8601 datetime
+}
+
 export type PaymentMode = 'full' | 'deposit' | 'at_salon'
 
 export interface TenantSettings {

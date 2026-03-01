@@ -1,5 +1,5 @@
 // app/data/mock.ts
-import type { Tenant, ServiceCategory, Service, StaffMember, TenantSettings } from '~/types'
+import type { Tenant, ServiceCategory, Service, StaffMember, TenantSettings, Booking } from '~/types'
 
 export const mockTenant: Tenant = {
   id: 't1',
@@ -73,3 +73,68 @@ export function mockAvailableSlots(date: string): string[] {
   const day = new Date(date).getDate()
   return allSlots.filter((_, i) => (i + day) % 3 !== 0)
 }
+
+// Dates are relative to 2026-03-01 (project demo date).
+// today=2026-03-01, yesterday=2026-02-28, future1=2026-03-03, future2=2026-03-05
+export const mockBookings: Booking[] = [
+  // ── Today ──────────────────────────────────────────────
+  {
+    id: 'b1', tenantId: 't1', serviceId: 's1', staffId: 'st1',
+    date: '2026-03-01', time: '09:00',
+    contact: { name: 'منى السالم',   phone: '+966501110001' },
+    status: 'pending',
+    createdAt: '2026-02-28T18:00:00Z',
+  },
+  {
+    id: 'b2', tenantId: 't1', serviceId: 's5', staffId: 'st2',
+    date: '2026-03-01', time: '10:30',
+    contact: { name: 'هند القحطاني', phone: '+966501110002' },
+    status: 'confirmed',
+    createdAt: '2026-02-28T19:00:00Z',
+  },
+  {
+    id: 'b3', tenantId: 't1', serviceId: 's8', staffId: 'st3',
+    date: '2026-03-01', time: '14:00',
+    contact: { name: 'نوف العتيبي',  phone: '+966501110003' },
+    status: 'cancelled',
+    createdAt: '2026-02-27T10:00:00Z',
+  },
+  // ── Yesterday ──────────────────────────────────────────
+  {
+    id: 'b4', tenantId: 't1', serviceId: 's2', staffId: 'st1',
+    date: '2026-02-28', time: '11:00',
+    contact: { name: 'ريم المطيري',  phone: '+966501110004' },
+    status: 'completed',
+    createdAt: '2026-02-25T09:00:00Z',
+  },
+  {
+    id: 'b5', tenantId: 't1', serviceId: 's10', staffId: 'st3',
+    date: '2026-02-28', time: '15:00',
+    contact: { name: 'سلمى الدوسري', phone: '+966501110005' },
+    status: 'cancelled',
+    createdAt: '2026-02-26T14:00:00Z',
+  },
+  // ── Future: 2026-03-03 ─────────────────────────────────
+  {
+    id: 'b6', tenantId: 't1', serviceId: 's3', staffId: 'st1',
+    date: '2026-03-03', time: '09:30',
+    contact: { name: 'لمى الشهري',   phone: '+966501110006' },
+    status: 'pending',
+    createdAt: '2026-03-01T08:00:00Z',
+  },
+  {
+    id: 'b7', tenantId: 't1', serviceId: 's7', staffId: 'st2',
+    date: '2026-03-03', time: '13:00',
+    contact: { name: 'دانة الحربي',  phone: '+966501110007' },
+    status: 'confirmed',
+    createdAt: '2026-03-01T10:00:00Z',
+  },
+  // ── Future: 2026-03-05 ─────────────────────────────────
+  {
+    id: 'b8', tenantId: 't1', serviceId: 's11', staffId: null,
+    date: '2026-03-05', time: '10:00',
+    contact: { name: 'غادة العمري',  phone: '+966501110008' },
+    status: 'pending',
+    createdAt: '2026-03-01T11:00:00Z',
+  },
+]
