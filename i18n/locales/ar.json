@@ -68,6 +68,23 @@
     "completeBooking": "إتمام",
     "confirmCancelBooking": "إلغاء الحجز؟",
     "today": "اليوم",
-    "yesterday": "أمس"
+    "yesterday": "أمس",
+    "settings": {
+      "profile": "الملف الشخصي",
+      "salonNameAr": "اسم الصالون (عربي)",
+      "salonNameEn": "اسم الصالون (إنجليزي، اختياري)",
+      "phone": "رقم الجوال",
+      "brandColor": "لون العلامة التجارية",
+      "bookingRules": "إعدادات الحجز",
+      "paymentMode": "طريقة الدفع",
+      "paymentModes": {
+        "full": "دفع كامل مسبقاً",
+        "deposit": "دفعة مقدمة",
+        "at_salon": "الدفع في الصالون"
+      },
+      "depositPercent": "نسبة الدفعة المقدمة (%)",
+      "maxAdvanceDays": "الحد الأقصى للحجز المسبق (أيام)",
+      "saved": "تم الحفظ ✓"
+    }
   }
 }

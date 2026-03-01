@@ -68,6 +68,23 @@
     "completeBooking": "Complete",
     "confirmCancelBooking": "Cancel this booking?",
     "today": "Today",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "settings": {
+      "profile": "Salon Profile",
+      "salonNameAr": "Salon name (Arabic)",
+      "salonNameEn": "Salon name (English, optional)",
+      "phone": "Phone number",
+      "brandColor": "Brand color",
+      "bookingRules": "Booking Rules",
+      "paymentMode": "Payment mode",
+      "paymentModes": {
+        "full": "Full payment upfront",
+        "deposit": "Deposit required",
+        "at_salon": "Pay at salon"
+      },
+      "depositPercent": "Deposit percentage (%)",
+      "maxAdvanceDays": "Max advance booking (days)",
+      "saved": "Saved ✓"
+    }
   }
 }
