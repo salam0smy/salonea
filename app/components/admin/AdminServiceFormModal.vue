@@ -82,19 +82,19 @@ function handleSubmit() {
     <template #content>
       <div class="p-6 space-y-4">
         <!-- Header -->
-        <h3 class="text-lg font-semibold text-gray-900">
+        <h3 class="text-lg font-semibold text-(--color-text)">
           {{ service ? $t('admin.editService') : $t('admin.addService') }}
         </h3>
 
         <form class="space-y-4" @submit.prevent="handleSubmit">
           <!-- Category -->
           <div class="space-y-1.5">
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-(--color-text)">
               {{ $t('admin.serviceCategory') }}
             </label>
             <select
               v-model="form.categoryId"
-              class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-gray-900"
+              class="w-full rounded-lg border border-(--color-border) px-3 py-2 text-sm text-(--color-text) bg-(--color-surface) focus:outline-none focus:ring-2 focus:ring-salona-500"
               required
             >
               <option
@@ -109,7 +109,7 @@ function handleSubmit() {
 
           <!-- Name (Arabic) -->
           <div class="space-y-1.5">
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-(--color-text)">
               {{ $t('admin.serviceName') }}
             </label>
             <UInput v-model="form.name" required dir="rtl" />
@@ -117,7 +117,7 @@ function handleSubmit() {
 
           <!-- Name (English) -->
           <div class="space-y-1.5">
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-(--color-text)">
               {{ $t('admin.serviceNameEn') }}
             </label>
             <UInput v-model="form.nameEn" dir="ltr" />
@@ -126,13 +126,13 @@ function handleSubmit() {
           <!-- Price + Duration (side by side) -->
           <div class="grid grid-cols-2 gap-3">
             <div class="space-y-1.5">
-              <label class="text-sm font-medium text-gray-700">
+              <label class="text-sm font-medium text-(--color-text)">
                 {{ $t('admin.servicePrice') }}
               </label>
               <UInput v-model="form.price" type="number" min="0" required />
             </div>
             <div class="space-y-1.5">
-              <label class="text-sm font-medium text-gray-700">
+              <label class="text-sm font-medium text-(--color-text)">
                 {{ $t('admin.serviceDuration') }}
               </label>
               <UInput v-model="form.durationMinutes" type="number" min="5" step="5" required />
@@ -144,9 +144,9 @@ function handleSubmit() {
             <input
               v-model="form.isActive"
               type="checkbox"
-              class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+              class="w-4 h-4 rounded border-(--color-border) accent-salona-500"
             />
-            <span class="text-sm text-gray-700">{{ $t('admin.serviceActive') }}</span>
+            <span class="text-sm text-(--color-text)">{{ $t('admin.serviceActive') }}</span>
           </label>
 
           <!-- Footer buttons -->

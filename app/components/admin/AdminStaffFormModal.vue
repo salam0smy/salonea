@@ -87,14 +87,14 @@ function handleSubmit() {
     <template #content>
       <div class="p-6 space-y-4">
         <!-- Header -->
-        <h3 class="text-lg font-semibold text-gray-900">
+        <h3 class="text-lg font-semibold text-(--color-text)">
           {{ staff ? $t('admin.editStaff') : $t('admin.addStaff') }}
         </h3>
 
         <form class="space-y-4" @submit.prevent="handleSubmit">
           <!-- Name (Arabic) -->
           <div class="space-y-1.5">
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-(--color-text)">
               {{ $t('admin.staffName') }}
             </label>
             <UInput v-model="form.name" required dir="rtl" />
@@ -102,7 +102,7 @@ function handleSubmit() {
 
           <!-- Name (English) -->
           <div class="space-y-1.5">
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-(--color-text)">
               {{ $t('admin.staffNameEn') }}
             </label>
             <UInput v-model="form.nameEn" dir="ltr" />
@@ -110,7 +110,7 @@ function handleSubmit() {
 
           <!-- Photo URL -->
           <div class="space-y-1.5">
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-(--color-text)">
               {{ $t('admin.staffPhoto') }}
             </label>
             <UInput v-model="form.photoUrl" dir="ltr" />
@@ -118,15 +118,15 @@ function handleSubmit() {
 
           <!-- Services checklist -->
           <div class="space-y-2">
-            <label class="text-sm font-medium text-gray-700">
+            <label class="text-sm font-medium text-(--color-text)">
               {{ $t('admin.staffServices') }}
             </label>
-            <div class="space-y-3 max-h-52 overflow-y-auto rounded-lg border border-gray-200 p-3">
+            <div class="space-y-3 max-h-52 overflow-y-auto rounded-lg border border-(--color-border) p-3">
               <section
                 v-for="group in servicesByCategory"
                 :key="group.category.id"
               >
-                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">
+                <p class="text-xs font-semibold text-(--color-text-muted) uppercase tracking-wide mb-1">
                   {{ group.category.name }}
                 </p>
                 <label
@@ -137,10 +137,10 @@ function handleSubmit() {
                   <input
                     type="checkbox"
                     :checked="form.serviceIds.includes(service.id)"
-                    class="w-4 h-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                    class="w-4 h-4 rounded border-(--color-border) accent-salona-500"
                     @change="toggleService(service.id)"
                   />
-                  <span class="text-sm text-gray-700">{{ service.name }}</span>
+                  <span class="text-sm text-(--color-text)">{{ service.name }}</span>
                 </label>
               </section>
             </div>

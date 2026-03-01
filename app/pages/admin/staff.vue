@@ -35,7 +35,7 @@ function handleSave(data: Parameters<typeof addStaff>[0]) {
   <div>
     <!-- Page header -->
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-semibold text-gray-900">
+      <h1 class="text-2xl font-semibold text-(--color-text)">
         {{ $t('admin.staff') }}
       </h1>
       <UButton

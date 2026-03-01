@@ -37,7 +37,7 @@ function handleSave(): void {
   <div>
     <!-- Page header -->
     <div class="mb-8">
-      <h1 class="text-2xl font-semibold text-gray-900">
+      <h1 class="text-2xl font-semibold text-(--color-text)">
         {{ $t('admin.settings.title') }}
       </h1>
     </div>
@@ -46,7 +46,7 @@ function handleSave(): void {
 
       <!-- ── Profile section ─────────────────────────────── -->
       <section>
-        <h2 class="text-base font-semibold text-gray-700 mb-4">
+        <h2 class="text-base font-semibold text-(--color-text) mb-4">
           {{ $t('admin.settings.profile') }}
         </h2>
         <div class="space-y-4">
@@ -84,7 +84,7 @@ function handleSave(): void {
 
       <!-- ── Booking rules section ───────────────────────── -->
       <section>
-        <h2 class="text-base font-semibold text-gray-700 mb-4">
+        <h2 class="text-base font-semibold text-(--color-text) mb-4">
           {{ $t('admin.settings.bookingRules') }}
         </h2>
         <div class="space-y-4">

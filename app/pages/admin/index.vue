@@ -68,7 +68,7 @@ const dateHeading = computed(() => {
       chevron-left (←) = going to a later/next date. This matches Apple Calendar behaviour in Arabic.
     -->
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-lg font-semibold text-gray-900 flex-1 text-end">
+      <h1 class="text-lg font-semibold text-(--color-text) flex-1 text-end">
         {{ dateHeading }}
       </h1>
       <div class="flex items-center gap-1 ms-4">

@@ -51,7 +51,7 @@ function formatDateHeading(date: string): string {
   <div>
     <!-- Page header -->
     <div class="mb-6">
-      <h1 class="text-2xl font-semibold text-gray-900">
+      <h1 class="text-2xl font-semibold text-(--color-text)">
         {{ $t('admin.bookings') }}
       </h1>
     </div>
