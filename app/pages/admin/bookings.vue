@@ -2,7 +2,10 @@
 <script setup lang="ts">
 import type { BookingStatus } from '~/types'
 
-definePageMeta({ layout: 'admin', middleware: 'auth' })
+definePageMeta({ 
+  layout: 'admin', 
+  middleware: 'auth'
+ })
 
 const { t } = useI18n()
 
