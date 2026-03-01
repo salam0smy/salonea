@@ -13,6 +13,12 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  colorMode: {
+    preference: 'system',   // follow OS — no toggle needed
+    fallback: 'light',      // when OS preference is unknown
+    classSuffix: '',        // apply class="dark" not class="dark-mode"
+  },
+
   imports: {
     dirs: ['composables/**'],
   },
