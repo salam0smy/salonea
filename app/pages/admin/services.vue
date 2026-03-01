@@ -30,7 +30,7 @@ function handleSave(data: Parameters<typeof addService>[0]) {
 </script>
 
 <template>
-  <div class="p-6 max-w-2xl mx-auto">
+  <div>
     <!-- Page header -->
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-semibold text-gray-900">

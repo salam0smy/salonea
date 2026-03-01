@@ -50,7 +50,7 @@ const dateHeading = computed(() => {
 </script>
 
 <template>
-  <div class="p-6 max-w-2xl mx-auto">
+  <div>
 
     <!-- ── Week strip ─────────────────────────────────────── -->
     <div class="mb-5">

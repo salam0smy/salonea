@@ -48,7 +48,7 @@ function formatDateHeading(date: string): string {
 </script>
 
 <template>
-  <div class="p-6 max-w-2xl mx-auto">
+  <div>
     <!-- Page header -->
     <div class="mb-6">
       <h1 class="text-2xl font-semibold text-gray-900">
