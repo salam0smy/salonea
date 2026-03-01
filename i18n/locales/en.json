@@ -10,7 +10,8 @@
     "edit": "Edit",
     "back": "Back",
     "next": "Next",
-    "sar": "SAR"
+    "sar": "SAR",
+    "menu": "Menu"
   },
   "booking": {
     "title": "Book your appointment",
@@ -31,6 +32,7 @@
   "admin": {
     "dashboard": "Dashboard",
     "calendar": "Calendar",
+    "bookings": "Bookings",
     "services": "Services",
     "staff": "Staff",
     "settings": "Settings",
