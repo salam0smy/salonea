@@ -1,11 +1,11 @@
 /* app/assets/css/main.css */
 
-/* 1. Tailwind + Nuxt UI base — must come first */
+/* 1. Google Fonts — must precede all other statements in the final processed CSS */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@300;400;500;600;700&display=swap');
+
+/* 2. Tailwind + Nuxt UI base */
 @import "tailwindcss";
 @import "@nuxt/ui";
-
-/* 2. IBM Plex Arabic — 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold) */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Arabic:wght@300;400;500;600;700&display=swap');
 
 /* 3. Design tokens — extends Tailwind's theme, generates utility classes automatically.
       --color-salona-* creates: bg-salona-500, text-salona-300, border-salona-200, etc.
