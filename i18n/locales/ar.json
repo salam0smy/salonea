@@ -70,6 +70,7 @@
     "today": "اليوم",
     "yesterday": "أمس",
     "settings": {
+      "title": "الإعدادات",
       "profile": "الملف الشخصي",
       "salonNameAr": "اسم الصالون (عربي)",
       "salonNameEn": "اسم الصالون (إنجليزي، اختياري)",

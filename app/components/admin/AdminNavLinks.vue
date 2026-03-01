@@ -14,7 +14,7 @@ const navItems = [
   { to: '/admin/bookings', label: 'admin.bookings', icon: 'i-heroicons-clipboard-document-list' },
   { to: '/admin/services', label: 'admin.services', icon: 'i-heroicons-sparkles' },
   { to: '/admin/staff',    label: 'admin.staff',    icon: 'i-heroicons-users' },
-  { to: '/admin/settings', label: 'admin.settings', icon: 'i-heroicons-cog-6-tooth' },
+  { to: '/admin/settings', label: 'admin.settings.title', icon: 'i-heroicons-cog-6-tooth' },
 ]
 
 // /admin only matches exactly; all others match by prefix

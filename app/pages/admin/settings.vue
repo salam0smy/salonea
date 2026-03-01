@@ -34,11 +34,11 @@ function handleSave(): void {
 </script>
 
 <template>
-  <div class="p-6 max-w-lg mx-auto">
+  <div dir="rtl" class="p-6 max-w-lg mx-auto">
     <!-- Page header -->
     <div class="mb-8">
       <h1 class="text-2xl font-semibold text-gray-900">
-        {{ $t('admin.settings') }}
+        {{ $t('admin.settings.title') }}
       </h1>
     </div>
 

@@ -70,6 +70,7 @@
     "today": "Today",
     "yesterday": "Yesterday",
     "settings": {
+      "title": "Settings",
       "profile": "Salon Profile",
       "salonNameAr": "Salon name (Arabic)",
       "salonNameEn": "Salon name (English, optional)",
