@@ -4,6 +4,7 @@ import type { Service, ServiceCategory } from '~/types'
 
 const route = useRoute()
 const slug = route.params.salon as string
+const { t } = useI18n()
 
 const { data: servicesData } = await useFetch<{ categories: ServiceCategory[]; services: Service[] }>(`/api/${slug}/services`)
 const categories = computed(() => servicesData.value?.categories ?? [])
@@ -16,6 +17,13 @@ const { data: tenant } = await useFetch(`/api/${slug}/tenant`)
 const { data: settings } = await useFetch(`/api/${slug}/settings`)
 
 const { step, selection, advance, back, submitBooking } = useBookingFlow()
+
+const stepperItems = computed(() => [
+  { title: t('booking.steps.service') },
+  { title: t('booking.steps.datetime') },
+  { title: t('booking.steps.contact') },
+  { title: t('booking.steps.confirm') },
+])
 
 // Reactively fetch slots when date or service changes
 const availabilityUrl = computed(() =>
@@ -43,6 +51,15 @@ async function handleNextContact() {
     <BookingHeader v-if="tenant" :tenant="tenant" />
 
     <div class="max-w-lg mx-auto px-4 pb-36">
+      <!-- Step progress indicator -->
+      <div v-if="step <= 4" class="pt-5 pb-2">
+        <UStepper
+          :items="stepperItems"
+          :model-value="step - 1"
+          size="sm"
+        />
+      </div>
+
       <!-- Step 1: Service selection -->
       <BookingServiceList
         v-if="step === 1"

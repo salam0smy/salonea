@@ -55,13 +55,15 @@ function selectDate(date: string) {
 <template>
   <div class="pt-5 space-y-8">
     <!-- Back -->
-    <button
-      class="flex items-center gap-1 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
+    <UButton
+      variant="ghost"
+      color="neutral"
+      size="sm"
+      :leading-icon="$i18n.locale === 'ar' ? 'i-heroicons-arrow-right' : 'i-heroicons-arrow-left'"
       @click="emit('back')"
     >
-      <span class="inline-block rtl:rotate-180">←</span>
       {{ t('common.back') }}
-    </button>
+    </UButton>
 
     <h2 class="text-2xl font-semibold text-(--color-text)">{{ t('booking.selectDate') }}</h2>
 
@@ -69,19 +71,18 @@ function selectDate(date: string) {
     <div class="space-y-4">
       <p class="text-base text-(--color-text-muted) font-medium">{{ t('booking.date') }}</p>
       <div class="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-        <button
+        <UButton
           v-for="day in days"
           :key="day.value"
-          class="shrink-0 flex flex-col items-center gap-1 w-[64px] py-4 rounded-[16px] border text-center transition-all duration-300"
-          :class="selectedDate === day.value
-            ? 'bg-(--color-text) text-(--color-bg) border-(--color-text) shadow-sm'
-            : 'bg-(--color-surface) border-(--color-border) text-(--color-text) hover:border-gray-300 dark:hover:border-gray-600'"
+          :variant="selectedDate === day.value ? 'solid' : 'outline'"
+          color="neutral"
+          class="shrink-0 flex-col gap-1 w-16 h-auto py-4 rounded-2xl"
           @click="selectDate(day.value)"
         >
           <span class="text-xs opacity-80">{{ day.dayName }}</span>
           <span class="text-xl font-semibold leading-none">{{ day.dayNum }}</span>
           <span v-if="day.isToday" class="text-[10px] mt-1 opacity-60">{{ t('booking.today') }}</span>
-        </button>
+        </UButton>
       </div>
     </div>
 
@@ -90,17 +91,16 @@ function selectDate(date: string) {
       <div class="space-y-4">
         <p class="text-base text-(--color-text-muted) font-medium">{{ t('booking.time') }}</p>
         <div v-if="availableSlots.length" class="grid grid-cols-3 gap-3">
-          <button
+          <UButton
             v-for="slot in availableSlots"
             :key="slot"
-            class="py-3.5 rounded-[12px] border text-base text-center transition-all duration-300"
-            :class="selectedTime === slot
-              ? 'bg-(--color-text) text-(--color-bg) border-(--color-text) font-medium shadow-sm'
-              : 'bg-(--color-surface) border-(--color-border) text-(--color-text) hover:border-gray-300 dark:hover:border-gray-600'"
+            :variant="selectedTime === slot ? 'solid' : 'outline'"
+            :color="selectedTime === slot ? 'primary' : 'neutral'"
+            block
             @click="emit('update:selectedTime', slot)"
           >
             {{ formatTime(slot) }}
-          </button>
+          </UButton>
         </div>
         <p v-else class="text-base text-(--color-text-muted) text-center py-8">
           {{ t('booking.noSlotsAvailable') }}

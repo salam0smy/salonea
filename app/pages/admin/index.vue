@@ -134,12 +134,12 @@ const dateHeading = computed(() => {
     </div>
 
     <!-- ── Empty state ────────────────────────────────────── -->
-    <div v-else class="flex flex-col items-center justify-center py-20 gap-3">
-      <div class="w-12 h-12 rounded-2xl bg-(--color-surface-muted) flex items-center justify-center">
-        <UIcon name="i-heroicons-calendar-days" class="w-6 h-6 text-(--color-text-muted)" />
-      </div>
-      <p class="text-(--color-text-muted) text-sm">{{ $t('admin.calendar.noBookings') }}</p>
-    </div>
+    <UEmpty
+      v-else
+      icon="i-heroicons-calendar-days"
+      :description="$t('admin.calendar.noBookings')"
+      class="py-20"
+    />
 
   </div>
 </template>

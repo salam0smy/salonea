@@ -44,26 +44,26 @@ function selectService(service: Service) {
 
     <!-- Category filter pills -->
     <div class="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-      <button
-        class="shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-colors"
-        :class="activeCategory === null
-          ? 'bg-(--color-text) text-(--color-bg)'
-          : 'bg-(--color-surface) border border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
+      <UButton
+        class="rounded-full shrink-0"
+        :variant="activeCategory === null ? 'solid' : 'outline'"
+        :color="activeCategory === null ? 'primary' : 'neutral'"
+        size="sm"
         @click="activeCategory = null"
       >
         {{ t('booking.all') }}
-      </button>
-      <button
+      </UButton>
+      <UButton
         v-for="cat in categories"
         :key="cat.id"
-        class="shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-colors"
-        :class="activeCategory === cat.id
-          ? 'bg-(--color-text) text-(--color-bg)'
-          : 'bg-(--color-surface) border border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
+        class="rounded-full shrink-0"
+        :variant="activeCategory === cat.id ? 'solid' : 'outline'"
+        :color="activeCategory === cat.id ? 'primary' : 'neutral'"
+        size="sm"
         @click="activeCategory = cat.id"
       >
         {{ cat.name }}
-      </button>
+      </UButton>
     </div>
 
     <!-- Service cards -->
@@ -85,26 +85,26 @@ function selectService(service: Service) {
           <span class="text-(--color-text-muted) text-base font-normal"> ({{ t('booking.optional') }})</span>
         </h3>
         <div class="flex gap-2 flex-wrap">
-          <button
-            class="px-5 py-2.5 rounded-full text-sm font-medium border transition-colors"
-            :class="selectedStaff === null
-              ? 'bg-(--color-text) text-(--color-bg) border-(--color-text)'
-              : 'bg-(--color-surface) border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
+          <UButton
+            class="rounded-full"
+            :variant="selectedStaff === null ? 'solid' : 'outline'"
+            :color="selectedStaff === null ? 'primary' : 'neutral'"
+            size="sm"
             @click="emit('update:selectedStaff', null)"
           >
             {{ t('booking.noPreference') }}
-          </button>
-          <button
+          </UButton>
+          <UButton
             v-for="member in eligibleStaff"
             :key="member.id"
-            class="px-5 py-2.5 rounded-full text-sm font-medium border transition-colors"
-            :class="selectedStaff?.id === member.id
-              ? 'bg-(--color-text) text-(--color-bg) border-(--color-text)'
-              : 'bg-(--color-surface) border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
+            class="rounded-full"
+            :variant="selectedStaff?.id === member.id ? 'solid' : 'outline'"
+            :color="selectedStaff?.id === member.id ? 'primary' : 'neutral'"
+            size="sm"
             @click="emit('update:selectedStaff', member)"
           >
             {{ member.name }}
-          </button>
+          </UButton>
         </div>
       </div>
     </template>

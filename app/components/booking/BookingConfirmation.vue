@@ -65,13 +65,15 @@ const ctaLabel = computed(() => {
 <template>
   <div class="pt-5 space-y-6">
     <!-- Back -->
-    <button
-      class="flex items-center gap-1 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
+    <UButton
+      variant="ghost"
+      color="neutral"
+      size="sm"
+      :leading-icon="$i18n.locale === 'ar' ? 'i-heroicons-arrow-right' : 'i-heroicons-arrow-left'"
       @click="emit('back')"
     >
-      <span class="inline-block rtl:rotate-180">←</span>
       {{ t('common.back') }}
-    </button>
+    </UButton>
 
     <h2 class="text-2xl font-semibold text-(--color-text)">{{ t('booking.confirmBooking') }}</h2>
 
@@ -90,7 +92,8 @@ const ctaLabel = computed(() => {
       </div>
 
       <!-- Details -->
-      <div class="border-t border-(--color-border) pt-4 space-y-3">
+      <USeparator class="my-1" />
+      <div class="space-y-3">
         <div class="flex justify-between text-base">
           <span class="text-(--color-text-muted)">{{ t('booking.date') }}</span>
           <span class="text-(--color-text) font-medium">{{ formatDate(selection.date!) }}</span>
@@ -103,7 +106,8 @@ const ctaLabel = computed(() => {
           <span class="text-(--color-text-muted)">{{ t('booking.staffMember') }}</span>
           <span class="text-(--color-text) font-medium">{{ selection.staff.name }}</span>
         </div>
-        <div class="border-t border-(--color-border) pt-3 flex justify-between text-base">
+        <USeparator class="my-1" />
+        <div class="flex justify-between text-base">
           <span class="text-(--color-text-muted)">{{ t('booking.name') }}</span>
           <span class="text-(--color-text) font-medium">{{ selection.contact?.name }}</span>
         </div>
@@ -115,16 +119,22 @@ const ctaLabel = computed(() => {
     </div>
 
     <!-- WhatsApp confirmation link -->
-    <a
+    <UButton
       v-if="tenant.phone"
+      as="a"
       :href="whatsappUrl"
       target="_blank"
       rel="noopener"
-      class="flex items-center justify-center gap-2 w-full py-4 rounded-[12px] border border-(--color-border) bg-(--color-surface) text-base text-(--color-text) hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-sm transition-all"
+      variant="outline"
+      color="neutral"
+      block
+      size="lg"
     >
-      <span class="text-[#25D366] text-xl leading-none">●</span>
+      <template #leading>
+        <span class="text-[#25D366] text-lg leading-none" aria-hidden="true">●</span>
+      </template>
       {{ t('booking.shareWhatsappConfirmation') }}
-    </a>
+    </UButton>
   </div>
 
   <!-- Sticky payment CTA (stub) -->

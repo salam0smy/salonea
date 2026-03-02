@@ -50,6 +50,12 @@
     "bookingConfirmed": "Booking confirmed",
     "addToCalendar": "Add to calendar",
     "shareViaWhatsapp": "Share via WhatsApp",
+    "steps": {
+      "service": "Service",
+      "datetime": "Date & Time",
+      "contact": "Your Details",
+      "confirm": "Confirm"
+    },
     "all": "All",
     "today": "Today",
     "optional": "optional",

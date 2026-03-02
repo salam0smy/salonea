@@ -32,13 +32,15 @@ function handleNext() {
 <template>
   <div class="pt-5 space-y-8">
     <!-- Back -->
-    <button
-      class="flex items-center gap-1 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
+    <UButton
+      variant="ghost"
+      color="neutral"
+      size="sm"
+      :leading-icon="$i18n.locale === 'ar' ? 'i-heroicons-arrow-right' : 'i-heroicons-arrow-left'"
       @click="emit('back')"
     >
-      <span class="inline-block rtl:rotate-180">←</span>
       {{ t('common.back') }}
-    </button>
+    </UButton>
 
     <div>
       <h2 class="text-2xl font-semibold text-(--color-text)">{{ t('booking.yourDetails') }}</h2>
@@ -46,18 +48,16 @@ function handleNext() {
     </div>
 
     <div class="space-y-5">
-      <div class="space-y-2">
-        <label class="text-base font-medium text-(--color-text)">{{ t('booking.name') }}</label>
+      <UFormField :label="t('booking.name')">
         <UInput
           v-model="name"
           :placeholder="t('booking.namePlaceholder')"
           size="xl"
           class="w-full"
         />
-      </div>
+      </UFormField>
 
-      <div class="space-y-2">
-        <label class="text-base font-medium text-(--color-text)">{{ t('booking.phone') }}</label>
+      <UFormField :label="t('booking.phone')" :hint="t('booking.phoneHint')">
         <UInput
           v-model="phone"
           :placeholder="t('auth.phonePlaceholder')"
@@ -66,8 +66,7 @@ function handleNext() {
           class="w-full"
           dir="ltr"
         />
-        <p class="text-sm text-(--color-text-muted)">{{ t('booking.phoneHint') }}</p>
-      </div>
+      </UFormField>
     </div>
   </div>
 

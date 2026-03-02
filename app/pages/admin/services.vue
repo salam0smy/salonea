@@ -68,12 +68,12 @@ function handleSave(data: Parameters<typeof addService>[0]) {
     </div>
 
     <!-- Empty state -->
-    <div v-else class="flex flex-col items-center justify-center py-20 gap-3">
-      <div class="w-12 h-12 rounded-2xl bg-(--color-surface-muted) flex items-center justify-center">
-        <UIcon name="i-heroicons-sparkles" class="w-6 h-6 text-(--color-text-muted)" />
-      </div>
-      <p class="text-(--color-text-muted) text-sm">{{ $t('admin.noServices') }}</p>
-    </div>
+    <UEmpty
+      v-else
+      icon="i-heroicons-sparkles"
+      :description="$t('admin.noServices')"
+      class="py-20"
+    />
 
     <!-- Add / Edit modal -->
     <AdminServiceFormModal

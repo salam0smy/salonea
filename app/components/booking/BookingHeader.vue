@@ -7,20 +7,15 @@ defineProps<{ tenant: Tenant }>()
 <template>
   <header class="bg-(--color-surface) border-b border-(--color-border) px-4 py-4 sticky top-0 z-10">
     <div class="max-w-lg mx-auto flex items-center gap-3">
-      <!-- Logo: shows image if available, falls back to colored initial -->
-      <div
-        v-if="tenant.logoUrl"
-        class="w-10 h-10 rounded-xl overflow-hidden shrink-0"
-      >
-        <img :src="tenant.logoUrl" :alt="tenant.name" class="w-full h-full object-cover">
-      </div>
-      <div
-        v-else
-        class="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shrink-0"
-        :style="{ backgroundColor: tenant.brandColor }"
-      >
-        {{ tenant.name.charAt(0) }}
-      </div>
+      <!-- Logo: image if available, falls back to colored initial via UAvatar -->
+      <UAvatar
+        :src="tenant.logoUrl ?? undefined"
+        :alt="tenant.name"
+        :text="tenant.name.charAt(0)"
+        size="md"
+        class="shrink-0 rounded-xl"
+        :style="!tenant.logoUrl ? { backgroundColor: tenant.brandColor, color: '#fff' } : {}"
+      />
 
       <div class="flex-1 min-w-0">
         <h1 class="font-semibold text-(--color-text) text-base leading-tight">{{ tenant.name }}</h1>

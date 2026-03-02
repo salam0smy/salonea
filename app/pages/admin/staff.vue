@@ -60,9 +60,12 @@ function handleSave(data: Parameters<typeof addStaff>[0]) {
     </div>
 
     <!-- Empty state -->
-    <p v-else class="text-center text-gray-400 py-16">
-      {{ $t('admin.noStaff') }}
-    </p>
+    <UEmpty
+      v-else
+      icon="i-heroicons-user-group"
+      :description="$t('admin.noStaff')"
+      class="py-20"
+    />
 
     <!-- Add / Edit modal -->
     <AdminStaffFormModal

@@ -50,6 +50,12 @@
     "bookingConfirmed": "تم تأكيد الحجز",
     "addToCalendar": "أضيف للتقويم",
     "shareViaWhatsapp": "شاركي عبر واتساب",
+    "steps": {
+      "service": "الخدمة",
+      "datetime": "الموعد",
+      "contact": "بياناتك",
+      "confirm": "التأكيد"
+    },
     "all": "الكل",
     "today": "اليوم",
     "optional": "اختياري",

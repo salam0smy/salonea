@@ -12,7 +12,7 @@ const step = ref<1 | 2>(1)
 const email = ref('')
 const password = ref('')
 const phone = ref('')
-const otp = ref('')
+const otp = ref<string[]>([])
 const resendCooldown = ref(0)
 let cooldownTimer: ReturnType<typeof setInterval> | null = null
 
@@ -43,13 +43,13 @@ async function onSendOtp() {
   const { ok } = await sendOtp(phone.value)
   if (ok) {
     step.value = 2
-    otp.value = ''
+    otp.value = []
     startResendCooldown()
   }
 }
 
 async function onVerifyOtp() {
-  await verifyOtp(phone.value, otp.value)
+  await verifyOtp(phone.value, otp.value.join(''))
 }
 
 async function onResend() {
@@ -60,7 +60,7 @@ async function onResend() {
 
 function backToPhone() {
   step.value = 1
-  otp.value = ''
+  otp.value = []
   clearError()
 }
 
@@ -177,20 +177,14 @@ const errorMessage = computed(() => {
         <p class="text-sm text-(--color-text-muted)">
           {{ $t('auth.otpLabel') }} → {{ normalizePhone(phone) ?? phone }}
         </p>
-        <UFormField :label="$t('auth.otpLabel')">
-          <UInput
-            v-model="otp"
-            type="text"
-            inputmode="numeric"
-            maxlength="6"
-            :placeholder="$t('auth.otpPlaceholder')"
-            size="lg"
-            autocomplete="one-time-code"
-            :disabled="isLoading"
-            class="font-mono text-center tracking-widest"
-            @input="otp = otp.replace(/\D/g, '').slice(0, 6)"
-          />
-        </UFormField>
+        <UPinInput
+          v-model="otp"
+          :length="6"
+          otp
+          size="lg"
+          :disabled="isLoading"
+          class="justify-center"
+        />
         <UAlert
           v-if="errorMessage"
           color="error"
@@ -202,25 +196,29 @@ const errorMessage = computed(() => {
           block
           size="lg"
           :loading="isLoading"
-          :disabled="otp.length !== 6"
+          :disabled="otp.filter(Boolean).length !== 6"
           :label="$t('auth.verifyOtp')"
         />
-        <div class="flex items-center justify-between text-sm">
-          <button
+        <div class="flex items-center justify-between">
+          <UButton
             type="button"
-            class="text-(--color-primary) hover:underline"
+            variant="link"
+            color="primary"
+            size="sm"
             @click="backToPhone"
           >
             {{ $t('auth.changePhone') }}
-          </button>
-          <button
+          </UButton>
+          <UButton
             type="button"
-            class="text-(--color-text-muted) hover:text-(--color-text) disabled:opacity-50"
+            variant="link"
+            color="neutral"
+            size="sm"
             :disabled="resendCooldown > 0"
             @click="onResend"
           >
             {{ resendCooldown > 0 ? $t('auth.resendIn', { seconds: resendCooldown }) : $t('auth.resendOtp') }}
-          </button>
+          </UButton>
         </div>
       </form>
     </UCard>
