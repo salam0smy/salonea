@@ -22,20 +22,20 @@ function formatDuration(minutes: number): string {
 
 <template>
   <button
-    class="w-full text-start p-4 rounded-2xl border transition-all duration-150"
+    class="w-full text-start p-5 rounded-[16px] border transition-all duration-300"
     :class="selected
-      ? 'border-gray-800 bg-white shadow-sm'
-      : 'border-gray-100 bg-white hover:border-gray-200'"
+      ? 'border-salona-300 bg-salona-50/50 shadow-sm'
+      : 'border-(--color-border) bg-(--color-surface) hover:border-gray-300'"
     @click="emit('select', service)"
   >
-    <div class="flex items-center justify-between gap-3">
+    <div class="flex items-center justify-between gap-4">
       <div class="flex-1 min-w-0">
-        <p class="font-medium text-gray-900 text-base">{{ service.name }}</p>
-        <p class="text-sm text-gray-400 mt-0.5">{{ formatDuration(service.durationMinutes) }}</p>
+        <p class="font-medium text-lg" :class="selected ? 'text-salona-900' : 'text-(--color-text)'">{{ service.name }}</p>
+        <p class="text-sm mt-1" :class="selected ? 'text-salona-700' : 'text-(--color-text-muted)'">{{ formatDuration(service.durationMinutes) }}</p>
       </div>
       <div class="shrink-0 text-end">
-        <span class="font-semibold text-gray-900">{{ service.price }}</span>
-        <span class="text-xs text-gray-400 me-0.5"> ر.س</span>
+        <span class="font-semibold text-lg" :class="selected ? 'text-salona-900' : 'text-(--color-text)'">{{ service.price }}</span>
+        <span class="text-sm ms-0.5" :class="selected ? 'text-salona-700' : 'text-(--color-text-muted)'"> ر.س</span>
       </div>
     </div>
   </button>

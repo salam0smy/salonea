@@ -35,17 +35,17 @@ const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' =
 
 <template>
   <div
-    class="rounded-xl border border-s-2 px-3 py-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 transition-colors"
+    class="rounded-[16px] border border-s-4 px-4 py-3 flex flex-wrap items-center gap-x-3 gap-y-2 transition-all hover:shadow-sm"
     :class="[colorScheme.bg, colorScheme.border]"
   >
     <!-- Dot + name + service line -->
-    <div class="flex items-center gap-2 flex-1 min-w-0">
+    <div class="flex items-center gap-3 flex-1 min-w-0">
       <div class="w-2 h-2 rounded-full shrink-0" :class="colorScheme.dot" />
       <div class="min-w-0">
-        <p class="text-sm font-medium text-(--color-text) truncate">
+        <p class="text-base font-medium text-(--color-text) truncate">
           {{ booking.contact.name }}
         </p>
-        <p class="text-xs truncate" :class="colorScheme.text">
+        <p class="text-sm truncate mt-0.5" :class="colorScheme.text">
           {{ serviceName }}
           <span v-if="staffName"> · {{ staffName }}</span>
           <span class="text-(--color-text-muted)"> · {{ durationMinutes }}د</span>

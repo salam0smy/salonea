@@ -23,24 +23,24 @@ function formatDuration(minutes: number): string {
 
 <template>
   <div
-    class="flex items-center justify-between gap-3 px-4 py-4 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
+    class="flex items-center justify-between gap-4 p-5 bg-(--color-surface) rounded-[16px] border border-(--color-border) transition-all hover:shadow-sm"
     :class="{ 'opacity-50': !service.isActive }"
   >
     <!-- Service info -->
     <div class="flex-1 min-w-0">
-      <p class="font-medium text-(--color-text) text-sm truncate">{{ service.name }}</p>
-      <p class="text-xs text-(--color-text-muted) mt-0.5">
+      <p class="font-medium text-(--color-text) text-base truncate">{{ service.name }}</p>
+      <p class="text-sm text-(--color-text-muted) mt-1">
         {{ formatDuration(service.durationMinutes) }}
       </p>
-      <p v-if="service.description" class="text-xs text-(--color-text-muted) mt-0.5 line-clamp-2">
+      <p v-if="service.description" class="text-sm text-(--color-text-muted) mt-1 line-clamp-2">
         {{ service.description }}
       </p>
     </div>
 
     <!-- Price -->
     <div class="shrink-0 text-end">
-      <span class="font-semibold text-(--color-text) text-sm">{{ service.price }}</span>
-      <span class="text-xs text-(--color-text-muted) me-0.5"> {{ $t('common.sar') }}</span>
+      <span class="font-semibold text-(--color-text) text-base">{{ service.price }}</span>
+      <span class="text-sm text-(--color-text-muted) me-0.5"> {{ $t('common.sar') }}</span>
     </div>
 
     <!-- Actions -->

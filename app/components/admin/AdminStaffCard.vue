@@ -18,24 +18,24 @@ const initial = computed(() => props.staff.name.charAt(0))
 
 <template>
   <div
-    class="flex items-center gap-3 px-4 py-4 bg-(--color-surface) rounded-xl border border-(--color-border) transition-colors"
+    class="flex items-center gap-4 p-5 bg-(--color-surface) rounded-[16px] border border-(--color-border) transition-all hover:shadow-sm"
   >
     <!-- Photo placeholder -->
     <div
-      class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-semibold text-sm select-none bg-salona-50 text-salona-600 dark:bg-salona-950 dark:text-salona-300"
+      class="w-12 h-12 rounded-full flex items-center justify-center shrink-0 font-semibold text-base select-none bg-salona-50 text-salona-600 dark:bg-salona-950 dark:text-salona-300"
     >
       {{ initial }}
     </div>
 
     <!-- Staff info -->
     <div class="flex-1 min-w-0">
-      <p class="font-medium text-(--color-text) text-sm truncate">{{ staff.name }}</p>
-      <p v-if="staff.nameEn" class="text-xs text-(--color-text-muted) mt-0.5 truncate">{{ staff.nameEn }}</p>
+      <p class="font-medium text-(--color-text) text-base truncate">{{ staff.name }}</p>
+      <p v-if="staff.nameEn" class="text-sm text-(--color-text-muted) mt-1 truncate">{{ staff.nameEn }}</p>
     </div>
 
     <!-- Service count badge -->
     <div class="shrink-0">
-      <span class="inline-flex items-center rounded-full bg-(--color-surface-muted) px-2 py-0.5 text-xs text-(--color-text-muted)">
+      <span class="inline-flex items-center rounded-full bg-(--color-surface-muted) px-3 py-1 text-sm text-(--color-text-muted)">
         {{ staff.serviceIds.length }}
       </span>
     </div>

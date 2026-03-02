@@ -37,16 +37,16 @@ function selectService(service: Service) {
 </script>
 
 <template>
-  <div class="pt-5 space-y-5">
-    <h2 class="text-xl font-semibold text-gray-900">اختاري الخدمة</h2>
+  <div class="pt-5 space-y-6">
+    <h2 class="text-2xl font-semibold text-(--color-text)">اختاري الخدمة</h2>
 
     <!-- Category filter pills -->
-    <div class="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
+    <div class="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
       <button
-        class="shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+        class="shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-colors"
         :class="activeCategory === null
-          ? 'bg-gray-900 text-white'
-          : 'bg-white border border-gray-200 text-gray-600'"
+          ? 'bg-(--color-text) text-(--color-bg)'
+          : 'bg-(--color-surface) border border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
         @click="activeCategory = null"
       >
         الكل
@@ -54,10 +54,10 @@ function selectService(service: Service) {
       <button
         v-for="cat in categories"
         :key="cat.id"
-        class="shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+        class="shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-colors"
         :class="activeCategory === cat.id
-          ? 'bg-gray-900 text-white'
-          : 'bg-white border border-gray-200 text-gray-600'"
+          ? 'bg-(--color-text) text-(--color-bg)'
+          : 'bg-(--color-surface) border border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
         @click="activeCategory = cat.id"
       >
         {{ cat.name }}
@@ -65,7 +65,7 @@ function selectService(service: Service) {
     </div>
 
     <!-- Service cards -->
-    <div class="space-y-2">
+    <div class="space-y-3">
       <BookingServiceCard
         v-for="service in filteredServices"
         :key="service.id"
@@ -77,17 +77,17 @@ function selectService(service: Service) {
 
     <!-- Staff preference — appears when service is selected and at least one staff can do it -->
     <template v-if="selectedService && eligibleStaff.length > 0">
-      <div class="pt-1">
-        <h3 class="text-sm font-medium text-gray-700 mb-3">
+      <div class="pt-4 border-t border-(--color-border)">
+        <h3 class="text-lg font-medium text-(--color-text) mb-4">
           اختاري الموظفة
-          <span class="text-gray-400 font-normal"> (اختياري)</span>
+          <span class="text-(--color-text-muted) text-base font-normal"> (اختياري)</span>
         </h3>
         <div class="flex gap-2 flex-wrap">
           <button
-            class="px-4 py-1.5 rounded-full text-sm border transition-colors"
+            class="px-5 py-2.5 rounded-full text-sm font-medium border transition-colors"
             :class="selectedStaff === null
-              ? 'bg-gray-900 text-white border-gray-900'
-              : 'bg-white border-gray-200 text-gray-600'"
+              ? 'bg-(--color-text) text-(--color-bg) border-(--color-text)'
+              : 'bg-(--color-surface) border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
             @click="emit('update:selectedStaff', null)"
           >
             بدون تفضيل
@@ -95,10 +95,10 @@ function selectService(service: Service) {
           <button
             v-for="member in eligibleStaff"
             :key="member.id"
-            class="px-4 py-1.5 rounded-full text-sm border transition-colors"
+            class="px-5 py-2.5 rounded-full text-sm font-medium border transition-colors"
             :class="selectedStaff?.id === member.id
-              ? 'bg-gray-900 text-white border-gray-900'
-              : 'bg-white border-gray-200 text-gray-600'"
+              ? 'bg-(--color-text) text-(--color-bg) border-(--color-text)'
+              : 'bg-(--color-surface) border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
             @click="emit('update:selectedStaff', member)"
           >
             {{ member.name }}
@@ -110,7 +110,7 @@ function selectService(service: Service) {
 
   <!-- Sticky bottom CTA — ClientOnly to avoid hydration mismatch on disabled attribute -->
   <ClientOnly>
-    <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
+    <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-(--color-border) p-5">
       <div class="max-w-lg mx-auto">
         <UButton
           block
@@ -119,16 +119,16 @@ function selectService(service: Service) {
           color="neutral"
           @click="emit('next')"
         >
-          <span v-if="selectedService">
+          <span v-if="selectedService" class="text-lg">
             التالي — {{ selectedService.price }} ر.س
           </span>
-          <span v-else>اختاري خدمة للمتابعة</span>
+          <span v-else class="text-lg">اختاري خدمة للمتابعة</span>
         </UButton>
       </div>
     </div>
     <template #fallback>
-      <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
-        <div class="max-w-lg mx-auto h-12 rounded-md bg-gray-100" />
+      <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-(--color-border) p-5">
+        <div class="max-w-lg mx-auto h-14 rounded-xl bg-gray-100" />
       </div>
     </template>
   </ClientOnly>

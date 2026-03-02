@@ -49,7 +49,7 @@ function handleSave(data: Parameters<typeof addStaff>[0]) {
     </div>
 
     <!-- Staff list -->
-    <div v-if="staff.length > 0" class="space-y-2">
+    <div v-if="staff.length > 0" class="space-y-3">
       <AdminStaffCard
         v-for="member in staff"
         :key="member.id"

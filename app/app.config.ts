@@ -3,6 +3,7 @@ export default defineAppConfig({
   ui: {
     colors: {
       primary: 'salona',
+      neutral: 'neutral',
     },
   },
 })

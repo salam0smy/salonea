@@ -103,20 +103,20 @@ const dateHeading = computed(() => {
       <div
         v-for="slot in timeSlots"
         :key="slot"
-        class="flex items-start gap-3"
+        class="flex items-start gap-4"
         :class="slot.endsWith(':00') ? 'border-t border-(--color-border)' : ''"
       >
         <!-- Time label (dir=ltr keeps digits in numeric order even in RTL layout) -->
         <div
-          class="w-12 shrink-0 pt-3 text-xs font-mono text-end text-(--color-text-muted)"
+          class="w-14 shrink-0 pt-4 text-sm font-medium font-mono text-end text-(--color-text-muted)"
           dir="ltr"
-          :class="slot.endsWith(':30') ? 'opacity-40' : 'opacity-70'"
+          :class="slot.endsWith(':30') ? 'opacity-40' : 'opacity-80'"
         >
           {{ slot }}
         </div>
 
         <!-- Booking entries for this slot (flex-1 fills the rest of the row) -->
-        <div class="flex-1 py-1.5 space-y-1.5 min-h-11">
+        <div class="flex-1 py-3 space-y-2 min-h-[4rem]">
           <AdminCalendarEntry
             v-for="booking in bookingsBySlot.get(slot)"
             :key="booking.id"

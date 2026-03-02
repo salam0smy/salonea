@@ -47,15 +47,15 @@ function handleSave(data: Parameters<typeof addService>[0]) {
     </div>
 
     <!-- Category groups -->
-    <div v-if="servicesByCategory.length > 0" class="space-y-6">
+    <div v-if="servicesByCategory.length > 0" class="space-y-8">
       <section
         v-for="group in servicesByCategory"
         :key="group.category.id"
       >
-        <h2 class="text-sm font-medium text-(--color-text-muted) mb-3 pb-2 border-b border-(--color-border)">
+        <h2 class="text-base font-semibold text-(--color-text) mb-4 pb-2 border-b border-(--color-border)">
           {{ group.category.name }}
         </h2>
-        <div class="space-y-2">
+        <div class="space-y-3">
           <AdminServiceCard
             v-for="service in group.services"
             :key="service.id"

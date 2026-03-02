@@ -11,8 +11,8 @@ const { tenant, settings, updateTenant, updateSettings } = useSettings()
 // null → '' conversion keeps UInput happy (expects string | undefined, not null).
 const localTenant = reactive({
   ...tenant.value,
-  nameEn: tenant.value.nameEn ?? '',
-  phone: tenant.value.phone ?? '',
+  nameEn: tenant?.value?.nameEn ?? '',
+  phone: tenant?.value?.phone ?? '',
 })
 const localSettings = reactive({ ...settings.value })
 
@@ -23,6 +23,12 @@ const paymentModeOptions: Array<{ label: string; value: PaymentMode }> = [
 ]
 
 const saved = ref(false)
+
+// UInput v-model.number expects number | undefined; settings use number | null.
+const depositPercentModel = computed({
+  get: () => localSettings.depositPercent ?? undefined,
+  set: (v: number | undefined) => { localSettings.depositPercent = v ?? null },
+})
 
 function handleSave(): void {
   // '' → null: restore the nullable fields before committing to state
@@ -42,14 +48,14 @@ function handleSave(): void {
       </h1>
     </div>
 
-    <form class="space-y-8 max-w-2xl" @submit.prevent="handleSave">
+    <form class="space-y-6 max-w-2xl" @submit.prevent="handleSave">
 
       <!-- ── Profile section ─────────────────────────────── -->
-      <section>
-        <h2 class="text-base font-semibold text-(--color-text) mb-4">
+      <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
+        <h2 class="text-lg font-semibold text-(--color-text) mb-6">
           {{ $t('admin.settings.profile') }}
         </h2>
-        <div class="space-y-4">
+        <div class="space-y-5">
 
           <UFormField :label="$t('admin.settings.salonNameAr')">
             <UInput v-model="localTenant.name" class="w-full" required />
@@ -83,11 +89,11 @@ function handleSave(): void {
       </section>
 
       <!-- ── Booking rules section ───────────────────────── -->
-      <section>
-        <h2 class="text-base font-semibold text-(--color-text) mb-4">
+      <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
+        <h2 class="text-lg font-semibold text-(--color-text) mb-6">
           {{ $t('admin.settings.bookingRules') }}
         </h2>
-        <div class="space-y-4">
+        <div class="space-y-5">
 
           <UFormField :label="$t('admin.settings.paymentMode')">
             <USelect
@@ -103,7 +109,7 @@ function handleSave(): void {
             :label="$t('admin.settings.depositPercent')"
           >
             <UInput
-              v-model.number="localSettings.depositPercent"
+              v-model.number="depositPercentModel"
               type="number"
               :min="1"
               :max="99"

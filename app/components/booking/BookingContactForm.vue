@@ -28,10 +28,10 @@ function handleNext() {
 </script>
 
 <template>
-  <div class="pt-5 space-y-6">
+  <div class="pt-5 space-y-8">
     <!-- Back -->
     <button
-      class="flex items-center gap-1 text-sm text-gray-500"
+      class="flex items-center gap-1 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
       @click="emit('back')"
     >
       <span class="inline-block rotate-180 rtl:rotate-0">←</span>
@@ -39,38 +39,38 @@ function handleNext() {
     </button>
 
     <div>
-      <h2 class="text-xl font-semibold text-gray-900">بياناتك</h2>
-      <p class="text-sm text-gray-400 mt-1">لا داعي لإنشاء حساب</p>
+      <h2 class="text-2xl font-semibold text-(--color-text)">بياناتك</h2>
+      <p class="text-base text-(--color-text-muted) mt-2">لا داعي لإنشاء حساب</p>
     </div>
 
-    <div class="space-y-4">
-      <div class="space-y-1.5">
-        <label class="text-sm font-medium text-gray-700">الاسم</label>
+    <div class="space-y-5">
+      <div class="space-y-2">
+        <label class="text-base font-medium text-(--color-text)">الاسم</label>
         <UInput
           v-model="name"
           placeholder="اسمك الكريم"
-          size="lg"
+          size="xl"
           class="w-full"
         />
       </div>
 
-      <div class="space-y-1.5">
-        <label class="text-sm font-medium text-gray-700">رقم الجوال</label>
+      <div class="space-y-2">
+        <label class="text-base font-medium text-(--color-text)">رقم الجوال</label>
         <UInput
           v-model="phone"
           placeholder="05xxxxxxxx"
           type="tel"
-          size="lg"
+          size="xl"
           class="w-full"
           dir="ltr"
         />
-        <p class="text-xs text-gray-400">سيُستخدم لتأكيد حجزك فقط</p>
+        <p class="text-sm text-(--color-text-muted)">سيُستخدم لتأكيد حجزك فقط</p>
       </div>
     </div>
   </div>
 
   <!-- Sticky CTA -->
-  <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
+  <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-(--color-border) p-5">
     <div class="max-w-lg mx-auto">
       <UButton
         block
@@ -79,7 +79,7 @@ function handleNext() {
         color="neutral"
         @click="handleNext"
       >
-        متابعة
+        <span class="text-lg">متابعة</span>
       </UButton>
     </div>
   </div>

@@ -59,6 +59,10 @@
   --color-border:        #E8E4DE;   /* replaces border-gray-100 */
   --color-text:          #1E1B1A;   /* near-black with warmth */
   --color-text-muted:    #8C8580;   /* secondary text, labels */
+
+  /* Nuxt UI Overrides */
+  --ui-radius: 0.75rem; /* 12px for elegant curves */
+  --ui-border: var(--color-border);
 }
 
 /* 5. Dark mode overrides — warm charcoal, hue 350 family (no violet). Nuxt UI adds .dark to <html>. */
@@ -83,3 +87,17 @@ body {
   color: var(--color-text);
   background-color: var(--color-bg);
 }
+
+/* 7. Global Component Overrides for Luxury/Refined Aesthetic */
+@layer components {
+  /* Remove harsh focus rings, use subtle color changes instead */
+  input:focus-visible, 
+  button:focus-visible, 
+  select:focus-visible, 
+  textarea:focus-visible,
+  [role="button"]:focus-visible {
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--color-salona-200) !important;
+  }
+}
+

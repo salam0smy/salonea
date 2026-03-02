@@ -49,67 +49,67 @@ function selectDate(date: string) {
 </script>
 
 <template>
-  <div class="pt-5 space-y-6">
+  <div class="pt-5 space-y-8">
     <!-- Back -->
     <button
-      class="flex items-center gap-1 text-sm text-gray-500"
+      class="flex items-center gap-1 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
       @click="emit('back')"
     >
       <span class="inline-block rotate-180 rtl:rotate-0">←</span>
       رجوع
     </button>
 
-    <h2 class="text-xl font-semibold text-gray-900">اختاري الموعد</h2>
+    <h2 class="text-2xl font-semibold text-(--color-text)">اختاري الموعد</h2>
 
     <!-- Date strip -->
-    <div class="space-y-2">
-      <p class="text-sm text-gray-500 font-medium">التاريخ</p>
-      <div class="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
+    <div class="space-y-4">
+      <p class="text-base text-(--color-text-muted) font-medium">التاريخ</p>
+      <div class="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
         <button
           v-for="day in days"
           :key="day.value"
-          class="shrink-0 flex flex-col items-center gap-1 w-[52px] py-3 rounded-2xl border text-center transition-all duration-150"
+          class="shrink-0 flex flex-col items-center gap-1 w-[64px] py-4 rounded-[16px] border text-center transition-all duration-300"
           :class="selectedDate === day.value
-            ? 'bg-gray-900 text-white border-gray-900'
-            : 'bg-white border-gray-100 text-gray-700'"
+            ? 'bg-(--color-text) text-(--color-bg) border-(--color-text) shadow-sm'
+            : 'bg-(--color-surface) border-(--color-border) text-(--color-text) hover:border-gray-300'"
           @click="selectDate(day.value)"
         >
-          <span class="text-[11px]">{{ day.dayName }}</span>
-          <span class="text-lg font-semibold leading-none">{{ day.dayNum }}</span>
-          <span v-if="day.isToday" class="text-[10px] opacity-60">اليوم</span>
+          <span class="text-xs opacity-80">{{ day.dayName }}</span>
+          <span class="text-xl font-semibold leading-none">{{ day.dayNum }}</span>
+          <span v-if="day.isToday" class="text-[10px] mt-1 opacity-60">اليوم</span>
         </button>
       </div>
     </div>
 
     <!-- Time slots grid -->
     <template v-if="selectedDate">
-      <div class="space-y-2">
-        <p class="text-sm text-gray-500 font-medium">الوقت</p>
-        <div v-if="availableSlots.length" class="grid grid-cols-3 gap-2">
+      <div class="space-y-4">
+        <p class="text-base text-(--color-text-muted) font-medium">الوقت</p>
+        <div v-if="availableSlots.length" class="grid grid-cols-3 gap-3">
           <button
             v-for="slot in availableSlots"
             :key="slot"
-            class="py-2.5 rounded-xl border text-sm text-center transition-all duration-150"
+            class="py-3.5 rounded-[12px] border text-base text-center transition-all duration-300"
             :class="selectedTime === slot
-              ? 'bg-gray-900 text-white border-gray-900 font-medium'
-              : 'bg-white border-gray-100 text-gray-700'"
+              ? 'bg-(--color-text) text-(--color-bg) border-(--color-text) font-medium shadow-sm'
+              : 'bg-(--color-surface) border-(--color-border) text-(--color-text) hover:border-gray-300'"
             @click="emit('update:selectedTime', slot)"
           >
             {{ formatTime(slot) }}
           </button>
         </div>
-        <p v-else class="text-sm text-gray-400 text-center py-6">
+        <p v-else class="text-base text-(--color-text-muted) text-center py-8">
           لا توجد مواعيد متاحة في هذا اليوم
         </p>
       </div>
     </template>
     <template v-else>
-      <p class="text-sm text-gray-400">اختاري تاريخاً لعرض الأوقات المتاحة</p>
+      <p class="text-base text-(--color-text-muted) py-4">اختاري تاريخاً لعرض الأوقات المتاحة</p>
     </template>
   </div>
 
   <!-- Sticky CTA -->
-  <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
+  <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-(--color-border) p-5">
     <div class="max-w-lg mx-auto">
       <UButton
         block
@@ -118,7 +118,7 @@ function selectDate(date: string) {
         color="neutral"
         @click="emit('next')"
       >
-        التالي
+        <span class="text-lg">التالي</span>
       </UButton>
     </div>
   </div>
