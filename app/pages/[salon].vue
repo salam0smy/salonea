@@ -18,6 +18,16 @@ const { data: settings } = await useFetch(`/api/${slug}/settings`)
 
 const { step, selection, advance, back, submitBooking } = useBookingFlow()
 
+// Allow clicking a stepper item to go back to a previously reached step.
+// Forward jumps are blocked — user must complete each step in order.
+function goToStep(index: string | number | undefined) {
+  if (index === undefined) return
+  const target = (Number(index) + 1) as 1 | 2 | 3 | 4
+  if (target < step.value) {
+    step.value = target
+  }
+}
+
 const stepperItems = computed(() => [
   { title: t('booking.steps.service') },
   { title: t('booking.steps.datetime') },
@@ -57,6 +67,7 @@ async function handleNextContact() {
           :items="stepperItems"
           :model-value="step - 1"
           size="sm"
+          @update:model-value="goToStep"
         />
       </div>
 

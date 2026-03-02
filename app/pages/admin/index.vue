@@ -82,22 +82,22 @@ const dateHeading = computed(() => {
           {{ $t('admin.today') }}
         </UButton>
         <!-- RTL: chevron-right = earlier day, chevron-left = later day -->
-        <UButtonGroup size="sm" orientation="horizontal">
-          <UButton
-            color="neutral"
-            variant="ghost"
-            icon="i-heroicons-chevron-right"
-            :aria-label="$t('common.back')"
-            @click="goPrevDay"
-          />
-          <UButton
-            color="neutral"
-            variant="ghost"
-            icon="i-heroicons-chevron-left"
-            :aria-label="$t('common.next')"
-            @click="goNextDay"
-          />
-        </UButtonGroup>
+        <UButton
+          size="sm"
+          color="neutral"
+          variant="ghost"
+          icon="i-heroicons-chevron-right"
+          :aria-label="$t('common.back')"
+          @click="goPrevDay"
+        />
+        <UButton
+          size="sm"
+          color="neutral"
+          variant="ghost"
+          icon="i-heroicons-chevron-left"
+          :aria-label="$t('common.next')"
+          @click="goNextDay"
+        />
       </div>
     </div>
 
