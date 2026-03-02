@@ -1,10 +1,11 @@
 // server/middleware/tenant.ts
 export default defineEventHandler(async (event) => {
   const slug = resolveTenantSlugFromPath(event.path)
-
   if (!slug) return
 
-  // TODO: look up tenantId from slug in the database
-  // For now, attach the slug so API routes can use it during development
+  const tenant = await getTenantBySlug(event, slug)
+  if (!tenant) return  // 404 handled by the route, not middleware
+
   event.context.tenantSlug = slug
+  event.context.tenantId = tenant.id
 })
