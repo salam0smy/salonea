@@ -33,5 +33,23 @@ export function useBookingFlow() {
     }
   }
 
-  return { step, selection, advance, back, canAdvance }
+  async function submitBooking(slug: string): Promise<void> {
+    const { service, staff, date, time, contact } = selection.value
+    if (!service || !date || !time || !contact) return
+
+    await $fetch(`/api/${slug}/bookings`, {
+      method: 'POST',
+      body: {
+        serviceId: service.id,
+        staffId: staff?.id ?? null,
+        date,
+        time,
+        customerName: contact.name,
+        customerPhone: contact.phone,
+      },
+    })
+    advance()
+  }
+
+  return { step, selection, advance, back, canAdvance, submitBooking }
 }

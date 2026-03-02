@@ -1,28 +1,49 @@
 // app/composables/admin/useStaff.ts
-import { ref } from 'vue'
-import { mockStaff, mockServices } from '~/data/mock'
 import type { StaffMember, Service } from '~/types'
 
 export type NewStaffData = Omit<StaffMember, 'id' | 'tenantId'>
 
 export function useStaff() {
-  const staff = ref<StaffMember[]>([...mockStaff])
-  const services = ref<Service[]>([...mockServices])
+  const { data: staff, pending, error, refresh } =
+    useFetch<StaffMember[]>('/api/admin/staff', { default: () => [] })
 
-  function addStaff(data: NewStaffData): void {
-    const id = `st-${Date.now()}`
-    staff.value = [...staff.value, { ...data, id, tenantId: 't1' }]
+  const { data: services } =
+    useFetch<Service[]>('/api/admin/services', { default: () => [] })
+
+  async function addStaff(data: NewStaffData): Promise<void> {
+    await $fetch('/api/admin/staff', {
+      method: 'POST',
+      body: {
+        name: data.name,
+        nameEn: data.nameEn ?? null,
+        photoUrl: data.photoUrl ?? null,
+        serviceIds: data.serviceIds ?? [],
+      },
+    })
+    await refresh()
   }
 
-  function updateStaff(id: string, patch: Partial<StaffMember>): void {
-    staff.value = staff.value.map(s =>
-      s.id === id ? { ...s, ...patch } : s,
-    )
+  async function updateStaff(id: string, patch: Partial<StaffMember>): Promise<void> {
+    await $fetch(`/api/admin/staff/${id}`, {
+      method: 'PATCH',
+      body: patch,
+    })
+    await refresh()
   }
 
-  function removeStaff(id: string): void {
-    staff.value = staff.value.filter(s => s.id !== id)
+  async function removeStaff(id: string): Promise<void> {
+    await $fetch(`/api/admin/staff/${id}`, { method: 'DELETE' })
+    await refresh()
   }
 
-  return { staff, services, addStaff, updateStaff, removeStaff }
+  return {
+    staff,
+    services,
+    addStaff,
+    updateStaff,
+    removeStaff,
+    isLoading: pending,
+    error,
+    refresh,
+  }
 }
