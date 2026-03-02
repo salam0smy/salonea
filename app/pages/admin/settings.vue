@@ -23,7 +23,7 @@ const paymentModeOptions: Array<{ label: string; value: PaymentMode }> = [
   { label: t('admin.settings.paymentModes.at_salon'), value: 'at_salon' },
 ]
 
-const saved = ref(false)
+const toast = useToast()
 
 // UInput v-model.number expects number | undefined; settings use number | null.
 const depositPercentModel = computed({
@@ -32,126 +32,117 @@ const depositPercentModel = computed({
 })
 
 function handleSave(): void {
-  // '' → null: restore the nullable fields before committing to state
-  updateTenant({ ...localTenant, nameEn: localTenant.nameEn || null, phone: localTenant.phone || null, description: localTenant.description || null })
+  updateTenant({
+    ...localTenant,
+    nameEn: localTenant.nameEn || null,
+    phone: localTenant.phone || null,
+    description: localTenant.description || null,
+  })
   updateSettings({ ...localSettings })
-  saved.value = true
-  setTimeout(() => { saved.value = false }, 2000)
+  toast.add({
+    title: t('admin.settings.saved'),
+    color: 'success',
+    icon: 'i-heroicons-check-circle',
+  })
 }
 </script>
 
 <template>
-  <div>
-    <!-- Page header -->
-    <div class="mb-8">
-      <h1 class="text-2xl font-semibold text-(--color-text)">
-        {{ $t('admin.settings.title') }}
-      </h1>
-    </div>
+  <UDashboardPanel id="settings">
+    <template #header>
+      <UDashboardNavbar :title="$t('admin.settings.title')" />
+    </template>
 
-    <form class="space-y-6 max-w-2xl" @submit.prevent="handleSave">
+    <template #body>
+      <form class="space-y-6 max-w-2xl p-4" @submit.prevent="handleSave">
 
-      <!-- ── Profile section ─────────────────────────────── -->
-      <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
-        <h2 class="text-lg font-semibold text-(--color-text) mb-6">
-          {{ $t('admin.settings.profile') }}
-        </h2>
-        <div class="space-y-5">
+        <!-- ── Profile section ─────────────────────────────── -->
+        <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
+          <h2 class="text-lg font-semibold text-(--color-text) mb-6">
+            {{ $t('admin.settings.profile') }}
+          </h2>
+          <div class="space-y-5">
 
-          <UFormField :label="$t('admin.settings.salonNameAr')">
-            <UInput v-model="localTenant.name" class="w-full" required />
-          </UFormField>
+            <UFormField :label="$t('admin.settings.salonNameAr')">
+              <UInput v-model="localTenant.name" class="w-full" required />
+            </UFormField>
 
-          <UFormField :label="$t('admin.settings.salonNameEn')">
-            <UInput v-model="localTenant.nameEn" class="w-full" />
-          </UFormField>
+            <UFormField :label="$t('admin.settings.salonNameEn')">
+              <UInput v-model="localTenant.nameEn" class="w-full" />
+            </UFormField>
 
-          <UFormField :label="$t('admin.settings.phone')">
-            <UInput
-              v-model="localTenant.phone"
-              type="tel"
-              placeholder="+966501234567"
-              class="w-full"
-            />
-          </UFormField>
+            <UFormField :label="$t('admin.settings.phone')">
+              <PhoneInput v-model="localTenant.phone" class="w-full" />
+            </UFormField>
 
-          <UFormField :label="$t('admin.settings.description')">
-            <UTextarea v-model="localTenant.description" class="w-full" :rows="3" />
-          </UFormField>
+            <UFormField :label="$t('admin.settings.description')">
+              <UTextarea v-model="localTenant.description" class="w-full" :rows="3" />
+            </UFormField>
 
-          <UFormField :label="$t('admin.settings.brandColor')">
-            <div class="flex items-center gap-3">
-              <input
-                v-model="localTenant.brandColor"
-                type="color"
-                class="h-10 w-14 cursor-pointer rounded border border-gray-200"
-              >
-              <UInput v-model="localTenant.brandColor" class="w-32 font-mono" />
-            </div>
-          </UFormField>
+            <UFormField :label="$t('admin.settings.brandColor')">
+              <div class="flex items-center gap-3">
+                <input
+                  v-model="localTenant.brandColor"
+                  type="color"
+                  class="h-10 w-14 cursor-pointer rounded border border-gray-200"
+                >
+                <UInput v-model="localTenant.brandColor" class="w-32 font-mono" />
+              </div>
+            </UFormField>
 
+          </div>
+        </section>
+
+        <!-- ── Booking rules section ───────────────────────── -->
+        <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
+          <h2 class="text-lg font-semibold text-(--color-text) mb-6">
+            {{ $t('admin.settings.bookingRules') }}
+          </h2>
+          <div class="space-y-5">
+
+            <UFormField :label="$t('admin.settings.paymentMode')">
+              <USelect
+                v-model="localSettings.paymentMode"
+                :items="paymentModeOptions"
+                value-key="value"
+                class="w-full"
+              />
+            </UFormField>
+
+            <UFormField
+              v-if="localSettings.paymentMode === 'deposit'"
+              :label="$t('admin.settings.depositPercent')"
+            >
+              <UInput
+                v-model.number="depositPercentModel"
+                type="number"
+                :min="1"
+                :max="99"
+                class="w-full"
+              />
+            </UFormField>
+
+            <UFormField :label="$t('admin.settings.maxAdvanceDays')">
+              <UInput
+                v-model.number="localSettings.maxAdvanceDays"
+                type="number"
+                :min="1"
+                :max="365"
+                class="w-full"
+              />
+            </UFormField>
+
+          </div>
+        </section>
+
+        <!-- ── Save row ────────────────────────────────────── -->
+        <div class="flex items-center pt-2">
+          <UButton type="submit" color="primary">
+            {{ $t('common.save') }}
+          </UButton>
         </div>
-      </section>
 
-      <!-- ── Booking rules section ───────────────────────── -->
-      <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
-        <h2 class="text-lg font-semibold text-(--color-text) mb-6">
-          {{ $t('admin.settings.bookingRules') }}
-        </h2>
-        <div class="space-y-5">
-
-          <UFormField :label="$t('admin.settings.paymentMode')">
-            <USelect
-              v-model="localSettings.paymentMode"
-              :items="paymentModeOptions"
-              value-key="value"
-              class="w-full"
-            />
-          </UFormField>
-
-          <UFormField
-            v-if="localSettings.paymentMode === 'deposit'"
-            :label="$t('admin.settings.depositPercent')"
-          >
-            <UInput
-              v-model.number="depositPercentModel"
-              type="number"
-              :min="1"
-              :max="99"
-              class="w-full"
-            />
-          </UFormField>
-
-          <UFormField :label="$t('admin.settings.maxAdvanceDays')">
-            <UInput
-              v-model.number="localSettings.maxAdvanceDays"
-              type="number"
-              :min="1"
-              :max="365"
-              class="w-full"
-            />
-          </UFormField>
-
-        </div>
-      </section>
-
-      <!-- ── Save row ────────────────────────────────────── -->
-      <div class="flex items-center gap-4 pt-2">
-        <UButton type="submit" color="primary">
-          {{ $t('common.save') }}
-        </UButton>
-        <Transition
-          enter-active-class="transition-opacity duration-200"
-          leave-active-class="transition-opacity duration-500"
-          enter-from-class="opacity-0"
-          leave-to-class="opacity-0"
-        >
-          <span v-if="saved" class="text-sm text-green-600">
-            {{ $t('admin.settings.saved') }}
-          </span>
-        </Transition>
-      </div>
-
-    </form>
-  </div>
+      </form>
+    </template>
+  </UDashboardPanel>
 </template>

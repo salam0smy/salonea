@@ -9,17 +9,17 @@ const { staff, services, addStaff, updateStaff, removeStaff } = useStaff()
 // useStaff doesn't expose categories — pull from useServices for the modal grouping
 const { categories } = useServices()
 
-const modalOpen = ref(false)
+const panelOpen = ref(false)
 const editingStaff = ref<StaffMember | null>(null)
 
 function openAdd() {
   editingStaff.value = null
-  modalOpen.value = true
+  panelOpen.value = true
 }
 
 function openEdit(member: StaffMember) {
   editingStaff.value = member
-  modalOpen.value = true
+  panelOpen.value = true
 }
 
 function handleSave(data: Parameters<typeof addStaff>[0]) {
@@ -32,48 +32,50 @@ function handleSave(data: Parameters<typeof addStaff>[0]) {
 </script>
 
 <template>
-  <div>
-    <!-- Page header -->
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-semibold text-(--color-text)">
-        {{ $t('admin.staff') }}
-      </h1>
-      <UButton
-        icon="i-heroicons-plus"
-        color="neutral"
-        variant="solid"
-        @click="openAdd"
-      >
-        {{ $t('admin.addStaff') }}
-      </UButton>
-    </div>
+  <UDashboardPanel id="staff">
+    <template #header>
+      <UDashboardNavbar :title="$t('admin.staff')">
+        <template #right>
+          <UButton
+            icon="i-heroicons-plus"
+            color="neutral"
+            variant="solid"
+            @click="openAdd"
+          >
+            {{ $t('admin.addStaff') }}
+          </UButton>
+        </template>
+      </UDashboardNavbar>
+    </template>
 
-    <!-- Staff list -->
-    <div v-if="staff.length > 0" class="space-y-3">
-      <AdminStaffCard
-        v-for="member in staff"
-        :key="member.id"
-        :staff="member"
-        @edit="openEdit"
-        @delete="removeStaff"
+    <template #body>
+      <!-- Staff list -->
+      <div v-if="staff.length > 0" class="space-y-3 p-4">
+        <AdminStaffCard
+          v-for="member in staff"
+          :key="member.id"
+          :staff="member"
+          @edit="openEdit"
+          @delete="removeStaff"
+        />
+      </div>
+
+      <!-- Empty state -->
+      <UEmpty
+        v-else
+        icon="i-heroicons-user-group"
+        :description="$t('admin.noStaff')"
+        class="py-20"
       />
-    </div>
+    </template>
+  </UDashboardPanel>
 
-    <!-- Empty state -->
-    <UEmpty
-      v-else
-      icon="i-heroicons-user-group"
-      :description="$t('admin.noStaff')"
-      class="py-20"
-    />
-
-    <!-- Add / Edit modal -->
-    <AdminStaffFormModal
-      v-model:open="modalOpen"
-      :staff="editingStaff"
-      :services="services"
-      :categories="categories"
-      @save="handleSave"
-    />
-  </div>
+  <AdminStaffFormPanel
+    v-if="panelOpen"
+    :staff="editingStaff"
+    :services="services"
+    :categories="categories"
+    @save="handleSave"
+    @close="panelOpen = false"
+  />
 </template>

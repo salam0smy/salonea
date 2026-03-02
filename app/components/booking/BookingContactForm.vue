@@ -17,9 +17,10 @@ const emit = defineEmits<{
 const name = ref(props.contact?.name ?? '')
 const phone = ref(props.contact?.phone ?? '')
 
-// Name: at least 2 chars. Phone: at least 9 digits (Saudi: 05xxxxxxxx)
+// Name: at least 2 chars. Phone local part (after +966): at least 9 digits
 const isValid = computed(() =>
-  name.value.trim().length >= 2 && phone.value.replace(/\D/g, '').length >= 9
+  name.value.trim().length >= 2 &&
+  phone.value.replace('+966', '').replace(/\D/g, '').length >= 9
 )
 
 function handleNext() {
@@ -58,14 +59,7 @@ function handleNext() {
       </UFormField>
 
       <UFormField :label="t('booking.phone')" :hint="t('booking.phoneHint')">
-        <UInput
-          v-model="phone"
-          :placeholder="t('auth.phonePlaceholder')"
-          type="tel"
-          size="xl"
-          class="w-full"
-          dir="ltr"
-        />
+        <PhoneInput v-model="phone" size="xl" class="w-full" />
       </UFormField>
     </div>
   </div>

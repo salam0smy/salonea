@@ -26,6 +26,11 @@ export default defineNuxtConfig({
     classSuffix: '',        // apply class="dark" not class="dark-mode"
   },
 
+  components: [
+    { path: '~/components/shared', pathPrefix: false },
+    '~/components',
+  ],
+
   imports: {
     dirs: ['composables/**'],
   },

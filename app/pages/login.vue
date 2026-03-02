@@ -143,14 +143,12 @@ const errorMessage = computed(() => {
         @submit.prevent="onSendOtp"
       >
         <UFormField :label="$t('auth.phoneLabel')">
-          <UInput
+          <PhoneInput
             v-model="phone"
-            type="tel"
-            :placeholder="$t('auth.phonePlaceholder')"
             size="lg"
             autocomplete="tel"
             :disabled="isLoading"
-            class="font-mono"
+            class="w-full"
           />
         </UFormField>
         <UAlert

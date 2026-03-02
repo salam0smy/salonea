@@ -48,58 +48,57 @@ function formatDateHeading(date: string): string {
 </script>
 
 <template>
-  <div>
-    <!-- Page header -->
-    <div class="mb-6">
-      <h1 class="text-2xl font-semibold text-(--color-text)">
-        {{ $t('admin.bookings') }}
-      </h1>
-    </div>
+  <UDashboardPanel id="bookings">
+    <template #header>
+      <UDashboardNavbar :title="$t('admin.bookings')" />
+    </template>
 
-    <!-- Status filter tabs -->
-    <div class="flex flex-wrap gap-2 mb-6">
-      <UButton
-        v-for="f in filters"
-        :key="f.value"
-        size="sm"
-        :color="activeFilter === f.value ? 'primary' : 'neutral'"
-        :variant="activeFilter === f.value ? 'solid' : 'ghost'"
-        @click="activeFilter = f.value"
-      >
-        {{ f.label }}
-      </UButton>
-    </div>
-
-    <!-- Date-grouped booking list -->
-    <div v-if="bookingsByDate.length > 0" class="space-y-6">
-      <section
-        v-for="group in bookingsByDate"
-        :key="group.date"
-      >
-        <h2 class="text-sm font-medium text-(--color-text-muted) mb-3 pb-2 border-b border-(--color-border)">
-          {{ formatDateHeading(group.date) }}
-        </h2>
-        <div class="space-y-2">
-          <AdminBookingCard
-            v-for="booking in group.bookings"
-            :key="booking.id"
-            :booking="booking"
-            :service-name="getServiceName(booking.serviceId)"
-            :staff-name="getStaffName(booking.staffId)"
-            @confirm="confirmBooking"
-            @cancel="cancelBooking"
-            @complete="completeBooking"
-          />
-        </div>
-      </section>
-    </div>
-
-    <!-- Empty state -->
-    <div v-else class="flex flex-col items-center justify-center py-20 gap-3">
-      <div class="w-12 h-12 rounded-2xl bg-(--color-surface-muted) flex items-center justify-center">
-        <UIcon name="i-heroicons-clipboard-document-list" class="w-6 h-6 text-(--color-text-muted)" />
+    <template #body>
+      <!-- Status filter tabs -->
+      <div class="flex flex-wrap gap-2 p-4 pb-0">
+        <UButton
+          v-for="f in filters"
+          :key="f.value"
+          size="sm"
+          :color="activeFilter === f.value ? 'primary' : 'neutral'"
+          :variant="activeFilter === f.value ? 'solid' : 'ghost'"
+          @click="activeFilter = f.value"
+        >
+          {{ f.label }}
+        </UButton>
       </div>
-      <p class="text-(--color-text-muted) text-sm">{{ $t('admin.noBookings') }}</p>
-    </div>
-  </div>
+
+      <!-- Date-grouped booking list -->
+      <div v-if="bookingsByDate.length > 0" class="space-y-6 p-4">
+        <section
+          v-for="group in bookingsByDate"
+          :key="group.date"
+        >
+          <h2 class="text-sm font-medium text-(--color-text-muted) mb-3 pb-2 border-b border-(--color-border)">
+            {{ formatDateHeading(group.date) }}
+          </h2>
+          <div class="space-y-2">
+            <AdminBookingCard
+              v-for="booking in group.bookings"
+              :key="booking.id"
+              :booking="booking"
+              :service-name="getServiceName(booking.serviceId)"
+              :staff-name="getStaffName(booking.staffId)"
+              @confirm="confirmBooking"
+              @cancel="cancelBooking"
+              @complete="completeBooking"
+            />
+          </div>
+        </section>
+      </div>
+
+      <!-- Empty state -->
+      <div v-else class="flex flex-col items-center justify-center py-20 gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-(--color-surface-muted) flex items-center justify-center">
+          <UIcon name="i-heroicons-clipboard-document-list" class="w-6 h-6 text-(--color-text-muted)" />
+        </div>
+        <p class="text-(--color-text-muted) text-sm">{{ $t('admin.noBookings') }}</p>
+      </div>
+    </template>
+  </UDashboardPanel>
 </template>
