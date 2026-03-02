@@ -80,7 +80,7 @@ export function useCalendar() {
     return Array.from({ length: 7 }, (_, i) => {
       const day = new Date(sunday)
       day.setDate(sunday.getDate() + i)
-      const iso = day.toISOString().split('T')[0]
+      const iso = day.toISOString().split('T')[0] ?? ''
       const hasActiveBookings = list.some(
         b => b.date === iso && b.status !== 'cancelled',
       )

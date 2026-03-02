@@ -74,7 +74,7 @@ function handleSave(): void {
                 v-model="localTenant.brandColor"
                 type="color"
                 class="h-10 w-14 cursor-pointer rounded border border-gray-200"
-              />
+              >
               <UInput v-model="localTenant.brandColor" class="w-32 font-mono" />
             </div>
           </UFormField>

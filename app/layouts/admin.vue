@@ -1,7 +1,6 @@
 <!-- app/layouts/admin.vue -->
 <script setup lang="ts">
-import { mockTenant } from '~/data/mock'
-
+const { tenant } = useSettings()
 const drawerOpen = ref(false)
 </script>
 
@@ -10,7 +9,7 @@ const drawerOpen = ref(false)
     <div class="min-h-screen flex bg-(--color-bg)">
       <!-- Desktop sidebar — first in DOM so RTL flex places it on the right -->
       <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-(--color-surface) border-e border-(--color-border) h-screen sticky top-0">
-        <AdminNavLinks :tenant="mockTenant" />
+        <AdminNavLinks v-if="tenant" :tenant="tenant" />
       </aside>
 
       <!-- Main content -->
@@ -24,7 +23,7 @@ const drawerOpen = ref(false)
           >
             <UIcon name="i-heroicons-bars-3" class="w-5 h-5" />
           </button>
-          <p class="font-semibold text-sm">{{ mockTenant.name }}</p>
+          <p class="font-semibold text-sm">{{ tenant?.name }}</p>
           <!-- Spacer keeps the name visually centred -->
           <div class="w-9" aria-hidden="true" />
         </header>
@@ -36,7 +35,8 @@ const drawerOpen = ref(false)
       <USlideover v-model:open="drawerOpen">
         <template #content>
           <AdminNavLinks
-            :tenant="mockTenant"
+            v-if="tenant"
+            :tenant="tenant"
             :on-close="() => (drawerOpen = false)"
           />
         </template>

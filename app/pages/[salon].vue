@@ -1,35 +1,67 @@
 <!-- app/pages/[salon].vue -->
 <script setup lang="ts">
-import { mockTenant, mockSettings, mockCategories, mockServices, mockStaff } from '~/data/mock'
+import type { Service, ServiceCategory } from '~/types'
 
-definePageMeta({ layout: 'default' })
+const route = useRoute()
+const slug = route.params.salon as string
 
-const { step, selection, advance, back } = useBookingFlow()
+const { data: servicesData } = await useFetch<{ categories: ServiceCategory[]; services: Service[] }>(`/api/${slug}/services`)
+const categories = computed(() => servicesData.value?.categories ?? [])
+const services = computed(() => servicesData.value?.services ?? [])
+
+const { data: staff } = await useFetch(`/api/${slug}/staff`)
+
+// We'll also need tenant and settings for the header and confirmation
+const { data: tenant } = await useFetch(`/api/${slug}/tenant`)
+const { data: settings } = await useFetch(`/api/${slug}/settings`)
+
+const { step, selection, advance, back, submitBooking } = useBookingFlow()
+
+// Reactively fetch slots when date or service changes
+const availabilityUrl = computed(() =>
+  selection.value.date && selection.value.service
+    ? `/api/${slug}/availability?date=${selection.value.date}&serviceId=${selection.value.service.id}${selection.value.staff ? `&staffId=${selection.value.staff.id}` : ''}`
+    : null,
+)
+const { data: availabilityData } = await useAsyncData(
+  () => (availabilityUrl.value ? `availability-${availabilityUrl.value}` : 'availability-none'),
+  () =>
+    availabilityUrl.value
+      ? $fetch<{ slots: { time: string; available: boolean }[] }>(availabilityUrl.value)
+      : Promise.resolve({ slots: [] }),
+  { watch: [availabilityUrl] },
+)
+const availableSlots = computed(() => (availabilityData.value?.slots ?? []).map((s) => s.time))
+
+async function handleNextContact() {
+  await submitBooking(slug)
+}
 </script>
 
 <template>
   <div class="min-h-screen bg-[#FAFAF7]">
-    <BookingHeader :tenant="mockTenant" />
+    <BookingHeader v-if="tenant" :tenant="tenant" />
 
     <div class="max-w-lg mx-auto px-4 pb-36">
       <!-- Step 1: Service selection -->
       <BookingServiceList
         v-if="step === 1"
-        :categories="mockCategories"
-        :services="mockServices"
-        :staff="mockStaff"
         v-model:selected-service="selection.service"
         v-model:selected-staff="selection.staff"
+        :categories="categories"
+        :services="services"
+        :staff="staff ?? []"
         @next="advance"
       />
 
       <!-- Step 2: Date/time picker -->
       <BookingDatePicker
         v-else-if="step === 2"
-        :service="selection.service!"
-        :staff="selection.staff"
         v-model:selected-date="selection.date"
         v-model:selected-time="selection.time"
+        :service="selection.service!"
+        :staff="selection.staff"
+        :available-slots="availableSlots"
         @next="advance"
         @back="back"
       />
@@ -38,16 +70,16 @@ const { step, selection, advance, back } = useBookingFlow()
       <BookingContactForm
         v-else-if="step === 3"
         v-model:contact="selection.contact"
-        @next="advance"
+        @next="handleNextContact"
         @back="back"
       />
 
       <!-- Step 4: Confirmation -->
       <BookingConfirmation
-        v-else-if="step === 4"
+        v-else-if="step === 4 && tenant && settings"
         :selection="selection"
-        :tenant="mockTenant"
-        :settings="mockSettings"
+        :tenant="tenant"
+        :settings="settings"
         @back="back"
       />
     </div>

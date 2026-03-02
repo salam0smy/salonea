@@ -1,11 +1,11 @@
 <!-- app/components/booking/BookingDatePicker.vue -->
 <script setup lang="ts">
 import type { Service, StaffMember } from '~/types'
-import { mockAvailableSlots } from '~/data/mock'
 
-const props = defineProps<{
+defineProps<{
   service: Service
   staff: StaffMember | null
+  availableSlots: string[]
   selectedDate: string | null
   selectedTime: string | null
 }>()
@@ -34,13 +34,9 @@ const days = computed(() => {
   return result
 })
 
-const availableSlots = computed(() =>
-  props.selectedDate ? mockAvailableSlots(props.selectedDate) : []
-)
-
 // Arabic 12-hour format: "10:00" → "١٠:٠٠ ص"
 function formatTime(time: string): string {
-  const [h, m] = time.split(':').map(Number)
+  const [h = 0, m = 0] = time.split(':').map(Number)
   const period = h < 12 ? 'ص' : 'م'
   const hour = h % 12 || 12
   return `${hour}:${m.toString().padStart(2, '0')} ${period}`

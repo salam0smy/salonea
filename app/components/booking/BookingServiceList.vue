@@ -75,8 +75,8 @@ function selectService(service: Service) {
       />
     </div>
 
-    <!-- Staff preference — appears when service is selected and >1 staff can do it -->
-    <template v-if="selectedService && eligibleStaff.length > 1">
+    <!-- Staff preference — appears when service is selected and at least one staff can do it -->
+    <template v-if="selectedService && eligibleStaff.length > 0">
       <div class="pt-1">
         <h3 class="text-sm font-medium text-gray-700 mb-3">
           اختاري الموظفة
@@ -108,21 +108,28 @@ function selectService(service: Service) {
     </template>
   </div>
 
-  <!-- Sticky bottom CTA -->
-  <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
-    <div class="max-w-lg mx-auto">
-      <UButton
-        block
-        size="xl"
-        :disabled="!selectedService"
-        color="neutral"
-        @click="emit('next')"
-      >
-        <span v-if="selectedService">
-          التالي — {{ selectedService.price }} ر.س
-        </span>
-        <span v-else>اختاري خدمة للمتابعة</span>
-      </UButton>
+  <!-- Sticky bottom CTA — ClientOnly to avoid hydration mismatch on disabled attribute -->
+  <ClientOnly>
+    <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
+      <div class="max-w-lg mx-auto">
+        <UButton
+          block
+          size="xl"
+          :disabled="!selectedService"
+          color="neutral"
+          @click="emit('next')"
+        >
+          <span v-if="selectedService">
+            التالي — {{ selectedService.price }} ر.س
+          </span>
+          <span v-else>اختاري خدمة للمتابعة</span>
+        </UButton>
+      </div>
     </div>
-  </div>
+    <template #fallback>
+      <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 p-4">
+        <div class="max-w-lg mx-auto h-12 rounded-md bg-gray-100" />
+      </div>
+    </template>
+  </ClientOnly>
 </template>

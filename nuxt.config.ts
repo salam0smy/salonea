@@ -39,6 +39,12 @@ export default defineNuxtConfig({
     strategy: 'no_prefix',
   },
 
+  runtimeConfig: {
+    public: {
+      authMode: 'phone', // override with NUXT_PUBLIC_AUTH_MODE=email
+    },
+  },
+
   supabase: {
     types: '~/types/database.types.ts',
     redirectOptions: {

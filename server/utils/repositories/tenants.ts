@@ -63,7 +63,11 @@ export async function getTenantByUserId(event: H3Event, userId: string): Promise
     .eq('user_id', userId)
     .single()
 
-  const row = data as any
+  if (error) {
+    console.error('getTenantByUserId error:', error)
+  }
+
+  const row = data as { tenants: unknown }
   if (error || !row?.tenants) return null
   return mapTenant(row.tenants as TenantRow)
 }

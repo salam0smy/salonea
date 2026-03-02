@@ -12,7 +12,7 @@ defineProps<{ tenant: Tenant }>()
         v-if="tenant.logoUrl"
         class="w-10 h-10 rounded-xl overflow-hidden shrink-0"
       >
-        <img :src="tenant.logoUrl" :alt="tenant.name" class="w-full h-full object-cover" />
+        <img :src="tenant.logoUrl" :alt="tenant.name" class="w-full h-full object-cover">
       </div>
       <div
         v-else

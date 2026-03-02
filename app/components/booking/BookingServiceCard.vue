@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import type { Service } from '~/types'
 
-const props = defineProps<{
+defineProps<{
   service: Service
   selected: boolean
 }>()

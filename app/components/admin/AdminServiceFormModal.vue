@@ -145,7 +145,7 @@ function handleSubmit() {
               v-model="form.isActive"
               type="checkbox"
               class="w-4 h-4 rounded border-(--color-border) accent-salona-500"
-            />
+            >
             <span class="text-sm text-(--color-text)">{{ $t('admin.serviceActive') }}</span>
           </label>
 

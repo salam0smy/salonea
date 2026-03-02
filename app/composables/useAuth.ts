@@ -71,6 +71,24 @@ export function useAuth() {
     }
   }
 
+  async function signInWithEmail(email: string, password: string): Promise<{ ok: boolean }> {
+    error.value = null
+    isLoading.value = true
+    try {
+      const { data, error: err } = await supabase.auth.signInWithPassword({ email, password })
+      if (err) {
+        error.value = 'invalid_credentials'
+        return { ok: false }
+      }
+      if (data.session) {
+        await navigateTo('/admin')
+      }
+      return { ok: true }
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   async function signOut() {
     error.value = null
     await supabase.auth.signOut()
@@ -87,6 +105,7 @@ export function useAuth() {
     error: readonly(error),
     sendOtp,
     verifyOtp,
+    signInWithEmail,
     signOut,
     clearError,
     normalizePhone,

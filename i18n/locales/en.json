@@ -2,6 +2,13 @@
   "auth": {
     "title": "Log in",
     "subtitle": "Enter your phone number to sign in",
+    "subtitleEmail": "Sign in with your email and password",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you{'@'}example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "signIn": "Sign in",
+    "invalidCredentials": "Invalid email or password",
     "phoneLabel": "Phone number",
     "phonePlaceholder": "05XXXXXXXX",
     "sendOtp": "Send verification code",

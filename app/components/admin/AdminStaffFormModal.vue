@@ -139,7 +139,7 @@ function handleSubmit() {
                     :checked="form.serviceIds.includes(service.id)"
                     class="w-4 h-4 rounded border-(--color-border) accent-salona-500"
                     @change="toggleService(service.id)"
-                  />
+                  >
                   <span class="text-sm text-(--color-text)">{{ service.name }}</span>
                 </label>
               </section>

@@ -55,7 +55,7 @@ function isActive(to: string): boolean {
         v-if="tenant.logoUrl"
         class="w-9 h-9 rounded-xl overflow-hidden shrink-0"
       >
-        <img :src="tenant.logoUrl" :alt="tenant.name" class="w-full h-full object-cover" />
+        <img :src="tenant.logoUrl" :alt="tenant.name" class="w-full h-full object-cover">
       </div>
       <div
         v-else

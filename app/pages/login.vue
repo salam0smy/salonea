@@ -2,11 +2,15 @@
 <script setup lang="ts">
 definePageMeta({ layout: false })
 
+const config = useRuntimeConfig()
+const authMode = config.public.authMode as string
 const user = useSupabaseUser()
-const { sendOtp, verifyOtp, isLoading, error, clearError, normalizePhone } = useAuth()
+const { sendOtp, verifyOtp, signInWithEmail, isLoading, error, clearError, normalizePhone } = useAuth()
 const { t } = useI18n()
 
 const step = ref<1 | 2>(1)
+const email = ref('')
+const password = ref('')
 const phone = ref('')
 const otp = ref('')
 const resendCooldown = ref(0)
@@ -60,6 +64,10 @@ function backToPhone() {
   clearError()
 }
 
+async function onSignInEmail() {
+  await signInWithEmail(email.value, password.value)
+}
+
 onUnmounted(() => {
   if (cooldownTimer) clearInterval(cooldownTimer)
 })
@@ -68,6 +76,7 @@ const errorMessage = computed(() => {
   if (!error.value) return null
   if (error.value === 'invalid_phone') return t('auth.invalidPhone')
   if (error.value === 'invalid_otp') return t('auth.invalidOtp')
+  if (error.value === 'invalid_credentials') return t('auth.invalidCredentials')
   return error.value
 })
 </script>
@@ -75,20 +84,61 @@ const errorMessage = computed(() => {
 <template>
   <div class="min-h-screen flex items-center justify-center p-4 bg-(--color-bg)">
     <UCard
-      class="w-full max-w-sm !bg-(--color-surface) border border-(--color-border)"
+      class="w-full max-w-sm bg-(--color-surface)! border border-(--color-border)"
     >
       <template #header>
         <h1 class="text-lg font-semibold text-(--color-text)">
           {{ $t('auth.title') }}
         </h1>
         <p class="text-sm text-(--color-text-muted) mt-1">
-          {{ $t('auth.subtitle') }}
+          {{ authMode === 'email' ? $t('auth.subtitleEmail') : $t('auth.subtitle') }}
         </p>
       </template>
 
+      <!-- Email / password form -->
+      <form
+        v-if="authMode === 'email'"
+        class="space-y-4"
+        @submit.prevent="onSignInEmail"
+      >
+        <UFormField :label="$t('auth.emailLabel')">
+          <UInput
+            v-model="email"
+            type="email"
+            :placeholder="$t('auth.emailPlaceholder')"
+            size="lg"
+            autocomplete="email"
+            :disabled="isLoading"
+          />
+        </UFormField>
+        <UFormField :label="$t('auth.passwordLabel')">
+          <UInput
+            v-model="password"
+            type="password"
+            :placeholder="$t('auth.passwordPlaceholder')"
+            size="lg"
+            autocomplete="current-password"
+            :disabled="isLoading"
+          />
+        </UFormField>
+        <UAlert
+          v-if="errorMessage"
+          color="error"
+          :title="errorMessage"
+          class="text-sm"
+        />
+        <UButton
+          type="submit"
+          block
+          size="lg"
+          :loading="isLoading"
+          :label="$t('auth.signIn')"
+        />
+      </form>
+
       <!-- Step 1: Phone -->
       <form
-        v-if="step === 1"
+        v-else-if="step === 1"
         class="space-y-4"
         @submit.prevent="onSendOtp"
       >
@@ -120,7 +170,7 @@ const errorMessage = computed(() => {
 
       <!-- Step 2: OTP -->
       <form
-        v-else
+        v-else-if="step === 2"
         class="space-y-4"
         @submit.prevent="onVerifyOtp"
       >

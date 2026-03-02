@@ -1,12 +1,20 @@
 // server/utils/resolveTenant.ts
 
-const SYSTEM_PATHS = ['/admin', '/api', '/login', '/confirm', '/_nuxt']
+const SYSTEM_PATHS = ['/admin', '/login', '/confirm', '/_nuxt']
 
 export function resolveTenantSlugFromPath(path: string): string | null {
-  const segment = path.split('/')[1]
+  const parts = path.split('/').filter(Boolean)
 
-  if (!segment) return null
+  // /api/<slug>/... — slug is the segment after "api"
+  if (path.startsWith('/api/')) {
+    if (parts.length < 2) return null
+    const slug = parts[1]
+    if (slug === 'admin') return null
+    return slug ?? null
+  }
+
+  if (!parts.length) return null
   if (SYSTEM_PATHS.some(p => path.startsWith(p))) return null
 
-  return segment
+  return parts[0] ?? null
 }

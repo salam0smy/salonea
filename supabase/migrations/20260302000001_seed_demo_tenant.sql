@@ -2,6 +2,14 @@
 -- ─────────────────────────────────────────────────────────────────────────────
 -- DEMO TENANT: Nour Beauty Salon
 -- ─────────────────────────────────────────────────────────────────────────────
+-- IMPORTANT: After running this seed, link your auth user to the demo tenant
+-- so that admin routes work. Run this in the Supabase SQL editor:
+--
+--   INSERT INTO tenant_users (user_id, tenant_id)
+--   VALUES ('<your-auth-user-id>', 'a0000000-0000-0000-0000-000000000001');
+--
+-- To find your user id: SELECT id, email, phone FROM auth.users;
+-- ─────────────────────────────────────────────────────────────────────────────
 insert into tenants (id, slug, name, name_en, description, brand_color, phone)
 values (
   'a0000000-0000-0000-0000-000000000001',

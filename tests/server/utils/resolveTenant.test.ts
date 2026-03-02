@@ -15,8 +15,12 @@ describe('resolveTenantSlugFromPath', () => {
     expect(resolveTenantSlugFromPath('/admin')).toBeNull()
   })
 
-  it('returns null for api paths', () => {
-    expect(resolveTenantSlugFromPath('/api/bookings')).toBeNull()
+  it('returns null for api admin paths', () => {
+    expect(resolveTenantSlugFromPath('/api/admin/bookings')).toBeNull()
+  })
+
+  it('extracts slug from tenant-scoped api path', () => {
+    expect(resolveTenantSlugFromPath('/api/my-salon/bookings')).toBe('my-salon')
   })
 
   it('returns null for root path', () => {
