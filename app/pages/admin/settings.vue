@@ -13,6 +13,7 @@ const localTenant = reactive({
   ...tenant.value,
   nameEn: tenant?.value?.nameEn ?? '',
   phone: tenant?.value?.phone ?? '',
+  description: tenant?.value?.description ?? '',
 })
 const localSettings = reactive({ ...settings.value })
 
@@ -32,7 +33,7 @@ const depositPercentModel = computed({
 
 function handleSave(): void {
   // '' → null: restore the nullable fields before committing to state
-  updateTenant({ ...localTenant, nameEn: localTenant.nameEn || null, phone: localTenant.phone || null })
+  updateTenant({ ...localTenant, nameEn: localTenant.nameEn || null, phone: localTenant.phone || null, description: localTenant.description || null })
   updateSettings({ ...localSettings })
   saved.value = true
   setTimeout(() => { saved.value = false }, 2000)
@@ -72,6 +73,10 @@ function handleSave(): void {
               placeholder="+966501234567"
               class="w-full"
             />
+          </UFormField>
+
+          <UFormField :label="$t('admin.settings.description')">
+            <UTextarea v-model="localTenant.description" class="w-full" :rows="3" />
           </UFormField>
 
           <UFormField :label="$t('admin.settings.brandColor')">
