@@ -39,7 +39,7 @@ async function handleNextContact() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#FAFAF7]">
+  <div class="min-h-screen bg-(--color-bg)">
     <BookingHeader v-if="tenant" :tenant="tenant" />
 
     <div class="max-w-lg mx-auto px-4 pb-36">

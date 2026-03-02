@@ -2,6 +2,8 @@
 <script setup lang="ts">
 import type { Service, ServiceCategory, StaffMember } from '~/types'
 
+const { t } = useI18n()
+
 const props = defineProps<{
   categories: ServiceCategory[]
   services: Service[]
@@ -38,7 +40,7 @@ function selectService(service: Service) {
 
 <template>
   <div class="pt-5 space-y-6">
-    <h2 class="text-2xl font-semibold text-(--color-text)">اختاري الخدمة</h2>
+    <h2 class="text-2xl font-semibold text-(--color-text)">{{ t('booking.selectService') }}</h2>
 
     <!-- Category filter pills -->
     <div class="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
@@ -49,7 +51,7 @@ function selectService(service: Service) {
           : 'bg-(--color-surface) border border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
         @click="activeCategory = null"
       >
-        الكل
+        {{ t('booking.all') }}
       </button>
       <button
         v-for="cat in categories"
@@ -79,8 +81,8 @@ function selectService(service: Service) {
     <template v-if="selectedService && eligibleStaff.length > 0">
       <div class="pt-4 border-t border-(--color-border)">
         <h3 class="text-lg font-medium text-(--color-text) mb-4">
-          اختاري الموظفة
-          <span class="text-(--color-text-muted) text-base font-normal"> (اختياري)</span>
+          {{ t('booking.selectStaff') }}
+          <span class="text-(--color-text-muted) text-base font-normal"> ({{ t('booking.optional') }})</span>
         </h3>
         <div class="flex gap-2 flex-wrap">
           <button
@@ -90,7 +92,7 @@ function selectService(service: Service) {
               : 'bg-(--color-surface) border-(--color-border) text-(--color-text-muted) hover:text-(--color-text)'"
             @click="emit('update:selectedStaff', null)"
           >
-            بدون تفضيل
+            {{ t('booking.noPreference') }}
           </button>
           <button
             v-for="member in eligibleStaff"
@@ -110,7 +112,7 @@ function selectService(service: Service) {
 
   <!-- Sticky bottom CTA — ClientOnly to avoid hydration mismatch on disabled attribute -->
   <ClientOnly>
-    <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-(--color-border) p-5">
+    <div class="fixed bottom-0 inset-x-0 bg-(--color-surface)/95 backdrop-blur-md border-t border-(--color-border) p-5">
       <div class="max-w-lg mx-auto">
         <UButton
           block
@@ -120,15 +122,15 @@ function selectService(service: Service) {
           @click="emit('next')"
         >
           <span v-if="selectedService" class="text-lg">
-            التالي — {{ selectedService.price }} ر.س
+            {{ t('booking.continueWith', { price: selectedService.price }) }}
           </span>
-          <span v-else class="text-lg">اختاري خدمة للمتابعة</span>
+          <span v-else class="text-lg">{{ t('booking.selectServiceToContinue') }}</span>
         </UButton>
       </div>
     </div>
     <template #fallback>
-      <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-(--color-border) p-5">
-        <div class="max-w-lg mx-auto h-14 rounded-xl bg-gray-100" />
+      <div class="fixed bottom-0 inset-x-0 bg-(--color-surface)/95 backdrop-blur-md border-t border-(--color-border) p-5">
+        <div class="max-w-lg mx-auto h-14 rounded-xl bg-(--color-surface-muted)" />
       </div>
     </template>
   </ClientOnly>

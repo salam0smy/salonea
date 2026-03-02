@@ -2,6 +2,8 @@
 <script setup lang="ts">
 import type { BookingContact } from '~/types'
 
+const { t } = useI18n()
+
 const props = defineProps<{
   contact: BookingContact | null
 }>()
@@ -34,43 +36,43 @@ function handleNext() {
       class="flex items-center gap-1 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
       @click="emit('back')"
     >
-      <span class="inline-block rotate-180 rtl:rotate-0">←</span>
-      رجوع
+      <span class="inline-block rtl:rotate-180">←</span>
+      {{ t('common.back') }}
     </button>
 
     <div>
-      <h2 class="text-2xl font-semibold text-(--color-text)">بياناتك</h2>
-      <p class="text-base text-(--color-text-muted) mt-2">لا داعي لإنشاء حساب</p>
+      <h2 class="text-2xl font-semibold text-(--color-text)">{{ t('booking.yourDetails') }}</h2>
+      <p class="text-base text-(--color-text-muted) mt-2">{{ t('booking.noAccountNeeded') }}</p>
     </div>
 
     <div class="space-y-5">
       <div class="space-y-2">
-        <label class="text-base font-medium text-(--color-text)">الاسم</label>
+        <label class="text-base font-medium text-(--color-text)">{{ t('booking.name') }}</label>
         <UInput
           v-model="name"
-          placeholder="اسمك الكريم"
+          :placeholder="t('booking.namePlaceholder')"
           size="xl"
           class="w-full"
         />
       </div>
 
       <div class="space-y-2">
-        <label class="text-base font-medium text-(--color-text)">رقم الجوال</label>
+        <label class="text-base font-medium text-(--color-text)">{{ t('booking.phone') }}</label>
         <UInput
           v-model="phone"
-          placeholder="05xxxxxxxx"
+          :placeholder="t('auth.phonePlaceholder')"
           type="tel"
           size="xl"
           class="w-full"
           dir="ltr"
         />
-        <p class="text-sm text-(--color-text-muted)">سيُستخدم لتأكيد حجزك فقط</p>
+        <p class="text-sm text-(--color-text-muted)">{{ t('booking.phoneHint') }}</p>
       </div>
     </div>
   </div>
 
   <!-- Sticky CTA -->
-  <div class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-(--color-border) p-5">
+  <div class="fixed bottom-0 inset-x-0 bg-(--color-surface)/95 backdrop-blur-md border-t border-(--color-border) p-5">
     <div class="max-w-lg mx-auto">
       <UButton
         block
@@ -79,7 +81,7 @@ function handleNext() {
         color="neutral"
         @click="handleNext"
       >
-        <span class="text-lg">متابعة</span>
+        <span class="text-lg">{{ t('booking.continue') }}</span>
       </UButton>
     </div>
   </div>

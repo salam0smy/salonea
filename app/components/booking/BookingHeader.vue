@@ -5,7 +5,7 @@ defineProps<{ tenant: Tenant }>()
 </script>
 
 <template>
-  <header class="bg-white border-b border-gray-100 px-4 py-4 sticky top-0 z-10">
+  <header class="bg-(--color-surface) border-b border-(--color-border) px-4 py-4 sticky top-0 z-10">
     <div class="max-w-lg mx-auto flex items-center gap-3">
       <!-- Logo: shows image if available, falls back to colored initial -->
       <div
@@ -23,8 +23,8 @@ defineProps<{ tenant: Tenant }>()
       </div>
 
       <div class="flex-1 min-w-0">
-        <h1 class="font-semibold text-gray-900 text-base leading-tight">{{ tenant.name }}</h1>
-        <p v-if="tenant.description" class="text-xs text-gray-400 truncate mt-0.5">
+        <h1 class="font-semibold text-(--color-text) text-base leading-tight">{{ tenant.name }}</h1>
+        <p v-if="tenant.description" class="text-xs text-(--color-text-muted) truncate mt-0.5">
           {{ tenant.description }}
         </p>
       </div>
