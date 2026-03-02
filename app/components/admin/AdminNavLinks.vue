@@ -9,27 +9,13 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
-const colorMode = useColorMode()
 const { locale, setLocale } = useI18n()
 const { signOut } = useAuth()
 
-// Theme icon: fixed until mounted to avoid hydration mismatch (SSR has no colorMode)
-const themeIcon = ref<'i-heroicons-sun' | 'i-heroicons-moon'>('i-heroicons-moon')
-onMounted(() => {
-  themeIcon.value = colorMode.value === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'
-})
-watch(() => colorMode.value, (mode) => {
-  themeIcon.value = mode === 'dark' ? 'i-heroicons-sun' : 'i-heroicons-moon'
-})
-
-const localeDisplay = computed(() => locale.value === 'ar' ? 'العربية' : 'English')
+const localeLabel = computed(() => locale.value === 'ar' ? 'EN' : 'عر')
 
 function toggleLocale() {
   setLocale(locale.value === 'ar' ? 'en' : 'ar')
-}
-
-function toggleTheme() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
 }
 
 const navItems = [
@@ -91,24 +77,24 @@ function isActive(to: string): boolean {
     <div class="p-2 border-t border-(--color-border) shrink-0 space-y-0.5">
       <!-- Utility row: language + theme -->
       <div class="flex items-center justify-between px-3 py-2">
-        <!-- Language switcher -->
-        <button
-          class="flex items-center gap-2 text-sm text-(--color-text-muted) hover:text-(--color-text) transition-colors"
+        <!-- Language toggle -->
+        <UButton
+          variant="ghost"
+          color="neutral"
+          size="sm"
+          leading-icon="i-heroicons-language"
           :aria-label="$t('admin.nav.switchLanguage')"
           @click="toggleLocale"
         >
-          <UIcon name="i-heroicons-language" class="w-4 h-4 shrink-0" />
-          <span>{{ localeDisplay }}</span>
-        </button>
+          {{ localeLabel }}
+        </UButton>
 
-        <!-- Theme toggle (icon from ref to avoid SSR/client colorMode hydration mismatch) -->
-        <button
-          class="p-1.5 rounded-lg text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) transition-colors"
-          :aria-label="themeIcon === 'i-heroicons-sun' ? $t('admin.nav.toggleLight') : $t('admin.nav.toggleDark')"
-          @click="toggleTheme"
-        >
-          <UIcon :name="themeIcon" class="w-4 h-4" />
-        </button>
+        <!-- Theme toggle — SSR/hydration handled internally by UColorModeButton -->
+        <UColorModeButton
+          variant="ghost"
+          color="neutral"
+          size="sm"
+        />
       </div>
 
       <!-- Logout -->

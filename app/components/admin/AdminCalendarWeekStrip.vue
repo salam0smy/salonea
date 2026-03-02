@@ -13,15 +13,12 @@ defineEmits<{
 
 <template>
   <div class="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-none">
-    <button
+    <UButton
       v-for="day in weekDays"
       :key="day.date"
-      class="flex flex-col items-center gap-0.5 px-2.5 py-2 rounded-xl min-w-[48px] transition-colors shrink-0 cursor-pointer"
-      :class="day.date === selectedDate
-        ? 'bg-(--color-text) text-(--color-bg)'
-        : day.date === today
-          ? 'bg-(--color-surface-muted) text-(--color-text)'
-          : 'text-(--color-text-muted) hover:bg-(--color-surface-muted)'"
+      :variant="day.date === selectedDate ? 'solid' : (day.date === today ? 'soft' : 'ghost')"
+      color="neutral"
+      class="flex-col gap-0.5 min-w-12 h-auto py-2 px-2.5 shrink-0"
       @click="$emit('select', day.date)"
     >
       <!-- Abbreviated day name (e.g. "أحد") -->
@@ -32,13 +29,11 @@ defineEmits<{
       <span class="text-sm font-semibold tabular-nums leading-tight" dir="ltr">
         {{ day.dayNumber }}
       </span>
-      <!-- Booking indicator dot -->
+      <!-- Booking indicator dot — inherits text color for automatic contrast -->
       <div
         class="w-1.5 h-1.5 rounded-full mt-0.5 transition-opacity"
-        :class="day.hasActiveBookings
-          ? (day.date === selectedDate ? 'bg-(--color-bg) opacity-60' : 'bg-(--color-text-muted)')
-          : 'opacity-0 bg-transparent'"
+        :class="day.hasActiveBookings ? 'bg-current opacity-60' : 'opacity-0'"
       />
-    </button>
+    </UButton>
   </div>
 </template>

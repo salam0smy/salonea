@@ -71,7 +71,7 @@ const dateHeading = computed(() => {
       <h1 class="text-lg font-semibold text-(--color-text) flex-1 text-end">
         {{ dateHeading }}
       </h1>
-      <div class="flex items-center gap-1 ms-4">
+      <div class="flex items-center gap-2 ms-4">
         <UButton
           v-if="selectedDate !== today"
           size="sm"
@@ -81,20 +81,23 @@ const dateHeading = computed(() => {
         >
           {{ $t('admin.today') }}
         </UButton>
-        <!-- RTL: chevron-right points toward start (right) = earlier day -->
-        <UButton
-          size="sm" color="neutral" variant="ghost"
-          icon="i-heroicons-chevron-right"
-          :aria-label="$t('common.back')"
-          @click="goPrevDay"
-        />
-        <!-- RTL: chevron-left points toward end (left) = later day -->
-        <UButton
-          size="sm" color="neutral" variant="ghost"
-          icon="i-heroicons-chevron-left"
-          :aria-label="$t('common.next')"
-          @click="goNextDay"
-        />
+        <!-- RTL: chevron-right = earlier day, chevron-left = later day -->
+        <UButtonGroup size="sm" orientation="horizontal">
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="i-heroicons-chevron-right"
+            :aria-label="$t('common.back')"
+            @click="goPrevDay"
+          />
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="i-heroicons-chevron-left"
+            :aria-label="$t('common.next')"
+            @click="goNextDay"
+          />
+        </UButtonGroup>
       </div>
     </div>
 
