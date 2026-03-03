@@ -115,7 +115,8 @@
     "nav": {
       "toggleDark": "Switch to dark mode",
       "toggleLight": "Switch to light mode",
-      "switchLanguage": "Switch language"
+      "switchLanguage": "Switch language",
+      "viewBookingPage": "View booking page"
     },
     "editService": "Edit service",
     "deleteService": "Delete service",

@@ -115,7 +115,8 @@
     "nav": {
       "toggleDark": "التحويل إلى الوضع الداكن",
       "toggleLight": "التحويل إلى الوضع الفاتح",
-      "switchLanguage": "تغيير اللغة"
+      "switchLanguage": "تغيير اللغة",
+      "viewBookingPage": "صفحة الحجز"
     },
     "editService": "تعديل الخدمة",
     "deleteService": "حذف الخدمة",

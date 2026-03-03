@@ -19,6 +19,10 @@ const navItems = [
   { to: '/admin/settings', label: 'admin.settings.title', icon: 'i-heroicons-cog-6-tooth' },
 ]
 
+const bookingPageUrl = computed(() =>
+  tenant.value?.slug ? `/${tenant.value.slug}` : null
+)
+
 function isActive(to: string): boolean {
   if (to === '/admin') return route.path === '/admin'
   return route.path.startsWith(to)
@@ -76,6 +80,16 @@ function isActive(to: string): boolean {
             <UIcon :name="item.icon" class="w-5 h-5 shrink-0" />
             <span>{{ $t(item.label) }}</span>
           </NuxtLink>
+          <a
+            v-if="bookingPageUrl"
+            :href="bookingPageUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-3 py-2.5 rounded-xl text-sm transition-colors w-full text-(--color-text-muted) hover:bg-(--color-surface-muted) hover:text-(--color-text) px-3"
+          >
+            <UIcon name="i-heroicons-arrow-top-right-on-square" class="w-5 h-5 shrink-0" />
+            <span>{{ $t('admin.nav.viewBookingPage') }}</span>
+          </a>
         </nav>
 
         <!-- Bottom controls -->
