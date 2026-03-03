@@ -67,10 +67,18 @@ async function handlePayNow(): Promise<void> {
 
     await nextTick()
 
-    const amountHalalas = props.selection.service!.price * 100
+    const formEl = document.getElementById('moyasar-form')
+    if (!formEl) {
+      paymentError.value = t('booking.paymentUnavailable')
+      showPaymentForm.value = false
+      return
+    }
+
+    // Moyasar requires amount in smallest unit (halalas), minimum 100
+    const amountHalalas = Math.max(100, Math.round(props.selection.service!.price * 100))
 
     window.Moyasar.init({
-      element: '#moyasar-form',
+      element: formEl,
       amount: amountHalalas,
       currency: 'SAR',
       description: props.selection.service!.name,
@@ -80,11 +88,13 @@ async function handlePayNow(): Promise<void> {
         booking_id: props.selection.bookingId,
         tenant_id: props.tenant.id,
       },
-      methods: ['creditcard', 'applepay', 'stcpay'],
+      methods: ['creditcard', 'stcpay'],
       language: locale.value === 'ar' ? 'ar' : 'en',
     })
   }
-  catch {
+  catch (err) {
+    const message = err instanceof Error ? err.message : undefined
+    if (import.meta.dev && message) console.error('[Moyasar]', message)
     paymentError.value = t('booking.paymentUnavailable')
     showPaymentForm.value = false
   }
@@ -218,9 +228,11 @@ const ctaLabel = computed(() => {
     </UButton>
   </div>
 
-  <!-- Moyasar inline payment form (shown after user taps Pay) -->
+  <!-- Moyasar inline payment form (shown after user taps Pay). Wrapper is always light — Moyasar form has no dark mode support. -->
   <div v-if="showPaymentForm" class="pt-4">
-    <div id="moyasar-form" class="rounded-[16px] overflow-hidden" />
+    <div class="rounded-[16px] border p-5 shadow-sm bg-[#FAFAF7] border-[#E8E4DE]">
+      <div id="moyasar-form" class="min-h-[320px] w-full" />
+    </div>
   </div>
 
   <!-- Error -->
