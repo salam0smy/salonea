@@ -1,4 +1,5 @@
 // vitest.config.ts
+import { configDefaults } from 'vitest/config'
 import { defineVitestConfig } from '@nuxt/test-utils/config'
 
 export default defineVitestConfig({
@@ -9,5 +10,6 @@ export default defineVitestConfig({
         domEnvironment: 'happy-dom',
       },
     },
+    exclude: [...configDefaults.exclude, '.worktrees/**'],
   },
 })

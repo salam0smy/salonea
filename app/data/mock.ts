@@ -1,5 +1,5 @@
 // app/data/mock.ts
-import type { Tenant, ServiceCategory, Service, StaffMember, TenantSettings, Booking } from '~/types'
+import type { Tenant, ServiceCategory, Service, StaffMember, TenantSettings, TenantPaymentSettings, Booking } from '~/types'
 
 export const mockTenant: Tenant = {
   id: 't1',
@@ -16,6 +16,11 @@ export const mockSettings: TenantSettings = {
   paymentMode: 'full',
   depositPercent: null,
   maxAdvanceDays: 30,
+}
+
+export const mockPaymentSettings: TenantPaymentSettings = {
+  isConnected: false,
+  publishableKey: null,
 }
 
 export const mockCategories: ServiceCategory[] = [

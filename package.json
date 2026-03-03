@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "seed": "npx tsx seed.ts",
+    "seed:generate": "cat supabase/seed-auth.sql > supabase/seed.sql && SEED_DRY_RUN=1 npx tsx seed.ts >> supabase/seed.sql && echo \"INSERT INTO tenant_users (user_id, tenant_id) VALUES ('b0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000000001');\" >> supabase/seed.sql"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.15.2",
@@ -27,9 +29,15 @@
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.3",
+    "@iconify-json/lucide": "^1.2.95",
     "@nuxt/test-utils": "^4.0.0",
+    "@snaplet/copycat": "^6.0.0",
+    "@snaplet/seed": "^0.98.0",
+    "@types/pg": "^8.18.0",
     "@vue/test-utils": "^2.4.6",
     "happy-dom": "^20.7.0",
+    "pg": "^8.19.0",
+    "tsx": "^4.21.0",
     "vitest": "^4.0.18"
   }
 }

@@ -92,7 +92,8 @@
     "bookingConfirmedPaid": "تم تأكيد حجزك واستلام الدفعة",
     "paymentFailed": "فشل الدفع",
     "tryPaymentAgain": "حاول مجدداً",
-    "paymentUnavailable": "الدفع الإلكتروني غير متاح حالياً — تواصل مع الصالون"
+    "paymentUnavailable": "الدفع الإلكتروني غير متاح حالياً — تواصل مع الصالون",
+    "bookAnother": "حجز موعد آخر"
   },
   "admin": {
     "dashboard": "لوحة التحكم",

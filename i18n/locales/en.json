@@ -92,7 +92,8 @@
     "bookingConfirmedPaid": "Booking confirmed and payment received",
     "paymentFailed": "Payment failed",
     "tryPaymentAgain": "Try again",
-    "paymentUnavailable": "Online payment unavailable — contact the salon"
+    "paymentUnavailable": "Online payment unavailable — contact the salon",
+    "bookAnother": "Book another appointment"
   },
   "admin": {
     "dashboard": "Dashboard",
