@@ -13,7 +13,7 @@ const views: Array<{ value: CalendarView; labelKey: string; icon: string }> = [
 </script>
 
 <template>
-  <UButtonGroup size="xs">
+  <UFieldGroup size="xs">
     <UButton
       v-for="v in views"
       :key="v.value"
@@ -24,5 +24,5 @@ const views: Array<{ value: CalendarView; labelKey: string; icon: string }> = [
       class="transition-colors duration-100"
       @click="emit('update:modelValue', v.value)"
     />
-  </UButtonGroup>
+  </UFieldGroup>
 </template>

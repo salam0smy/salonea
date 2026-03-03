@@ -91,6 +91,24 @@ export async function createBooking(event: H3Event, payload: {
   return mapBooking(data as BookingRow)
 }
 
+/** Fetches a single booking by ID scoped to a tenant. Returns null if not found. */
+export async function getBookingById(
+  event: H3Event,
+  tenantId: string,
+  bookingId: string,
+): Promise<Booking | null> {
+  const client = await getServerClient(event)
+  const { data, error } = await client
+    .from('bookings')
+    .select(BOOKING_SELECT)
+    .eq('id', bookingId)
+    .eq('tenant_id', tenantId)
+    .maybeSingle()
+
+  if (error || !data) return null
+  return mapBooking(data as BookingRow)
+}
+
 export async function updateBookingStatus(
   event: H3Event,
   bookingId: string,

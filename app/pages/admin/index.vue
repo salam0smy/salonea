@@ -87,7 +87,7 @@ async function handleCreate(payload: Parameters<typeof createBookingOnCalendar>[
         class="flex items-center justify-between px-4 py-3"
       >
         <!-- Prev / Today / Next -->
-        <UButtonGroup size="sm">
+        <UFieldGroup size="sm">
           <UButton
             color="neutral" variant="ghost"
             icon="i-heroicons-chevron-right"
@@ -107,7 +107,7 @@ async function handleCreate(payload: Parameters<typeof createBookingOnCalendar>[
             :aria-label="$t('common.next')"
             @click="goNextDay"
           />
-        </UButtonGroup>
+        </UFieldGroup>
 
         <!-- Clickable date heading with calendar picker -->
         <AdminCalendarDatePicker

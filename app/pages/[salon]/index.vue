@@ -1,4 +1,4 @@
-<!-- app/pages/[salon].vue -->
+<!-- app/pages/[salon]/index.vue -->
 <script setup lang="ts">
 import type { Service, ServiceCategory } from '~/types'
 

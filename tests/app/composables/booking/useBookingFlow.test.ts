@@ -1,5 +1,5 @@
 // tests/app/composables/booking/useBookingFlow.test.ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { useBookingFlow } from '~/composables/booking/useBookingFlow'
 
 const minimalService = {
@@ -62,5 +62,44 @@ describe('useBookingFlow', () => {
     advance()
     advance() // should stay at 3
     expect(step.value).toBe(3)
+  })
+
+  describe('submitBooking', () => {
+    const fetchMock = vi.fn()
+
+    beforeEach(() => {
+      vi.stubGlobal('$fetch', fetchMock)
+    })
+
+    afterEach(() => {
+      vi.unstubAllGlobals()
+    })
+
+    it('stores bookingId from the API response', async () => {
+      fetchMock.mockResolvedValueOnce({ id: 'booking-abc-123' })
+      const { selection, submitBooking } = useBookingFlow()
+      selection.value.service = minimalService
+      selection.value.date = '2026-03-15'
+      selection.value.time = '10:00'
+      selection.value.contact = { name: 'أميرة', phone: '+966501234567' }
+
+      await submitBooking('nour-beauty')
+
+      expect(selection.value.bookingId).toBe('booking-abc-123')
+    })
+
+    it('advances to step 4 after successful submitBooking', async () => {
+      fetchMock.mockResolvedValueOnce({ id: 'booking-xyz' })
+      const { step, selection, submitBooking } = useBookingFlow()
+      selection.value.service = minimalService
+      selection.value.date = '2026-03-15'
+      selection.value.time = '10:00'
+      selection.value.contact = { name: 'أميرة', phone: '+966501234567' }
+      step.value = 3
+
+      await submitBooking('nour-beauty')
+
+      expect(step.value).toBe(4)
+    })
   })
 })

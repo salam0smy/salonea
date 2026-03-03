@@ -50,7 +50,7 @@ export interface BookingContact {
   phone: string
 }
 
-export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled'
+export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'paid'
 
 export interface Booking {
   id: string
@@ -72,10 +72,16 @@ export interface TenantSettings {
   maxAdvanceDays: number         // how far ahead customers can book
 }
 
+export interface TenantPaymentSettings {
+  isConnected: boolean
+  publishableKey: string | null  // shown masked in admin UI; null if not connected
+}
+
 export interface BookingSelection {
   service: Service | null
   staff: StaffMember | null      // null = no preference
   date: string | null            // "2026-03-15" ISO date
   time: string | null            // "10:00" 24h
   contact: BookingContact | null
+  bookingId: string | null       // set after step 3 submits booking; used as Moyasar metadata
 }

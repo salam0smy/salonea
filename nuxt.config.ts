@@ -47,6 +47,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       authMode: 'phone', // override with NUXT_PUBLIC_AUTH_MODE=email
+      siteUrl: process.env.SITE_URL ?? 'http://localhost:3000',
     },
   },
 

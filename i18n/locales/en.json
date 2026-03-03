@@ -86,7 +86,13 @@
     "hourAndMinutes": "{hours} hr {minutes} min",
     "am": "AM",
     "pm": "PM",
-    "whatsappIntro": "Hi, I'd like to confirm my booking:"
+    "whatsappIntro": "Hi, I'd like to confirm my booking:",
+    "paymentProcessing": "Processing payment...",
+    "paymentSuccess": "Payment successful",
+    "bookingConfirmedPaid": "Booking confirmed and payment received",
+    "paymentFailed": "Payment failed",
+    "tryPaymentAgain": "Try again",
+    "paymentUnavailable": "Online payment unavailable — contact the salon"
   },
   "admin": {
     "dashboard": "Dashboard",
@@ -173,7 +179,19 @@
       },
       "depositPercent": "Deposit percentage (%)",
       "maxAdvanceDays": "Max advance booking (days)",
-      "saved": "Saved ✓"
+      "saved": "Saved ✓",
+      "payment": "Payment / Moyasar",
+      "moyasarInstructions": "Create an account at moyasar.com, go to Developers → API Keys, and paste your keys below.",
+      "moyasarPublishableKey": "Publishable Key",
+      "moyasarSecretKey": "Secret Key",
+      "moyasarSecretKeyHint": "Starts with sk_test_ or sk_live_",
+      "moyasarConnect": "Connect Moyasar",
+      "moyasarConnecting": "Connecting...",
+      "moyasarConnected": "Connected",
+      "moyasarNotConnected": "Not connected",
+      "moyasarConnectError": "Connection failed — check your keys",
+      "moyasarDisconnect": "Disconnect",
+      "moyasarDisconnectConfirm": "Disconnect Moyasar? Customers will no longer be able to pay online."
     }
   }
 }

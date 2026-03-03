@@ -12,6 +12,7 @@ export function useBookingFlow() {
     date: null,
     time: null,
     contact: null,
+    bookingId: null,
   })
 
   function canAdvance(): boolean {
@@ -37,7 +38,7 @@ export function useBookingFlow() {
     const { service, staff, date, time, contact } = selection.value
     if (!service || !date || !time || !contact) return
 
-    await $fetch(`/api/${slug}/bookings`, {
+    const booking = await $fetch<{ id: string }>(`/api/${slug}/bookings`, {
       method: 'POST',
       body: {
         serviceId: service.id,
@@ -48,6 +49,7 @@ export function useBookingFlow() {
         customerPhone: contact.phone,
       },
     })
+    selection.value.bookingId = booking.id
     advance()
   }
 

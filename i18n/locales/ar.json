@@ -86,7 +86,13 @@
     "hourAndMinutes": "{hours} ساعة و{minutes} دقيقة",
     "am": "ص",
     "pm": "م",
-    "whatsappIntro": "مرحباً، أودّ تأكيد حجزي:"
+    "whatsappIntro": "مرحباً، أودّ تأكيد حجزي:",
+    "paymentProcessing": "جاري معالجة الدفع...",
+    "paymentSuccess": "تم الدفع بنجاح",
+    "bookingConfirmedPaid": "تم تأكيد حجزك واستلام الدفعة",
+    "paymentFailed": "فشل الدفع",
+    "tryPaymentAgain": "حاولي مجدداً",
+    "paymentUnavailable": "الدفع الإلكتروني غير متاح حالياً — تواصلي مع الصالون"
   },
   "admin": {
     "dashboard": "لوحة التحكم",
@@ -173,7 +179,19 @@
       },
       "depositPercent": "نسبة الدفعة المقدمة (%)",
       "maxAdvanceDays": "الحد الأقصى للحجز المسبق (أيام)",
-      "saved": "تم الحفظ ✓"
+      "saved": "تم الحفظ ✓",
+      "payment": "الدفع / Moyasar",
+      "moyasarInstructions": "أنشئ حساباً على moyasar.com، ثم انتقل إلى المطورين ← مفاتيح API، والصق مفاتيحك أدناه.",
+      "moyasarPublishableKey": "المفتاح العلني (Publishable Key)",
+      "moyasarSecretKey": "المفتاح السري (Secret Key)",
+      "moyasarSecretKeyHint": "يبدأ بـ sk_test_ أو sk_live_",
+      "moyasarConnect": "ربط حساب Moyasar",
+      "moyasarConnecting": "جاري الربط...",
+      "moyasarConnected": "متصل",
+      "moyasarNotConnected": "غير متصل",
+      "moyasarConnectError": "فشل الربط — تحقق من صحة المفاتيح",
+      "moyasarDisconnect": "إلغاء الربط",
+      "moyasarDisconnectConfirm": "هل تريد إلغاء ربط Moyasar؟ لن يتمكن العملاء من الدفع إلكترونياً."
     }
   }
 }

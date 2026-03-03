@@ -25,6 +25,28 @@ const paymentModeOptions: Array<{ label: string; value: PaymentMode }> = [
 
 const toast = useToast()
 
+const { paymentSettings, connecting, connectError, connect, disconnect } = usePaymentSettings()
+
+const localPayment = reactive({ publishableKey: '', secretKey: '' })
+const showDisconnectModal = ref(false)
+
+function maskKey(key: string | null): string {
+  if (!key || key.length < 14) return key ?? ''
+  return key.slice(0, 10) + '●●●●' + key.slice(-4)
+}
+
+async function handleConnect(): Promise<void> {
+  await connect(localPayment.publishableKey, localPayment.secretKey)
+  localPayment.publishableKey = ''
+  localPayment.secretKey = ''
+}
+
+async function handleDisconnect(): Promise<void> {
+  await disconnect()
+  showDisconnectModal.value = false
+  toast.add({ title: t('admin.settings.moyasarDisconnect'), color: 'success', icon: 'i-heroicons-check-circle' })
+}
+
 // UInput v-model.number expects number | undefined; settings use number | null.
 const depositPercentModel = computed({
   get: () => localSettings.depositPercent ?? undefined,
@@ -135,6 +157,73 @@ function handleSave(): void {
           </div>
         </section>
 
+        <!-- ── Payment / Moyasar section ──────────────────── -->
+        <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
+          <h2 class="text-lg font-semibold text-(--color-text) mb-6">
+            {{ $t('admin.settings.payment') }}
+          </h2>
+
+          <!-- Connected state -->
+          <div v-if="paymentSettings?.isConnected" class="space-y-4">
+            <div class="flex items-center gap-3">
+              <UBadge color="success" variant="subtle" leading-icon="i-heroicons-check-circle">
+                {{ $t('admin.settings.moyasarConnected') }}
+              </UBadge>
+            </div>
+            <p class="text-sm text-(--color-text-muted) font-mono">
+              {{ maskKey(paymentSettings.publishableKey) }}
+            </p>
+            <UButton variant="ghost" color="error" size="sm" @click="showDisconnectModal = true">
+              {{ $t('admin.settings.moyasarDisconnect') }}
+            </UButton>
+          </div>
+
+          <!-- Disconnected state -->
+          <div v-else class="space-y-5">
+            <UAlert
+              color="warning"
+              variant="subtle"
+              icon="i-heroicons-information-circle"
+              :description="$t('admin.settings.moyasarInstructions')"
+            />
+            <UAlert
+              v-if="connectError"
+              color="error"
+              variant="subtle"
+              icon="i-heroicons-x-circle"
+              :description="connectError"
+            />
+            <UFormField :label="$t('admin.settings.moyasarPublishableKey')" required>
+              <UInput
+                v-model="localPayment.publishableKey"
+                class="w-full font-mono"
+                placeholder="pk_test_..."
+                :disabled="connecting"
+              />
+            </UFormField>
+            <UFormField
+              :label="$t('admin.settings.moyasarSecretKey')"
+              :hint="$t('admin.settings.moyasarSecretKeyHint')"
+              required
+            >
+              <UInput
+                v-model="localPayment.secretKey"
+                type="password"
+                class="w-full font-mono"
+                :disabled="connecting"
+              />
+            </UFormField>
+            <UButton
+              :loading="connecting"
+              :disabled="!localPayment.publishableKey || !localPayment.secretKey"
+              color="primary"
+              @click="handleConnect"
+            >
+              {{ connecting ? $t('admin.settings.moyasarConnecting') : $t('admin.settings.moyasarConnect') }}
+            </UButton>
+          </div>
+        </section>
+
         <!-- ── Save row ────────────────────────────────────── -->
         <div class="flex items-center pt-2">
           <UButton type="submit" color="primary">
@@ -143,6 +232,22 @@ function handleSave(): void {
         </div>
 
       </form>
+
+      <UModal v-model:open="showDisconnectModal">
+        <template #body>
+          <p class="text-(--color-text)">{{ $t('admin.settings.moyasarDisconnectConfirm') }}</p>
+        </template>
+        <template #footer>
+          <div class="flex gap-3 justify-end">
+            <UButton variant="ghost" color="neutral" @click="showDisconnectModal = false">
+              {{ $t('common.cancel') }}
+            </UButton>
+            <UButton color="error" @click="handleDisconnect">
+              {{ $t('admin.settings.moyasarDisconnect') }}
+            </UButton>
+          </div>
+        </template>
+      </UModal>
     </template>
   </UDashboardPanel>
 </template>

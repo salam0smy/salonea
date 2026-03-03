@@ -2,6 +2,14 @@
 <script setup lang="ts">
 import type { BookingSelection, Tenant, TenantSettings } from '~/types'
 
+declare global {
+  interface Window {
+    Moyasar: {
+      init: (config: Record<string, unknown>) => void
+    }
+  }
+}
+
 const { t, locale } = useI18n()
 
 const props = defineProps<{
@@ -11,6 +19,79 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{ back: [] }>()
+
+const route = useRoute()
+const slug = route.params.salon as string
+
+const showPaymentForm = ref(false)
+const isLoadingPayment = ref(false)
+const paymentError = ref<string | null>(null)
+
+async function loadMoyasarScript(): Promise<void> {
+  if (document.querySelector('script[src*="moyasar"]')) return
+  return new Promise((resolve, reject) => {
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.css'
+    document.head.appendChild(link)
+
+    const script = document.createElement('script')
+    script.src = 'https://cdn.moyasar.com/mpf/1.14.0/moyasar.js'
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error('Failed to load Moyasar'))
+    document.head.appendChild(script)
+  })
+}
+
+async function handlePayNow(): Promise<void> {
+  if (props.settings.paymentMode === 'at_salon') {
+    await $fetch(`/api/${slug}/bookings/${props.selection.bookingId}/confirm`, { method: 'POST' })
+    return
+  }
+
+  isLoadingPayment.value = true
+  paymentError.value = null
+
+  try {
+    const config = await $fetch<{ publishableKey: string | null; isConnected: boolean }>(
+      `/api/${slug}/payment-config`,
+    )
+
+    if (!config.isConnected || !config.publishableKey) {
+      paymentError.value = t('booking.paymentUnavailable')
+      return
+    }
+
+    await loadMoyasarScript()
+    showPaymentForm.value = true
+
+    await nextTick()
+
+    const amountHalalas = props.selection.service!.price * 100
+
+    window.Moyasar.init({
+      element: '#moyasar-form',
+      amount: amountHalalas,
+      currency: 'SAR',
+      description: props.selection.service!.name,
+      publishable_api_key: config.publishableKey,
+      callback_url: `${window.location.origin}/${slug}/booking-done`,
+      metadata: {
+        booking_id: props.selection.bookingId,
+        tenant_id: props.tenant.id,
+      },
+      methods: ['creditcard', 'applepay', 'stcpay'],
+      language: locale.value === 'ar' ? 'ar' : 'en',
+    })
+  }
+  catch {
+    paymentError.value = t('booking.paymentUnavailable')
+    showPaymentForm.value = false
+  }
+  finally {
+    isLoadingPayment.value = false
+  }
+}
 
 const dateLocale = computed(() => (locale.value === 'ar' ? 'ar-SA' : 'en-US'))
 
@@ -137,10 +218,25 @@ const ctaLabel = computed(() => {
     </UButton>
   </div>
 
-  <!-- Sticky payment CTA (stub) -->
-  <div class="fixed bottom-0 inset-x-0 bg-(--color-surface)/95 backdrop-blur-md border-t border-(--color-border) p-5">
+  <!-- Moyasar inline payment form (shown after user taps Pay) -->
+  <div v-if="showPaymentForm" class="pt-4">
+    <div id="moyasar-form" class="rounded-[16px] overflow-hidden" />
+  </div>
+
+  <!-- Error -->
+  <UAlert
+    v-if="paymentError"
+    color="error"
+    variant="subtle"
+    icon="i-heroicons-x-circle"
+    :description="paymentError"
+    class="mt-4"
+  />
+
+  <!-- Sticky payment CTA (hidden once Moyasar form is shown) -->
+  <div v-if="!showPaymentForm" class="fixed bottom-0 inset-x-0 bg-(--color-surface)/95 backdrop-blur-md border-t border-(--color-border) p-5">
     <div class="max-w-lg mx-auto space-y-2">
-      <UButton block size="xl" color="neutral">
+      <UButton block size="xl" color="primary" :loading="isLoadingPayment" @click="handlePayNow">
         <span class="text-lg">{{ ctaLabel }}</span>
       </UButton>
       <p
