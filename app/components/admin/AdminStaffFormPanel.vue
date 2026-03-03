@@ -91,23 +91,32 @@ function handleSubmit() {
       <form id="staff-form-el" class="space-y-4 p-4" @submit.prevent="handleSubmit">
 
         <UFormField :label="$t('admin.staffName')">
-          <UInput v-model="form.name" dir="rtl" class="w-full" required>
-            <template #trailing>
-              <span class="text-xs font-mono text-(--color-text-muted)">AR</span>
-            </template>
-          </UInput>
+          <div class="input-with-trailing flex items-center gap-0 rounded-md border-2 border-(--color-border) bg-(--color-background) focus-within:border-primary transition-colors">
+            <input
+              v-model="form.name"
+              type="text"
+              dir="rtl"
+              required
+              class="min-w-0 flex-1 rounded-md border-0 bg-transparent py-2.5 ps-3 pe-11 text-base text-(--color-text) placeholder:text-(--color-text-muted) focus:outline-none focus:ring-0 disabled:opacity-75"
+            >
+            <span class="shrink-0 pe-2 text-xs font-mono text-(--color-text-muted)">AR</span>
+          </div>
         </UFormField>
 
         <UFormField :label="$t('admin.staffNameEn')">
-          <UInput v-model="form.nameEn" dir="ltr" class="w-full">
-            <template #trailing>
-              <span class="text-xs font-mono text-(--color-text-muted)">EN</span>
-            </template>
-          </UInput>
+          <div class="input-with-trailing flex items-center gap-0 rounded-md border-2 border-(--color-border) bg-(--color-background) focus-within:border-primary transition-colors">
+            <input
+              v-model="form.nameEn"
+              type="text"
+              dir="ltr"
+              class="min-w-0 flex-1 rounded-md border-0 bg-transparent py-2.5 ps-3 pe-11 text-base text-(--color-text) placeholder:text-(--color-text-muted) focus:outline-none focus:ring-0 disabled:opacity-75"
+            >
+            <span class="shrink-0 pe-2 text-xs font-mono text-(--color-text-muted)">EN</span>
+          </div>
         </UFormField>
 
         <UFormField :label="$t('admin.staffPhoto')">
-          <UInput v-model="form.photoUrl" dir="ltr" class="w-full" />
+          <UInput v-model="form.photoUrl" dir="ltr" class="w-full" :ui="{ base: 'px-3 py-2.5' }" />
         </UFormField>
 
         <UFormField :label="$t('admin.staffServices')">

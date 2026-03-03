@@ -123,5 +123,10 @@ body {
     outline: none !important;
     box-shadow: 0 0 0 2px var(--color-salona-200) !important;
   }
+
+  /* Custom input-with-trailing wrapper already has focus border; no extra ring */
+  .input-with-trailing input:focus-visible {
+    box-shadow: none !important;
+  }
 }
 

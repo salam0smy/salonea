@@ -54,6 +54,52 @@ export async function createCategory(event: H3Event, tenantId: string, payload: 
   return mapCategory(data as CategoryRow)
 }
 
+export async function updateCategory(
+  event: H3Event,
+  categoryId: string,
+  tenantId: string,
+  patch: { name?: string; name_en?: string | null; sort_order?: number },
+): Promise<ServiceCategory | null> {
+  const client = await getServerClient(event)
+  const { data, error } = await client
+    .from('service_categories')
+    .update(patch)
+    .eq('id', categoryId)
+    .eq('tenant_id', tenantId)
+    .select('id, tenant_id, name, name_en, sort_order')
+    .single()
+
+  if (error || !data) return null
+  return mapCategory(data as CategoryRow)
+}
+
+export async function deleteCategory(
+  event: H3Event,
+  categoryId: string,
+  tenantId: string,
+): Promise<{ success: true } | { success: false; reason: 'has_services'; count: number }> {
+  const client = await getServerClient(event)
+
+  // Guard: count services in this category for this tenant
+  const { count, error: countError } = await client
+    .from('services')
+    .select('id', { count: 'exact', head: true })
+    .eq('category_id', categoryId)
+    .eq('tenant_id', tenantId)
+
+  if (countError) return { success: false, reason: 'has_services', count: 0 }
+  if ((count ?? 0) > 0) return { success: false, reason: 'has_services', count: count! }
+
+  const { error } = await client
+    .from('service_categories')
+    .delete()
+    .eq('id', categoryId)
+    .eq('tenant_id', tenantId)
+
+  if (error) return { success: false, reason: 'has_services', count: 0 }
+  return { success: true }
+}
+
 // ── Services ──────────────────────────────────────────────────────────────────
 export async function getServicesByTenant(event: H3Event, tenantId: string, activeOnly = true): Promise<Service[]> {
   const client = await getServerClient(event)

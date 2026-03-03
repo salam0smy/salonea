@@ -4,6 +4,12 @@ import type { Service, ServiceCategory } from '~/types'
 
 export type NewServiceData = Omit<Service, 'id' | 'tenantId'>
 
+export type NewCategoryData = {
+  name: string
+  nameEn: string | null
+  sortOrder: number
+}
+
 export function useServices() {
   const { data: categories, pending: categoriesPending, error: categoriesError, refresh: refreshCategories } =
     useFetch<ServiceCategory[]>('/api/admin/categories', { default: () => [] })
@@ -50,6 +56,31 @@ export function useServices() {
     await refreshServices()
   }
 
+  async function addCategory(data: NewCategoryData): Promise<void> {
+    await $fetch('/api/admin/categories', {
+      method: 'POST',
+      body: {
+        name: data.name,
+        nameEn: data.nameEn ?? null,
+        sortOrder: data.sortOrder ?? 0,
+      },
+    })
+    await refreshCategories()
+  }
+
+  async function updateCategory(id: string, patch: Partial<NewCategoryData>): Promise<void> {
+    await $fetch(`/api/admin/categories/${id}`, {
+      method: 'PATCH',
+      body: patch,
+    })
+    await refreshCategories()
+  }
+
+  async function removeCategory(id: string): Promise<void> {
+    await $fetch(`/api/admin/categories/${id}`, { method: 'DELETE' })
+    await refreshCategories()
+  }
+
   const isLoading = computed(() => categoriesPending.value || servicesPending.value)
   const error = computed(() => categoriesError.value || servicesError.value)
 
@@ -60,6 +91,9 @@ export function useServices() {
     addService,
     updateService,
     removeService,
+    addCategory,
+    updateCategory,
+    removeCategory,
     isLoading,
     error,
     refreshCategories,

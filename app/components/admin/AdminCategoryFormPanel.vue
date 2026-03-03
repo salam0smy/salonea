@@ -1,77 +1,56 @@
-<!-- app/components/admin/AdminServiceFormPanel.vue -->
+<!-- app/components/admin/AdminCategoryFormPanel.vue -->
 <script setup lang="ts">
-import type { Service, ServiceCategory } from '~/types'
-import type { NewServiceData } from '~/composables/admin/useServices'
+import type { ServiceCategory } from '~/types'
+import type { NewCategoryData } from '~/composables/admin/useServices'
 
 const props = defineProps<{
-  service: Service | null
-  categories: ServiceCategory[]
+  category: ServiceCategory | null
 }>()
 
 const emit = defineEmits<{
-  save: [data: NewServiceData]
+  save: [data: NewCategoryData]
   close: []
 }>()
 
 const form = reactive({
-  categoryId: '',
   name: '',
   nameEn: '',
-  description: '',
-  price: 0,
-  durationMinutes: 30,
-  isActive: true,
+  sortOrder: 0,
 })
 
-const categoryOptions = computed(() =>
-  props.categories.map(c => ({ label: c.name, value: c.id })),
-)
-
 watch(
-  () => props.service,
-  (service) => {
-    if (service) {
-      form.categoryId = service.categoryId
-      form.name = service.name
-      form.nameEn = service.nameEn ?? ''
-      form.description = service.description ?? ''
-      form.price = service.price
-      form.durationMinutes = service.durationMinutes
-      form.isActive = service.isActive
+  () => props.category,
+  (category) => {
+    if (category) {
+      form.name = category.name
+      form.nameEn = category.nameEn ?? ''
+      form.sortOrder = category.sortOrder
     }
     else {
-      form.categoryId = props.categories[0]?.id ?? ''
       form.name = ''
       form.nameEn = ''
-      form.description = ''
-      form.price = 0
-      form.durationMinutes = 30
-      form.isActive = true
+      form.sortOrder = 0
     }
   },
   { immediate: true },
 )
 
 function handleSubmit() {
-  if (!form.name.trim() || !form.categoryId) return
+  if (!form.name.trim()) return
   emit('save', {
-    categoryId: form.categoryId,
     name: form.name.trim(),
     nameEn: form.nameEn.trim() || null,
-    description: form.description.trim() || null,
-    price: Number(form.price),
-    durationMinutes: Number(form.durationMinutes),
-    isActive: form.isActive,
+    sortOrder: Number(form.sortOrder),
   })
   emit('close')
 }
 </script>
 
 <template>
-  <UDashboardPanel id="service-form" :default-size="38" :min-size="30" :max-size="55">
+  <UDashboardPanel id="category-form" :default-size="35" :min-size="28" :max-size="50">
     <template #header>
       <UDashboardNavbar
-        :title="service ? $t('admin.editService') : $t('admin.addService')"
+        :title="category ? $t('admin.editCategory') : $t('admin.addCategory')"
       >
         <template #right>
           <UButton
@@ -86,12 +65,8 @@ function handleSubmit() {
     </template>
 
     <template #body>
-      <form id="service-form-el" class="space-y-4 p-4" @submit.prevent="handleSubmit">
-        <UFormField :label="$t('admin.serviceCategory')">
-          <USelect v-model="form.categoryId" :items="categoryOptions" class="w-full" />
-        </UFormField>
-
-        <UFormField :label="$t('admin.serviceName')">
+      <form id="category-form-el" class="space-y-4 p-4" @submit.prevent="handleSubmit">
+        <UFormField :label="$t('admin.categoryName')">
           <div class="input-with-trailing flex items-center gap-0 rounded-md border-2 border-(--color-border) bg-(--color-background) focus-within:border-primary transition-colors">
             <input
               v-model="form.name"
@@ -104,7 +79,7 @@ function handleSubmit() {
           </div>
         </UFormField>
 
-        <UFormField :label="$t('admin.serviceNameEn')">
+        <UFormField :label="$t('admin.categoryNameEn')">
           <div class="input-with-trailing flex items-center gap-0 rounded-md border-2 border-(--color-border) bg-(--color-background) focus-within:border-primary transition-colors">
             <input
               v-model="form.nameEn"
@@ -116,17 +91,8 @@ function handleSubmit() {
           </div>
         </UFormField>
 
-        <div class="grid grid-cols-2 gap-3">
-          <UFormField :label="$t('admin.servicePrice')">
-            <UInput v-model="form.price" type="number" min="0" class="w-full" required :ui="{ base: 'px-3 py-2.5' }" />
-          </UFormField>
-          <UFormField :label="$t('admin.serviceDuration')">
-            <UInput v-model="form.durationMinutes" type="number" min="5" step="5" class="w-full" required :ui="{ base: 'px-3 py-2.5' }" />
-          </UFormField>
-        </div>
-
-        <UFormField :label="$t('admin.serviceActive')">
-          <USwitch v-model="form.isActive" />
+        <UFormField :label="$t('admin.categorySortOrder')">
+          <UInput v-model="form.sortOrder" type="number" min="0" step="1" class="w-full" :ui="{ base: 'px-3 py-2.5' }" />
         </UFormField>
       </form>
     </template>
@@ -136,7 +102,7 @@ function handleSubmit() {
         <UButton color="neutral" variant="ghost" @click="emit('close')">
           {{ $t('common.cancel') }}
         </UButton>
-        <UButton type="submit" form="service-form-el" color="neutral" variant="solid">
+        <UButton type="submit" form="category-form-el" color="neutral" variant="solid">
           {{ $t('common.save') }}
         </UButton>
       </div>
