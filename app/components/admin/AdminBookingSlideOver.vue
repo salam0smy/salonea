@@ -147,10 +147,19 @@ function onClose() {
 
       <!-- VIEW MODE -->
       <div v-if="mode === 'view' && booking" class="space-y-5 p-4">
-        <!-- Status badge -->
-        <UBadge :color="statusColor" variant="subtle">
-          {{ $t(`admin.bookingStatus.${booking.status}`) }}
-        </UBadge>
+        <!-- Status + payment -->
+        <div class="flex flex-wrap items-center gap-2">
+          <UBadge :color="statusColor" variant="subtle">
+            {{ $t(`admin.bookingStatus.${booking.status}`) }}
+          </UBadge>
+          <UBadge color="neutral" variant="soft">
+            {{ booking.paymentStatus === 'paid'
+              ? $t('admin.paymentStatus.paid')
+              : booking.paymentStatus === 'unpaid'
+                ? $t('admin.paymentStatus.unpaid')
+                : $t('admin.paymentStatus.at_salon') }}
+          </UBadge>
+        </div>
 
         <!-- Phone (tappable on mobile) -->
         <a

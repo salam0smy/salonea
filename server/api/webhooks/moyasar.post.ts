@@ -40,14 +40,14 @@ export default defineEventHandler(async (event) => {
   if (body.data.status === 'paid') {
     await client
       .from('bookings')
-      .update({ status: 'paid' })
+      .update({ status: 'confirmed', payment_status: 'paid' })
       .eq('id', bookingId)
       .eq('tenant_id', tenantId)
   }
   else if (body.data.status === 'failed') {
     await client
       .from('bookings')
-      .update({ status: 'pending' })
+      .update({ status: 'cancelled', payment_status: 'unpaid' })
       .eq('id', bookingId)
       .eq('tenant_id', tenantId)
   }

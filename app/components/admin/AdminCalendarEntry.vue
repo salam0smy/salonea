@@ -20,6 +20,8 @@ const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' =
   const map = { pending: 'warning', confirmed: 'primary', completed: 'success', cancelled: 'neutral' } as const
   return map[props.booking.status]
 })
+
+const isPaid = computed(() => props.booking.paymentStatus === 'paid')
 </script>
 
 <template>
@@ -54,10 +56,21 @@ const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' =
       </p>
     </div>
 
-    <!-- Status badge -->
-    <UBadge :color="statusColor" variant="subtle" size="xs" class="shrink-0">
-      {{ $t(`admin.bookingStatus.${booking.status}`) }}
-    </UBadge>
+    <!-- Status + payment -->
+    <div class="flex items-center gap-1 shrink-0">
+      <UBadge :color="statusColor" variant="subtle" size="xs">
+        {{ $t(`admin.bookingStatus.${booking.status}`) }}
+      </UBadge>
+      <span
+        v-if="isPaid"
+        class="inline-flex items-center justify-center rounded-full border border-green-500/40 bg-green-500/10 px-1.5 py-0.5"
+      >
+        <span class="w-1.5 h-1.5 rounded-full bg-green-500 me-1" />
+        <span class="text-[10px] font-medium text-green-600">
+          {{ $t('admin.paymentStatus.paid') }}
+        </span>
+      </span>
+    </div>
 
     <!-- Chevron hint -->
     <UIcon

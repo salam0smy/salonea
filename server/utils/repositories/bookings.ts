@@ -1,6 +1,6 @@
 // server/utils/repositories/bookings.ts
 import type { H3Event } from 'h3'
-import type { Booking, BookingStatus } from '~/types'
+import type { Booking, BookingStatus, PaymentStatus } from '~/types'
 
 interface BookingRow {
   id: string
@@ -26,6 +26,7 @@ function mapBooking(row: BookingRow): Booking {
     time: row.time.slice(0, 5),
     contact: { name: row.customer_name, phone: row.customer_phone },
     status: row.status as BookingStatus,
+    paymentStatus: row.payment_status as PaymentStatus,
     createdAt: row.created_at,
   }
 }
@@ -70,6 +71,7 @@ export async function createBooking(event: H3Event, payload: {
   time: string
   customerName: string
   customerPhone: string
+  paymentStatus: PaymentStatus
 }): Promise<Booking | null> {
   const client = await getServerClient(event)
   const { data, error } = await client
@@ -83,6 +85,7 @@ export async function createBooking(event: H3Event, payload: {
       customer_name: payload.customerName,
       customer_phone: payload.customerPhone,
       status: 'pending',
+      payment_status: payload.paymentStatus,
     })
     .select(BOOKING_SELECT)
     .single()

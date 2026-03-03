@@ -1,5 +1,8 @@
 // server/api/[slug]/bookings.post.ts
 // Public endpoint — customers create bookings without authentication
+
+import type { PaymentStatus } from '~/types'
+
 export default defineEventHandler(async (event) => {
   const tenantId = event.context.tenantId as string | undefined
   if (!tenantId) throw createError({ statusCode: 404 })
@@ -9,6 +12,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Missing required fields' })
   }
 
+  const settings = await getTenantSettings(event, tenantId)
+  const paymentStatus: PaymentStatus =
+    settings?.paymentMode === 'at_salon' ? 'at_salon' : 'unpaid'
+
   const booking = await createBooking(event, {
     tenantId,
     serviceId: body.serviceId,
@@ -17,6 +24,7 @@ export default defineEventHandler(async (event) => {
     time: body.time,
     customerName: body.customerName,
     customerPhone: body.customerPhone,
+    paymentStatus,
   })
 
   if (!booking) throw createError({ statusCode: 500, statusMessage: 'Failed to create booking' })

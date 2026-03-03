@@ -42,6 +42,9 @@ export async function getWorkingWindow(
 interface BookingRow {
   time: string
   services: { duration_minutes: number } | null
+  status: string
+  payment_status: string
+  created_at: string
 }
 
 interface TimeBlockRow {
@@ -63,7 +66,7 @@ export async function getOccupiedRanges(
   // Bookings occupying time
   let bookingsQuery = client
     .from('bookings')
-    .select('time, services(duration_minutes)')
+    .select('time, services(duration_minutes), status, payment_status, created_at')
     .eq('tenant_id', tenantId)
     .eq('date', date)
     .not('status', 'in', '("cancelled")')
@@ -88,7 +91,21 @@ export async function getOccupiedRanges(
 
   const ranges: OccupiedRange[] = []
 
+  const now = Date.now()
+  const fifteenMinutesMs = 15 * 60 * 1000
+
   for (const b of (bookings ?? []) as BookingRow[]) {
+    const createdAtTime = new Date(b.created_at).getTime()
+    const isOldUnpaidPending =
+      b.status === 'pending'
+      && b.payment_status === 'unpaid'
+      && Number.isFinite(createdAtTime)
+      && now - createdAtTime > fifteenMinutesMs
+
+    if (isOldUnpaidPending) {
+      continue
+    }
+
     const duration = b.services?.duration_minutes ?? 60
     ranges.push({ startTime: b.time.slice(0, 5), durationMinutes: duration })
   }

@@ -8,3 +8,8 @@ export { serverSupabaseClient as useSupabaseServerClient }
 export async function getServerClient(event: H3Event) {
   return serverSupabaseClient(event)
 }
+
+/** Service role client — bypasses RLS. Use only on trusted server paths (webhooks, background jobs). */
+export async function getServiceRoleClient(event: H3Event) {
+  return serverSupabaseServiceRole(event)
+}

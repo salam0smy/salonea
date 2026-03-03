@@ -50,7 +50,9 @@ export interface BookingContact {
   phone: string
 }
 
-export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'paid'
+export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled'
+
+export type PaymentStatus = 'unpaid' | 'paid' | 'at_salon'
 
 export interface Booking {
   id: string
@@ -61,6 +63,7 @@ export interface Booking {
   time: string           // '09:00' 24h
   contact: BookingContact
   status: BookingStatus
+  paymentStatus: PaymentStatus
   createdAt: string      // ISO 8601 datetime
 }
 

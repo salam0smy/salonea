@@ -155,6 +155,11 @@
       "completed": "Completed",
       "cancelled": "Cancelled"
     },
+    "paymentStatus": {
+      "paid": "Paid online",
+      "unpaid": "Unpaid",
+      "at_salon": "Pay at salon"
+    },
     "filterAll": "All",
     "noBookings": "No bookings for this filter",
     "completeBooking": "Complete",

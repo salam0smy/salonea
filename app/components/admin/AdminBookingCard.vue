@@ -41,6 +41,13 @@ const statusAccentClass = computed(() => ({
   'border-s-green-500': props.booking.status === 'completed',
   'border-s-[var(--color-border)]': props.booking.status === 'cancelled',
 }))
+
+const paymentLabel = computed(() => {
+  const status = props.booking.paymentStatus
+  if (status === 'paid') return 'admin.paymentStatus.paid'
+  if (status === 'unpaid') return 'admin.paymentStatus.unpaid'
+  return 'admin.paymentStatus.at_salon'
+})
 </script>
 
 <template>
@@ -69,10 +76,19 @@ const statusAccentClass = computed(() => ({
       </p>
     </div>
 
-    <!-- Status badge -->
-    <div class="shrink-0">
+    <!-- Status + payment badges -->
+    <div class="shrink-0 flex flex-col items-end gap-1">
       <UBadge :color="statusColor" variant="subtle" size="sm">
         {{ $t(`admin.bookingStatus.${booking.status}`) }}
+      </UBadge>
+      <UBadge
+        v-if="booking.paymentStatus !== 'at_salon'"
+        color="neutral"
+        variant="soft"
+        size="xs"
+        class="text-[11px] leading-tight"
+      >
+        {{ $t(paymentLabel) }}
       </UBadge>
     </div>
 

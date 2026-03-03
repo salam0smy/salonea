@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
     time: body.time,
     customerName: body.customerName,
     customerPhone: body.customerPhone,
+    paymentStatus: 'at_salon',
   })
   if (!booking) throw createError({ statusCode: 500, message: 'Failed to create booking' })
   return booking
