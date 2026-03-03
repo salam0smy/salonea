@@ -6,6 +6,8 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   return getBookingsByTenant(event, tenantId, {
     date: query.date as string | undefined,
+    from: query.from as string | undefined,
+    to: query.to as string | undefined,
     status: query.status as BookingStatus | undefined,
   })
 })

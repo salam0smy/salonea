@@ -31,9 +31,12 @@
     "delete": "حذف",
     "edit": "تعديل",
     "back": "رجوع",
+    "close": "إغلاق",
     "next": "التالي",
     "sar": "ر.س",
-    "menu": "القائمة"
+    "menu": "القائمة",
+    "date": "التاريخ",
+    "selectDate": "اختر التاريخ"
   },
   "booking": {
     "title": "احجزي موعدك",
@@ -67,6 +70,7 @@
     "selectDateForTimes": "اختار تاريخاً لعرض الأوقات المتاحة",
     "noAccountNeeded": "لا داعي لإنشاء حساب",
     "namePlaceholder": "اسمك الكريم",
+    "phonePlaceholder": "05XXXXXXXX",
     "phoneHint": "سيُستخدم لتأكيد حجزك فقط",
     "continue": "متابعة",
     "service": "الخدمة",
@@ -88,7 +92,17 @@
     "dashboard": "لوحة التحكم",
     "calendar": {
       "label": "التقويم",
-      "noBookings": "لا توجد حجوزات لهذا اليوم"
+      "noBookings": "لا توجد حجوزات لهذا اليوم",
+      "viewDay": "يوم",
+      "viewStaff": "موظفون",
+      "viewAgenda": "قائمة",
+      "selectService": "اختر الخدمة",
+      "selectStaff": "اختر الموظفة",
+      "noPreference": "بدون تفضيل",
+      "selectTime": "اختر الوقت",
+      "addBooking": "إضافة حجز",
+      "upcomingEmpty": "لا توجد حجوزات قادمة",
+      "unassigned": "بدون موظفة"
     },
     "bookings": "الحجوزات",
     "services": "الخدمات",
@@ -131,6 +145,7 @@
     "completeBooking": "إتمام",
     "confirmCancelBooking": "إلغاء الحجز؟",
     "today": "اليوم",
+    "tomorrow": "غداً",
     "yesterday": "أمس",
     "settings": {
       "title": "الإعدادات",

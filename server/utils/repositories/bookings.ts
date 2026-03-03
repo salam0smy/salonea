@@ -32,10 +32,17 @@ function mapBooking(row: BookingRow): Booking {
 
 const BOOKING_SELECT = 'id, tenant_id, service_id, staff_id, customer_name, customer_phone, date, time, status, payment_status, created_at'
 
+export interface BookingQueryOptions {
+  date?: string
+  from?: string
+  to?: string
+  status?: BookingStatus
+}
+
 export async function getBookingsByTenant(
   event: H3Event,
   tenantId: string,
-  options?: { date?: string; status?: BookingStatus },
+  options?: BookingQueryOptions,
 ): Promise<Booking[]> {
   const client = await getServerClient(event)
   let query = client
@@ -46,6 +53,8 @@ export async function getBookingsByTenant(
     .order('time', { ascending: true })
 
   if (options?.date) query = query.eq('date', options.date)
+  if (options?.from) query = query.gte('date', options.from)
+  if (options?.to) query = query.lte('date', options.to)
   if (options?.status) query = query.eq('status', options.status)
 
   const { data, error } = await query

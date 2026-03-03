@@ -31,9 +31,12 @@
     "delete": "Delete",
     "edit": "Edit",
     "back": "Back",
+    "close": "Close",
     "next": "Next",
     "sar": "SAR",
-    "menu": "Menu"
+    "menu": "Menu",
+    "date": "Date",
+    "selectDate": "Select date"
   },
   "booking": {
     "title": "Book your appointment",
@@ -67,6 +70,7 @@
     "selectDateForTimes": "Pick a date to see available times",
     "noAccountNeeded": "No account needed",
     "namePlaceholder": "Your name",
+    "phonePlaceholder": "05XXXXXXXX",
     "phoneHint": "Used only to confirm your booking",
     "continue": "Continue",
     "service": "Service",
@@ -88,7 +92,17 @@
     "dashboard": "Dashboard",
     "calendar": {
       "label": "Calendar",
-      "noBookings": "No bookings for this day"
+      "noBookings": "No bookings for this day",
+      "viewDay": "Day",
+      "viewStaff": "Staff",
+      "viewAgenda": "Agenda",
+      "selectService": "Select service",
+      "selectStaff": "Select staff",
+      "noPreference": "No preference",
+      "selectTime": "Select time",
+      "addBooking": "Add booking",
+      "upcomingEmpty": "No upcoming bookings",
+      "unassigned": "Unassigned"
     },
     "bookings": "Bookings",
     "services": "Services",
@@ -131,6 +145,7 @@
     "completeBooking": "Complete",
     "confirmCancelBooking": "Cancel this booking?",
     "today": "Today",
+    "tomorrow": "Tomorrow",
     "yesterday": "Yesterday",
     "settings": {
       "title": "Settings",

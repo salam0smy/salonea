@@ -7,50 +7,51 @@ const props = defineProps<{
   booking: Booking
   serviceName: string
   staffName: string | null
+  staffPhotoUrl?: string | null
   colorScheme: StaffColorScheme
   durationMinutes: number
 }>()
 
 const emit = defineEmits<{
-  confirm: [id: string]
-  cancel: [id: string]
-  complete: [id: string]
+  open: [booking: Booking]
 }>()
 
-const confirmingCancel = ref(false)
-
-const canConfirm  = computed(() => props.booking.status === 'pending')
-const canCancel   = computed(() =>
-  props.booking.status !== 'completed' && props.booking.status !== 'cancelled',
-)
-const canComplete = computed(() => props.booking.status === 'confirmed')
-
 const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' => {
-  const map = {
-    pending: 'warning', confirmed: 'primary', completed: 'success', cancelled: 'neutral',
-  } as const
+  const map = { pending: 'warning', confirmed: 'primary', completed: 'success', cancelled: 'neutral' } as const
   return map[props.booking.status]
 })
 </script>
 
 <template>
   <div
-    class="rounded-[16px] border border-s-4 px-4 py-3 flex flex-wrap items-center gap-x-3 gap-y-2 transition-all hover:shadow-sm"
+    class="rounded-[14px] border border-s-4 px-4 py-3 flex items-center gap-3
+           cursor-pointer select-none
+           transition-all duration-150
+           hover:shadow-sm hover:-translate-x-px
+           active:scale-[0.99] active:shadow-none"
     :class="[colorScheme.bg, colorScheme.border]"
+    @click="emit('open', booking)"
   >
-    <!-- Dot + name + service line -->
-    <div class="flex items-center gap-3 flex-1 min-w-0">
-      <div class="w-2 h-2 rounded-full shrink-0" :class="colorScheme.dot" />
-      <div class="min-w-0">
-        <p class="text-base font-medium text-(--color-text) truncate">
-          {{ booking.contact.name }}
-        </p>
-        <p class="text-sm truncate mt-0.5" :class="colorScheme.text">
-          {{ serviceName }}
-          <span v-if="staffName"> · {{ staffName }}</span>
-          <span class="text-(--color-text-muted)"> · {{ durationMinutes }}د</span>
-        </p>
-      </div>
+    <!-- Staff avatar -->
+    <UAvatar
+      :src="staffPhotoUrl ?? undefined"
+      :alt="staffName ?? ''"
+      :text="staffName ? staffName.charAt(0) : '؟'"
+      size="xs"
+      class="shrink-0 ring-2"
+      :class="colorScheme.ring"
+    />
+
+    <!-- Name + service -->
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-medium text-(--color-text) truncate leading-tight">
+        {{ booking.contact.name }}
+      </p>
+      <p class="text-xs truncate mt-0.5 leading-tight" :class="colorScheme.text">
+        {{ serviceName }}
+        <span v-if="staffName"> · {{ staffName }}</span>
+        <span class="text-(--color-text-muted)"> · {{ durationMinutes }}د</span>
+      </p>
     </div>
 
     <!-- Status badge -->
@@ -58,49 +59,10 @@ const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' =
       {{ $t(`admin.bookingStatus.${booking.status}`) }}
     </UBadge>
 
-    <!-- Actions -->
-    <div class="flex items-center gap-1 shrink-0 ms-auto">
-      <template v-if="confirmingCancel">
-        <span class="text-xs text-red-600 font-medium me-1">
-          {{ $t('admin.confirmCancelBooking') }}
-        </span>
-        <UButton
-          size="xs" color="error" variant="solid"
-          @click="emit('cancel', booking.id); confirmingCancel = false"
-        >
-          {{ $t('common.confirm') }}
-        </UButton>
-        <UButton
-          size="xs" color="neutral" variant="ghost"
-          @click="confirmingCancel = false"
-        >
-          {{ $t('common.cancel') }}
-        </UButton>
-      </template>
-
-      <template v-else>
-        <UButton
-          v-if="canConfirm"
-          size="xs" color="primary" variant="soft"
-          @click="emit('confirm', booking.id)"
-        >
-          {{ $t('common.confirm') }}
-        </UButton>
-        <UButton
-          v-if="canComplete"
-          size="xs" color="success" variant="soft"
-          @click="emit('complete', booking.id)"
-        >
-          {{ $t('admin.completeBooking') }}
-        </UButton>
-        <UButton
-          v-if="canCancel"
-          size="xs" color="neutral" variant="ghost"
-          icon="i-heroicons-x-mark"
-          :aria-label="$t('common.cancel')"
-          @click="confirmingCancel = true"
-        />
-      </template>
-    </div>
+    <!-- Chevron hint -->
+    <UIcon
+      name="i-heroicons-chevron-left"
+      class="size-3.5 shrink-0 text-(--color-text-muted) opacity-40"
+    />
   </div>
 </template>
