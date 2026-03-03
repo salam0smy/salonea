@@ -55,6 +55,10 @@ const whatsappUrl = computed(() => {
 function tryAgain(): void {
   navigateTo(`/${slug}`)
 }
+
+function bookAnother(): void {
+  navigateTo(`/${slug}`)
+}
 </script>
 
 <template>
@@ -94,6 +98,16 @@ function tryAgain(): void {
             <span class="font-medium text-(--color-text)">{{ formatTime(booking.time) }}</span>
           </div>
         </div>
+
+        <!-- Book another CTA -->
+        <UButton
+          color="primary"
+          block
+          size="lg"
+          @click="bookAnother"
+        >
+          {{ t('booking.bookAnother') }}
+        </UButton>
 
         <!-- WhatsApp CTA -->
         <UButton
