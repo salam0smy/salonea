@@ -1,11 +1,45 @@
 // tests/app/composables/admin/useCalendar.test.ts
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { ref } from 'vue'
+import { mockNuxtImport } from '@nuxt/test-utils/runtime'
+import { mockBookings, mockStaff } from '~/data/mock'
 import { useCalendar } from '~/composables/admin/useCalendar'
+
+const useFetchMock = vi.hoisted(() => vi.fn())
+
+mockNuxtImport('useFetch', () => useFetchMock)
 
 describe('useCalendar', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-03-01'))
+    const bookingsRef = ref([...mockBookings])
+    const staffRef = ref([...mockStaff])
+    useFetchMock.mockImplementation((urlOrGetter: string | (() => string)) => {
+      const url = typeof urlOrGetter === 'function' ? urlOrGetter() : urlOrGetter
+      if (url.includes('/api/admin/bookings')) {
+        return {
+          data: bookingsRef,
+          pending: ref(false),
+          error: ref(null),
+          refresh: vi.fn(),
+        }
+      }
+      if (url === '/api/admin/staff') {
+        return {
+          data: staffRef,
+          pending: ref(false),
+          error: ref(null),
+          refresh: vi.fn(),
+        }
+      }
+      return {
+        data: ref([]),
+        pending: ref(false),
+        error: ref(null),
+        refresh: vi.fn(),
+      }
+    })
   })
   afterEach(() => {
     vi.useRealTimers()

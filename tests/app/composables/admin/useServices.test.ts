@@ -1,8 +1,53 @@
 // tests/app/composables/admin/useServices.test.ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { ref } from 'vue'
+import { mockNuxtImport } from '@nuxt/test-utils/runtime'
+import { mockCategories, mockServices } from '~/data/mock'
 import { useServices } from '~/composables/admin/useServices'
 
+const { useFetchMock, fetchMock } = vi.hoisted(() => ({
+  useFetchMock: vi.fn(),
+  fetchMock: vi.fn(),
+}))
+
+mockNuxtImport('useFetch', () => useFetchMock)
+
 describe('useServices', () => {
+  beforeEach(() => {
+    vi.stubGlobal('$fetch', fetchMock)
+    const categoriesRef = ref([...mockCategories])
+    const servicesRef = ref([...mockServices])
+    useFetchMock.mockImplementation((url: string) => {
+      if (url === '/api/admin/categories') {
+        return {
+          data: categoriesRef,
+          pending: ref(false),
+          error: ref(null),
+          refresh: vi.fn(),
+        }
+      }
+      if (url === '/api/admin/services') {
+        return {
+          data: servicesRef,
+          pending: ref(false),
+          error: ref(null),
+          refresh: vi.fn(),
+        }
+      }
+      return {
+        data: ref([]),
+        pending: ref(false),
+        error: ref(null),
+        refresh: vi.fn(),
+      }
+    })
+    fetchMock.mockResolvedValue(undefined)
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it('loads all mock services', () => {
     const { services } = useServices()
     expect(services.value.length).toBeGreaterThan(0)
@@ -18,7 +63,6 @@ describe('useServices', () => {
     const groups = servicesByCategory.value
     expect(groups.length).toBeGreaterThan(0)
     expect(groups[0].services.length).toBeGreaterThan(0)
-    // groups must be in ascending sortOrder
     for (let i = 1; i < groups.length; i++) {
       expect(groups[i].category.sortOrder).toBeGreaterThan(
         groups[i - 1].category.sortOrder,
@@ -28,17 +72,15 @@ describe('useServices', () => {
 
   it('omits categories that have no services', () => {
     const { servicesByCategory, services } = useServices()
-    // remove all services from first category
     const firstCatId = servicesByCategory.value[0].category.id
     services.value = services.value.filter(s => s.categoryId !== firstCatId)
     const ids = servicesByCategory.value.map(g => g.category.id)
     expect(ids).not.toContain(firstCatId)
   })
 
-  it('addService appends a new service with a generated id', () => {
-    const { services, addService } = useServices()
-    const before = services.value.length
-    addService({
+  it('addService calls $fetch with POST and correct body', async () => {
+    const { addService } = useServices()
+    await addService({
       categoryId: 'cat-hair',
       name: 'تجربة',
       nameEn: null,
@@ -47,33 +89,36 @@ describe('useServices', () => {
       durationMinutes: 30,
       isActive: true,
     })
-    expect(services.value.length).toBe(before + 1)
-    const added = services.value[services.value.length - 1]
-    expect(added.id).toBeTruthy()
-    expect(added.name).toBe('تجربة')
+    expect(fetchMock).toHaveBeenCalledWith('/api/admin/services', {
+      method: 'POST',
+      body: {
+        categoryId: 'cat-hair',
+        name: 'تجربة',
+        nameEn: null,
+        description: null,
+        price: 100,
+        durationMinutes: 30,
+        sortOrder: 0,
+      },
+    })
   })
 
-  it('updateService patches an existing service by id', () => {
+  it('updateService calls $fetch with PATCH and patch body', async () => {
     const { services, updateService } = useServices()
     const id = services.value[0].id
-    updateService(id, { price: 999 })
-    expect(services.value.find(s => s.id === id)?.price).toBe(999)
+    await updateService(id, { price: 999 })
+    expect(fetchMock).toHaveBeenCalledWith(`/api/admin/services/${id}`, {
+      method: 'PATCH',
+      body: { price: 999 },
+    })
   })
 
-  it('removeService deletes the service with the given id', () => {
+  it('removeService calls $fetch with DELETE', async () => {
     const { services, removeService } = useServices()
-    const before = services.value.length
     const id = services.value[0].id
-    removeService(id)
-    expect(services.value.length).toBe(before - 1)
-    expect(services.value.find(s => s.id === id)).toBeUndefined()
-  })
-
-  it('each call to useServices returns independent state', () => {
-    const a = useServices()
-    const b = useServices()
-    a.removeService(a.services.value[0].id)
-    // b is unaffected
-    expect(b.services.value.length).toBe(a.services.value.length + 1)
+    await removeService(id)
+    expect(fetchMock).toHaveBeenCalledWith(`/api/admin/services/${id}`, {
+      method: 'DELETE',
+    })
   })
 })

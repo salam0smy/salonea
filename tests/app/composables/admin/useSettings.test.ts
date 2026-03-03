@@ -1,78 +1,107 @@
 // tests/app/composables/admin/useSettings.test.ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { ref } from 'vue'
+import { mockNuxtImport } from '@nuxt/test-utils/runtime'
+import { mockTenant, mockSettings } from '~/data/mock'
 import { useSettings } from '~/composables/admin/useSettings'
 
+const { useFetchMock, fetchMock } = vi.hoisted(() => ({
+  useFetchMock: vi.fn(),
+  fetchMock: vi.fn(),
+}))
+
+mockNuxtImport('useFetch', () => useFetchMock)
+
 describe('useSettings', () => {
-  // ── Initial state ─────────────────────────────────────────
+  beforeEach(() => {
+    vi.stubGlobal('$fetch', fetchMock)
+    const tenantRef = ref(mockTenant)
+    const settingsRef = ref(mockSettings)
+    useFetchMock.mockImplementation((url: string) => {
+      if (url === '/api/admin/tenant') {
+        return {
+          data: tenantRef,
+          pending: ref(false),
+          error: ref(null),
+          refresh: vi.fn(),
+        }
+      }
+      if (url === '/api/admin/settings') {
+        return {
+          data: settingsRef,
+          pending: ref(false),
+          error: ref(null),
+          refresh: vi.fn(),
+        }
+      }
+      return {
+        data: ref(null),
+        pending: ref(false),
+        error: ref(null),
+        refresh: vi.fn(),
+      }
+    })
+    fetchMock.mockResolvedValue(undefined)
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
 
   it('loads mock tenant with expected name and brandColor', () => {
     const { tenant } = useSettings()
-    expect(tenant.value.name).toBe('صالون نور للتجميل')
-    expect(tenant.value.brandColor).toBe('#C9A87C')
+    expect(tenant.value?.name).toBe('صالون نور للتجميل')
+    expect(tenant.value?.brandColor).toBe('#C9A87C')
   })
 
   it('loads mock settings with expected paymentMode and maxAdvanceDays', () => {
     const { settings } = useSettings()
-    expect(settings.value.paymentMode).toBe('full')
-    expect(settings.value.maxAdvanceDays).toBe(30)
+    expect(settings.value?.paymentMode).toBe('full')
+    expect(settings.value?.maxAdvanceDays).toBe(30)
   })
 
-  // ── updateTenant ──────────────────────────────────────────
-
-  it('updateTenant patches a single tenant field', () => {
-    const { tenant, updateTenant } = useSettings()
-    updateTenant({ name: 'صالون جديد' })
-    expect(tenant.value.name).toBe('صالون جديد')
+  it('updateTenant calls $fetch with PATCH and correct body', async () => {
+    const { updateTenant } = useSettings()
+    await updateTenant({ name: 'صالون جديد' })
+    expect(fetchMock).toHaveBeenCalledWith('/api/admin/tenant', {
+      method: 'PATCH',
+      body: { name: 'صالون جديد' },
+    })
   })
 
-  it('updateTenant does not overwrite unpatched fields', () => {
-    const { tenant, updateTenant } = useSettings()
-    const originalColor = tenant.value.brandColor
-    updateTenant({ name: 'صالون جديد' })
-    expect(tenant.value.brandColor).toBe(originalColor)
+  it('updateTenant sends snake_case for nameEn and brand_color', async () => {
+    const { updateTenant } = useSettings()
+    await updateTenant({ nameEn: 'New Name', brandColor: '#000000' })
+    expect(fetchMock).toHaveBeenCalledWith('/api/admin/tenant', {
+      method: 'PATCH',
+      body: { name_en: 'New Name', brand_color: '#000000' },
+    })
   })
 
-  it('updateTenant patches phone to null', () => {
-    const { tenant, updateTenant } = useSettings()
-    updateTenant({ phone: null })
-    expect(tenant.value.phone).toBeNull()
+  it('updateTenant patches phone to null', async () => {
+    const { updateTenant } = useSettings()
+    await updateTenant({ phone: null })
+    expect(fetchMock).toHaveBeenCalledWith('/api/admin/tenant', {
+      method: 'PATCH',
+      body: { phone: null },
+    })
   })
 
-  // ── updateSettings ────────────────────────────────────────
-
-  it('updateSettings patches paymentMode and depositPercent', () => {
-    const { settings, updateSettings } = useSettings()
-    updateSettings({ paymentMode: 'deposit', depositPercent: 25 })
-    expect(settings.value.paymentMode).toBe('deposit')
-    expect(settings.value.depositPercent).toBe(25)
+  it('updateSettings calls $fetch with PATCH and patch body', async () => {
+    const { updateSettings } = useSettings()
+    await updateSettings({ paymentMode: 'deposit', depositPercent: 25 })
+    expect(fetchMock).toHaveBeenCalledWith('/api/admin/settings', {
+      method: 'PATCH',
+      body: { paymentMode: 'deposit', depositPercent: 25 },
+    })
   })
 
-  it('updateSettings does not overwrite unpatched fields', () => {
-    const { settings, updateSettings } = useSettings()
-    const originalMax = settings.value.maxAdvanceDays
-    updateSettings({ paymentMode: 'at_salon' })
-    expect(settings.value.maxAdvanceDays).toBe(originalMax)
-  })
-
-  it('updateSettings can set paymentMode to at_salon', () => {
-    const { settings, updateSettings } = useSettings()
-    updateSettings({ paymentMode: 'at_salon' })
-    expect(settings.value.paymentMode).toBe('at_salon')
-  })
-
-  // ── Isolation ─────────────────────────────────────────────
-
-  it('each call to useSettings returns independent tenant state', () => {
-    const a = useSettings()
-    const b = useSettings()
-    a.updateTenant({ name: 'صالون مختلف' })
-    expect(b.tenant.value.name).toBe('صالون نور للتجميل')
-  })
-
-  it('each call to useSettings returns independent settings state', () => {
-    const a = useSettings()
-    const b = useSettings()
-    a.updateSettings({ maxAdvanceDays: 60 })
-    expect(b.settings.value.maxAdvanceDays).toBe(30)
+  it('updateSettings can set paymentMode to at_salon', async () => {
+    const { updateSettings } = useSettings()
+    await updateSettings({ paymentMode: 'at_salon' })
+    expect(fetchMock).toHaveBeenCalledWith('/api/admin/settings', {
+      method: 'PATCH',
+      body: { paymentMode: 'at_salon' },
+    })
   })
 })
