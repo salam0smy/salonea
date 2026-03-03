@@ -1,7 +1,7 @@
 <!-- app/components/admin/AdminBookingPanel.vue -->
 <script setup lang="ts">
 import { parseDate } from '@internationalized/date'
-import type { CalendarDate } from '@internationalized/date'
+import type { DateValue } from '@internationalized/date'
 import type { Booking, Service, StaffMember } from '~/types'
 import type { CreateBookingDefaults } from '~/composables/admin/useCalendar'
 
@@ -92,9 +92,11 @@ const timeOptions = computed(() =>
 )
 const calendarValue = computed(() => form.date ? parseDate(form.date) : undefined)
 
-function onDateSelect(val: CalendarDate | CalendarDate[] | undefined) {
-  if (!val || Array.isArray(val)) return
-  form.date = val.toString()
+function onDateSelect(
+  date: DateValue | { start?: DateValue; end?: DateValue } | DateValue[] | null | undefined,
+) {
+  if (date == null || Array.isArray(date) || (typeof date === 'object' && ('start' in date || 'end' in date))) return
+  form.date = date.toString()
   datePickerOpen.value = false
 }
 
