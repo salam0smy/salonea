@@ -32,19 +32,23 @@ const localValue = computed({
 </script>
 
 <template>
-  <UInput
-    v-model="localValue"
-    type="tel"
-    inputmode="numeric"
-    dir="ltr"
-    :size="props.size"
-    placeholder="5x xxx xxxx"
-    v-bind="$attrs"
-  >
-    <template #leading>
-      <span class="text-sm font-mono text-(--color-text-muted) select-none pe-1">
-        +966
-      </span>
-    </template>
-  </UInput>
+  <!-- Phone input is always LTR: prefix on the left, numbers left-to-right -->
+  <div dir="ltr" class="w-full">
+    <UInput
+      v-model="localValue"
+      type="tel"
+      inputmode="numeric"
+      dir="ltr"
+      :size="props.size"
+      placeholder="5x xxx xxxx"
+      class="text-left"
+      v-bind="$attrs"
+    >
+      <template #leading>
+        <span class="text-sm font-mono text-(--color-text-muted) select-none pe-1" dir="ltr">
+          +966 
+        </span>
+      </template>
+    </UInput>
+  </div>
 </template>
