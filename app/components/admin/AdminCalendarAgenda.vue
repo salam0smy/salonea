@@ -14,6 +14,7 @@ const props = defineProps<{
 const emit = defineEmits<{ open: [booking: Booking] }>()
 
 const { t, locale } = useI18n()
+const colorMode = useColorMode()
 
 function formatGroupDate(date: string): string {
   const d         = new Date(date + 'T12:00:00')
@@ -98,9 +99,16 @@ const statusColor = (s: string): 'warning' | 'primary' | 'success' | 'neutral' =
             class="ring-2"
             :class="getStaffColor(booking.staffId).ring"
           />
-          <UBadge :color="statusColor(booking.status)" variant="subtle" size="xs">
+        <ClientOnly>
+          <UBadge :color="statusColor(booking.status)" :variant="colorMode.value === 'light' ? 'solid' : 'soft'" size="xs">
             {{ $t(`admin.bookingStatus.${booking.status}`) }}
           </UBadge>
+          <template #fallback>
+            <UBadge :color="statusColor(booking.status)" variant="soft" size="xs">
+              {{ $t(`admin.bookingStatus.${booking.status}`) }}
+            </UBadge>
+          </template>
+        </ClientOnly>
         </div>
       </div>
     </section>

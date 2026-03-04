@@ -2,6 +2,11 @@
 import { ref, computed } from 'vue'
 import type { Booking, StaffMember } from '~/types'
 
+interface BookingsResponse {
+  data: Booking[]
+  total: number
+}
+
 export type CalendarView = 'day' | 'staff' | 'agenda'
 
 export interface StaffColorScheme {
@@ -77,15 +82,22 @@ export function useCalendar() {
   }
 
   // Adaptive fetch: agenda → 30-day range; day/staff → single date
-  const { data: bookings, pending, error, refresh } = useFetch<Booking[]>(
+  // API returns { data, total }; unwrap so calendar always sees Booking[]
+  const { data: bookingsResponse, pending, error, refresh } = useFetch<BookingsResponse>(
     () => {
       if (selectedView.value === 'agenda') {
         return `/api/admin/bookings?from=${today}&to=${addDays(today, 30)}`
       }
       return `/api/admin/bookings?date=${selectedDate.value}`
     },
-    { default: () => [] },
+    { default: () => ({ data: [], total: 0 }) },
   )
+  const bookings = computed(() => {
+    const v = bookingsResponse.value
+    if (!v || typeof v !== 'object') return []
+    if (Array.isArray(v)) return v
+    return Array.isArray((v as BookingsResponse).data) ? (v as BookingsResponse).data : []
+  })
 
   const { data: staffList } =
     useFetch<StaffMember[]>('/api/admin/staff', { default: () => [] })

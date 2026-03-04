@@ -163,6 +163,12 @@
       "at_salon": "الدفع في الصالون"
     },
     "filterAll": "الكل",
+    "customer": "العميل",
+    "columnStatus": "الحالة",
+    "columnPayment": "الدفع",
+    "searchBookings": "بحث بالاسم أو الجوال...",
+    "dateFrom": "من تاريخ",
+    "dateTo": "إلى تاريخ",
     "noBookings": "لا توجد حجوزات لهذا الفلتر",
     "completeBooking": "إتمام",
     "confirmCancelBooking": "إلغاء الحجز؟",

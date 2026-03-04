@@ -1,42 +1,57 @@
 // app/composables/admin/useBookings.ts
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { Booking, BookingStatus } from '~/types'
 
+interface BookingsResponse {
+  data: Booking[]
+  total: number
+}
+
 export function useBookings() {
-  const { data: bookings, pending, error, refresh } =
-    useFetch<Booking[]>('/api/admin/bookings', { default: () => [] })
+  const page = ref(1)
+  const limit = ref(10)
+  const search = ref('')
+  const statusFilter = ref<BookingStatus | 'all'>('all')
+  const dateFrom = ref('')
+  const dateTo = ref('')
 
-  const activeFilter = ref<BookingStatus | 'all'>('all')
-
-  const filteredBookings = computed(() => {
-    const list = bookings.value ?? []
-    return activeFilter.value === 'all'
-      ? list
-      : list.filter(b => b.status === activeFilter.value)
+  watch([search, statusFilter, dateFrom, dateTo], () => {
+    page.value = 1
   })
 
-  const bookingsByDate = computed(() => {
-    const today = new Date().toISOString().split('T')[0] ?? ''
-
-    const map = new Map<string, Booking[]>()
-    for (const booking of filteredBookings.value) {
-      const list = map.get(booking.date) ?? []
-      map.set(booking.date, [...list, booking])
+  const queryParams = computed(() => {
+    const q: Record<string, any> = {
+      page: page.value,
+      limit: limit.value,
     }
+    if (search.value.trim()) q.search = search.value.trim()
+    if (statusFilter.value !== 'all') q.status = statusFilter.value
+    if (dateFrom.value) q.from = dateFrom.value
+    if (dateTo.value) q.to = dateTo.value
+    return q
+  })
 
-    const classify = (d: string): number =>
-      d === today ? 0 : d > today ? 1 : 2
+  const { data: response, pending, error, refresh } = useFetch<BookingsResponse>(
+    '/api/admin/bookings',
+    { 
+      query: queryParams,
+      default: () => ({ data: [], total: 0 }),
+      watch: [page, limit, search, statusFilter, dateFrom, dateTo]
+    },
+  )
 
-    return [...map.entries()]
-      .map(([date, items]) => ({ date, bookings: items }))
-      .sort((a, b) => {
-        const ca = classify(a.date)
-        const cb = classify(b.date)
-        if (ca !== cb) return ca - cb
-        if (ca === 1) return a.date < b.date ? -1 : 1
-        if (ca === 2) return a.date > b.date ? -1 : 1
-        return 0
-      })
+  const bookings = computed(() => {
+    const v = response.value
+    if (!v || typeof v !== 'object') return []
+    if (Array.isArray(v)) return v
+    return Array.isArray((v as BookingsResponse).data) ? (v as BookingsResponse).data : []
+  })
+  
+  const total = computed(() => {
+    const v = response.value
+    if (!v || typeof v !== 'object') return 0
+    if (Array.isArray(v)) return v.length
+    return typeof (v as BookingsResponse).total === 'number' ? (v as BookingsResponse).total : 0
   })
 
   async function confirmBooking(id: string): Promise<void> {
@@ -65,9 +80,13 @@ export function useBookings() {
 
   return {
     bookings,
-    activeFilter,
-    filteredBookings,
-    bookingsByDate,
+    total,
+    page,
+    limit,
+    search,
+    statusFilter,
+    dateFrom,
+    dateTo,
     confirmBooking,
     cancelBooking,
     completeBooking,

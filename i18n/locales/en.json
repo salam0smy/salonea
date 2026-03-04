@@ -163,6 +163,12 @@
       "at_salon": "Pay at salon"
     },
     "filterAll": "All",
+    "customer": "Customer",
+    "columnStatus": "Status",
+    "columnPayment": "Payment",
+    "searchBookings": "Search by name or phone...",
+    "dateFrom": "From date",
+    "dateTo": "To date",
     "noBookings": "No bookings for this filter",
     "completeBooking": "Complete",
     "confirmCancelBooking": "Cancel this booking?",

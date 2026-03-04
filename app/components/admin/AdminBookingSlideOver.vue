@@ -32,6 +32,7 @@ const emit = defineEmits<{
 }>()
 
 const { t, locale } = useI18n()
+const colorMode = useColorMode()
 const confirmingCancel = ref(false)
 const datePickerOpen   = ref(false)
 
@@ -149,16 +150,30 @@ function onClose() {
       <div v-if="mode === 'view' && booking" class="space-y-5 p-4">
         <!-- Status + payment -->
         <div class="flex flex-wrap items-center gap-2">
-          <UBadge :color="statusColor" variant="subtle">
-            {{ $t(`admin.bookingStatus.${booking.status}`) }}
-          </UBadge>
-          <UBadge color="neutral" variant="soft">
-            {{ booking.paymentStatus === 'paid'
-              ? $t('admin.paymentStatus.paid')
-              : booking.paymentStatus === 'unpaid'
-                ? $t('admin.paymentStatus.unpaid')
-                : $t('admin.paymentStatus.at_salon') }}
-          </UBadge>
+          <ClientOnly>
+            <UBadge :color="statusColor" :variant="colorMode.value === 'light' ? 'solid' : 'soft'">
+              {{ $t(`admin.bookingStatus.${booking.status}`) }}
+            </UBadge>
+            <UBadge color="neutral" :variant="colorMode.value === 'light' ? 'solid' : 'soft'">
+              {{ booking.paymentStatus === 'paid'
+                ? $t('admin.paymentStatus.paid')
+                : booking.paymentStatus === 'unpaid'
+                  ? $t('admin.paymentStatus.unpaid')
+                  : $t('admin.paymentStatus.at_salon') }}
+            </UBadge>
+            <template #fallback>
+              <UBadge :color="statusColor" variant="soft">
+                {{ $t(`admin.bookingStatus.${booking.status}`) }}
+              </UBadge>
+              <UBadge color="neutral" variant="soft">
+                {{ booking.paymentStatus === 'paid'
+                  ? $t('admin.paymentStatus.paid')
+                  : booking.paymentStatus === 'unpaid'
+                    ? $t('admin.paymentStatus.unpaid')
+                    : $t('admin.paymentStatus.at_salon') }}
+              </UBadge>
+            </template>
+          </ClientOnly>
         </div>
 
         <!-- Phone (tappable on mobile) -->

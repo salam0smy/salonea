@@ -22,6 +22,7 @@ const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' =
 })
 
 const isPaid = computed(() => props.booking.paymentStatus === 'paid')
+const colorMode = useColorMode()
 </script>
 
 <template>
@@ -58,9 +59,16 @@ const isPaid = computed(() => props.booking.paymentStatus === 'paid')
 
     <!-- Status + payment -->
     <div class="flex items-center gap-1 shrink-0">
-      <UBadge :color="statusColor" variant="subtle" size="xs">
-        {{ $t(`admin.bookingStatus.${booking.status}`) }}
-      </UBadge>
+        <ClientOnly>
+          <UBadge :color="statusColor" :variant="colorMode.value === 'light' ? 'solid' : 'soft'" size="xs">
+            {{ $t(`admin.bookingStatus.${booking.status}`) }}
+          </UBadge>
+          <template #fallback>
+            <UBadge :color="statusColor" variant="soft" size="xs">
+              {{ $t(`admin.bookingStatus.${booking.status}`) }}
+            </UBadge>
+          </template>
+        </ClientOnly>
       <span
         v-if="isPaid"
         class="inline-flex items-center justify-center rounded-full border border-green-500/40 bg-green-500/10 px-1.5 py-0.5"

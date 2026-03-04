@@ -32,6 +32,7 @@ const emit = defineEmits<{
 }>()
 
 const { t, locale } = useI18n()
+const colorMode = useColorMode()
 const confirmingCancel = ref(false)
 const datePickerOpen   = ref(false)
 
@@ -151,9 +152,16 @@ function onClose() {
     <template #body>
       <!-- VIEW MODE -->
       <div v-if="mode === 'view' && booking" class="space-y-5 p-4">
-        <UBadge :color="statusColor" variant="subtle">
-          {{ $t(`admin.bookingStatus.${booking.status}`) }}
-        </UBadge>
+        <ClientOnly>
+          <UBadge :color="statusColor" :variant="colorMode.value === 'light' ? 'solid' : 'soft'">
+            {{ $t(`admin.bookingStatus.${booking.status}`) }}
+          </UBadge>
+          <template #fallback>
+            <UBadge :color="statusColor" variant="soft">
+              {{ $t(`admin.bookingStatus.${booking.status}`) }}
+            </UBadge>
+          </template>
+        </ClientOnly>
 
         <a
           :href="`tel:${booking.contact.phone}`"

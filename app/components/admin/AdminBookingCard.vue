@@ -15,6 +15,7 @@ const emit = defineEmits<{
 }>()
 
 const confirmingCancel = ref(false)
+const colorMode = useColorMode()
 
 // Map status → Nuxt UI badge color
 const statusColor = computed((): 'warning' | 'primary' | 'success' | 'neutral' => {
@@ -78,18 +79,34 @@ const paymentLabel = computed(() => {
 
     <!-- Status + payment badges -->
     <div class="shrink-0 flex flex-col items-end gap-1">
-      <UBadge :color="statusColor" variant="subtle" size="sm">
-        {{ $t(`admin.bookingStatus.${booking.status}`) }}
-      </UBadge>
-      <UBadge
-        v-if="booking.paymentStatus !== 'at_salon'"
-        color="neutral"
-        variant="soft"
-        size="xs"
-        class="text-[11px] leading-tight"
-      >
-        {{ $t(paymentLabel) }}
-      </UBadge>
+      <ClientOnly>
+        <UBadge :color="statusColor" :variant="colorMode.value === 'light' ? 'solid' : 'soft'" size="sm">
+          {{ $t(`admin.bookingStatus.${booking.status}`) }}
+        </UBadge>
+        <UBadge
+          v-if="booking.paymentStatus !== 'at_salon'"
+          color="neutral"
+          :variant="colorMode.value === 'light' ? 'solid' : 'soft'"
+          size="xs"
+          class="text-[11px] leading-tight"
+        >
+          {{ $t(paymentLabel) }}
+        </UBadge>
+        <template #fallback>
+          <UBadge :color="statusColor" variant="soft" size="sm">
+            {{ $t(`admin.bookingStatus.${booking.status}`) }}
+          </UBadge>
+          <UBadge
+            v-if="booking.paymentStatus !== 'at_salon'"
+            color="neutral"
+            variant="soft"
+            size="xs"
+            class="text-[11px] leading-tight"
+          >
+            {{ $t(paymentLabel) }}
+          </UBadge>
+        </template>
+      </ClientOnly>
     </div>
 
     <!-- Actions -->
