@@ -34,10 +34,10 @@ The `admin` block should now read:
   "calendar": "التقويم",
   "bookings": "الحجوزات",
   "services": "الخدمات",
-  "staff": "الموظفات",
+  "staff": "الموظفين",
   "settings": "الإعدادات",
   "addService": "إضافة خدمة",
-  "addStaff": "إضافة موظفة",
+  "addStaff": "إضافة موظف",
   "newBooking": "حجز جديد",
   "logout": "تسجيل الخروج"
 }
@@ -335,7 +335,7 @@ Navigate to each route and confirm the correct nav item becomes active:
 - `/admin` → التقويم is highlighted, others are not
 - `/admin/bookings` → الحجوزات is highlighted, التقويم is NOT
 - `/admin/services` → الخدمات is highlighted
-- `/admin/staff` → الموظفات is highlighted
+- `/admin/staff` → الموظفين is highlighted
 - `/admin/settings` → الإعدادات is highlighted
 
 **Step 6: Commit**

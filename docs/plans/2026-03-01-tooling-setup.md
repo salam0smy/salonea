@@ -381,11 +381,11 @@ i18n: {
     "sar": "ر.س"
   },
   "booking": {
-    "title": "احجزي موعدك",
-    "selectService": "اختاري الخدمة",
-    "selectStaff": "اختاري الموظفة",
+    "title": "احجز موعدك",
+    "selectService": "اختار الخدمة",
+    "selectStaff": "اختار الموظف",
     "noPreference": "بدون تفضيل",
-    "selectDate": "اختاري الموعد",
+    "selectDate": "اختار الموعد",
     "yourDetails": "بياناتك",
     "name": "الاسم",
     "phone": "رقم الجوال",
@@ -393,17 +393,17 @@ i18n: {
     "payOnline": "الدفع الإلكتروني",
     "payAtSalon": "الدفع في الصالون",
     "bookingConfirmed": "تم تأكيد الحجز",
-    "addToCalendar": "أضيفي للتقويم",
-    "shareViaWhatsapp": "شاركي عبر واتساب"
+    "addToCalendar": "أضيف للتقويم",
+    "shareViaWhatsapp": "شارك عبر واتساب"
   },
   "admin": {
     "dashboard": "لوحة التحكم",
     "calendar": "التقويم",
     "services": "الخدمات",
-    "staff": "الموظفات",
+    "staff": "الموظفين",
     "settings": "الإعدادات",
     "addService": "إضافة خدمة",
-    "addStaff": "إضافة موظفة",
+    "addStaff": "إضافة موظف",
     "newBooking": "حجز جديد",
     "logout": "تسجيل الخروج"
   }

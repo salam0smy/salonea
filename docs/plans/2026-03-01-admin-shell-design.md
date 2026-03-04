@@ -32,7 +32,7 @@ The existing `app/layouts/admin.vue` is skeletal: sidebar hidden on mobile with 
 | التقويم | Calendar | `/admin` | `CalendarDaysIcon` |
 | الحجوزات | Bookings | `/admin/bookings` | `ClipboardDocumentListIcon` |
 | الخدمات | Services | `/admin/services` | `ScissorsIcon` (or SparklesIcon) |
-| الموظفات | Staff | `/admin/staff` | `UsersIcon` |
+| الموظفين | Staff | `/admin/staff` | `UsersIcon` |
 | الإعدادات | Settings | `/admin/settings` | `Cog6ToothIcon` |
 
 ---

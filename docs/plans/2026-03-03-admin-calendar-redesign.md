@@ -30,12 +30,12 @@ Inside `"admin"` → `"calendar"` object, add the new keys:
   "viewStaff": "موظفون",
   "viewAgenda": "قائمة",
   "selectService": "اختر الخدمة",
-  "selectStaff": "اختر الموظفة",
+  "selectStaff": "اختر الموظف",
   "noPreference": "بدون تفضيل",
   "selectTime": "اختر الوقت",
   "addBooking": "إضافة حجز",
   "upcomingEmpty": "لا توجد حجوزات قادمة",
-  "unassigned": "بدون موظفة"
+  "unassigned": "بدون موظف"
 },
 ```
 

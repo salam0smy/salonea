@@ -191,7 +191,7 @@ Inside the `"admin"` object, append after `"logout"`:
 ```json
 "editService": "تعديل الخدمة",
 "deleteService": "حذف الخدمة",
-"confirmDelete": "هل أنتِ متأكدة؟",
+"confirmDelete": "هل أنت متأكد؟",
 "serviceName": "اسم الخدمة",
 "serviceNameEn": "الاسم بالإنجليزية (اختياري)",
 "servicePrice": "السعر (ر.س)",
@@ -637,7 +637,7 @@ npm run dev
 Open `http://localhost:3000/admin/services` and verify:
 - [ ] Services are listed grouped under 4 category headers (الشعر، الأظافر، البشرة، المكياج)
 - [ ] Each service shows name, duration, price, edit and delete icons
-- [ ] Clicking delete shows inline "هل أنتِ متأكدة؟ / تأكيد / إلغاء"
+- [ ] Clicking delete shows inline "هل أنت متأكد؟ / تأكيد / إلغاء"
 - [ ] Confirmed delete removes the service from the list
 - [ ] "إضافة خدمة" opens the modal with an empty form
 - [ ] Selecting a category, filling name + price + duration and saving adds the service under the correct category

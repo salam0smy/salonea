@@ -569,7 +569,7 @@ function selectService(service: Service) {
 
 <template>
   <div class="pt-5 space-y-5">
-    <h2 class="text-xl font-semibold text-gray-900">اختاري الخدمة</h2>
+    <h2 class="text-xl font-semibold text-gray-900">اختار الخدمة</h2>
 
     <!-- Category filter pills -->
     <div class="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 scrollbar-hide">
@@ -610,7 +610,7 @@ function selectService(service: Service) {
     <template v-if="selectedService && eligibleStaff.length > 1">
       <div class="pt-1">
         <h3 class="text-sm font-medium text-gray-700 mb-3">
-          اختاري الموظفة
+          اختار الموظف
           <span class="text-gray-400 font-normal"> (اختياري)</span>
         </h3>
         <div class="flex gap-2 flex-wrap">
@@ -652,7 +652,7 @@ function selectService(service: Service) {
         <span v-if="selectedService">
           التالي — {{ selectedService.price }} ر.س
         </span>
-        <span v-else>اختاري خدمة للمتابعة</span>
+        <span v-else>اختار خدمة للمتابعة</span>
       </UButton>
     </div>
   </div>
@@ -752,7 +752,7 @@ function selectDate(date: string) {
       رجوع
     </button>
 
-    <h2 class="text-xl font-semibold text-gray-900">اختاري الموعد</h2>
+    <h2 class="text-xl font-semibold text-gray-900">اختار الموعد</h2>
 
     <!-- Date strip -->
     <div class="space-y-2">
@@ -797,7 +797,7 @@ function selectDate(date: string) {
       </div>
     </template>
     <template v-else>
-      <p class="text-sm text-gray-400">اختاري تاريخاً لعرض الأوقات المتاحة</p>
+      <p class="text-sm text-gray-400">اختار تاريخاً لعرض الأوقات المتاحة</p>
     </template>
   </div>
 
@@ -1013,9 +1013,9 @@ const ctaLabel = computed(() => {
   if (props.settings.paymentMode === 'at_salon') return 'تأكيد الحجز — الدفع في الصالون'
   if (props.settings.paymentMode === 'deposit' && props.settings.depositPercent) {
     const deposit = Math.round(price * props.settings.depositPercent / 100)
-    return `ادفعي العربون — ${deposit} ر.س`
+    return `ادفع العربون — ${deposit} ر.س`
   }
-  return `ادفعي الآن — ${price} ر.س`
+  return `ادفع الآن — ${price} ر.س`
 })
 </script>
 
@@ -1057,7 +1057,7 @@ const ctaLabel = computed(() => {
           <span class="text-gray-900">{{ formatTime(selection.time!) }}</span>
         </div>
         <div v-if="selection.staff" class="flex justify-between text-sm">
-          <span class="text-gray-500">الموظفة</span>
+          <span class="text-gray-500">الموظف</span>
           <span class="text-gray-900">{{ selection.staff.name }}</span>
         </div>
         <div class="border-t border-gray-50 pt-2 flex justify-between text-sm">
@@ -1080,7 +1080,7 @@ const ctaLabel = computed(() => {
       class="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-gray-200 bg-white text-sm text-gray-700 hover:border-gray-300 transition-colors"
     >
       <span class="text-[#25D366]">●</span>
-      شاركي التأكيد عبر واتساب
+      شارك التأكيد عبر واتساب
     </a>
   </div>
 
@@ -1094,7 +1094,7 @@ const ctaLabel = computed(() => {
         v-if="settings.paymentMode !== 'at_salon'"
         class="text-xs text-center text-gray-400"
       >
-        ستُحوَّلين إلى صفحة الدفع الآمن
+        ستُحوَّل إلى صفحة الدفع الآمن
       </p>
     </div>
   </div>
