@@ -1,4 +1,13 @@
 {
+  "landing": {
+    "tagline": "Book at your favourite salon."
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "goHome": "Go home",
+    "notFound": "Page not found",
+    "salonNotFound": "Salon not found"
+  },
   "setup": {
     "title": "Set up your salon",
     "subtitle": "Enter your salon details to get started.",

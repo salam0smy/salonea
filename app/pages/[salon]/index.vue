@@ -13,7 +13,10 @@ const services = computed(() => servicesData.value?.services ?? [])
 const { data: staff } = await useFetch(`/api/${slug}/staff`)
 
 // We'll also need tenant and settings for the header and confirmation
-const { data: tenant } = await useFetch(`/api/${slug}/tenant`)
+const { data: tenant, error: tenantError } = await useFetch(`/api/${slug}/tenant`)
+if (tenantError.value?.statusCode === 404) {
+  showError({ statusCode: 404, statusMessage: 'Salon not found', data: { kind: 'salon_not_found' } })
+}
 const { data: settings } = await useFetch(`/api/${slug}/settings`)
 
 const { step, selection, advance, back, submitBooking } = useBookingFlow()
