@@ -1,14 +1,10 @@
 -- supabase/migrations/20260302000000_initial_schema.sql
--- ─────────────────────────────────────────────────────────────────────────────
--- EXTENSIONS
--- ─────────────────────────────────────────────────────────────────────────────
-create extension if not exists "uuid-ossp";
-
+-- Uses gen_random_uuid() (built-in in PostgreSQL 13+, no extension needed)
 -- ─────────────────────────────────────────────────────────────────────────────
 -- TENANTS
 -- ─────────────────────────────────────────────────────────────────────────────
 create table tenants (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   slug         text not null unique,
   name         text not null,          -- Arabic (primary display)
   name_en      text,
@@ -26,7 +22,7 @@ create table tenant_users (
 );
 
 create table tenant_settings (
-  id               uuid primary key default uuid_generate_v4(),
+  id               uuid primary key default gen_random_uuid(),
   tenant_id        uuid not null unique references tenants(id) on delete cascade,
   payment_mode     text not null default 'at_salon'
                      check (payment_mode in ('full', 'deposit', 'at_salon')),
@@ -38,7 +34,7 @@ create table tenant_settings (
 -- SERVICES
 -- ─────────────────────────────────────────────────────────────────────────────
 create table service_categories (
-  id         uuid primary key default uuid_generate_v4(),
+  id         uuid primary key default gen_random_uuid(),
   tenant_id  uuid not null references tenants(id) on delete cascade,
   name       text not null,
   name_en    text,
@@ -46,7 +42,7 @@ create table service_categories (
 );
 
 create table services (
-  id                uuid primary key default uuid_generate_v4(),
+  id                uuid primary key default gen_random_uuid(),
   tenant_id         uuid not null references tenants(id) on delete cascade,
   category_id       uuid not null references service_categories(id) on delete restrict,
   name              text not null,
@@ -63,7 +59,7 @@ create table services (
 -- STAFF
 -- ─────────────────────────────────────────────────────────────────────────────
 create table staff (
-  id         uuid primary key default uuid_generate_v4(),
+  id         uuid primary key default gen_random_uuid(),
   tenant_id  uuid not null references tenants(id) on delete cascade,
   name       text not null,
   name_en    text,
@@ -85,7 +81,7 @@ create table staff_services (
 -- Staff-specific rows override the default for that day.
 -- ─────────────────────────────────────────────────────────────────────────────
 create table working_hours (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   tenant_id    uuid not null references tenants(id) on delete cascade,
   staff_id     uuid references staff(id) on delete cascade,    -- null = salon default
   day_of_week  smallint not null check (day_of_week between 0 and 6), -- 0=Sun
@@ -98,7 +94,7 @@ create table working_hours (
 -- BOOKINGS
 -- ─────────────────────────────────────────────────────────────────────────────
 create table bookings (
-  id               uuid primary key default uuid_generate_v4(),
+  id               uuid primary key default gen_random_uuid(),
   tenant_id        uuid not null references tenants(id) on delete cascade,
   service_id       uuid not null references services(id) on delete restrict,
   staff_id         uuid references staff(id) on delete set null,
@@ -120,7 +116,7 @@ create index bookings_tenant_date_idx on bookings(tenant_id, date);
 -- TIME BLOCKS (admin blocks off hours/days)
 -- ─────────────────────────────────────────────────────────────────────────────
 create table time_blocks (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   tenant_id    uuid not null references tenants(id) on delete cascade,
   staff_id     uuid references staff(id) on delete cascade,  -- null = all staff
   date         date not null,
