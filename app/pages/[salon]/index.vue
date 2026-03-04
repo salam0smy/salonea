@@ -54,6 +54,11 @@ const availableSlots = computed(() => (availabilityData.value?.slots ?? []).map(
 async function handleNextContact() {
   await submitBooking(slug)
 }
+
+const pageTitle = computed(() =>
+  tenant.value ? `${tenant.value.name} – ${t('booking.title')}` : undefined,
+)
+useHead({ title: pageTitle })
 </script>
 
 <template>

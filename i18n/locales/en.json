@@ -97,6 +97,7 @@
   },
   "admin": {
     "dashboard": "Dashboard",
+    "pageTitleSuffix": "Salona Admin",
     "calendar": {
       "label": "Calendar",
       "noBookings": "No bookings for this day",

@@ -59,6 +59,11 @@ function tryAgain(): void {
 function bookAnother(): void {
   navigateTo(`/${slug}`)
 }
+
+const pageTitle = computed(() =>
+  tenant.value ? `${tenant.value.name} – ${t('booking.bookingConfirmed')}` : undefined,
+)
+useHead({ title: pageTitle })
 </script>
 
 <template>

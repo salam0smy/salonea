@@ -39,7 +39,7 @@
     "selectDate": "اختر التاريخ"
   },
   "booking": {
-    "title": "احجزي موعدك",
+    "title": "احجز موعدك",
     "selectService": "اختار الخدمة",
     "selectStaff": "اختار الموظف",
     "noPreference": "بدون تفضيل",
@@ -97,6 +97,7 @@
   },
   "admin": {
     "dashboard": "لوحة التحكم",
+    "pageTitleSuffix": "إدارة صالونى",
     "calendar": {
       "label": "التقويم",
       "noBookings": "لا توجد حجوزات لهذا اليوم",

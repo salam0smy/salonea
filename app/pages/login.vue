@@ -8,6 +8,8 @@ const user = useSupabaseUser()
 const { sendOtp, verifyOtp, signInWithEmail, isLoading, error, clearError, normalizePhone } = useAuth()
 const { t } = useI18n()
 
+useHead({ title: () => t('auth.title') })
+
 const step = ref<1 | 2>(1)
 const email = ref('')
 const password = ref('')

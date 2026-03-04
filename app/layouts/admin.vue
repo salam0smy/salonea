@@ -2,7 +2,7 @@
 <script setup lang="ts">
 const { tenant } = useSettings()
 const route = useRoute()
-const { locale, setLocale } = useI18n()
+const { locale, setLocale, t } = useI18n()
 const { signOut } = useAuth()
 
 const localeLabel = computed(() => locale.value === 'ar' ? 'EN' : 'عر')
@@ -27,6 +27,15 @@ function isActive(to: string): boolean {
   if (to === '/admin') return route.path === '/admin'
   return route.path.startsWith(to)
 }
+
+const currentSectionLabel = computed(() => {
+  const item = navItems.find((n) => isActive(n.to))
+  return item ? t(item.label) : t('admin.dashboard')
+})
+
+useHead({
+  title: computed(() => `${currentSectionLabel.value} | ${t('admin.pageTitleSuffix')}`),
+})
 </script>
 
 <template>
