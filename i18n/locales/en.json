@@ -1,4 +1,17 @@
 {
+  "setup": {
+    "title": "Set up your salon",
+    "subtitle": "Enter your salon details to get started.",
+    "salonNameAr": "Salon name (Arabic)",
+    "salonNameEn": "Salon name (English, optional)",
+    "phone": "Phone number",
+    "slug": "Booking page URL",
+    "slugPlaceholder": "my-salon",
+    "slugHint": "Your booking page will be: yourapp.com/{slug}",
+    "submit": "Create salon",
+    "slugTaken": "This URL is already in use. Choose another.",
+    "error": "Something went wrong. Please try again."
+  },
   "auth": {
     "title": "Log in",
     "subtitle": "Enter your phone number to sign in",
