@@ -5,11 +5,11 @@ const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
 export default defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event)
-  if (!user?.id) {
+  if (!user?.sub) {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
   }
 
-  const existing = await getTenantByUserId(event, user.id)
+  const existing = await getTenantByUserId(event, user.sub)
   if (existing) {
     throw createError({
       statusCode: 400,
