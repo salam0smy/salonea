@@ -32,7 +32,7 @@ function handleSave(data: Parameters<typeof addStaff>[0]) {
 </script>
 
 <template>
-  <UDashboardPanel id="staff">
+  <UDashboardPanel id="staff" resizable :default-size="38" :min-size="30" :max-size="55">
     <template #header>
       <UDashboardNavbar :title="$t('admin.staff')">
         <template #right>

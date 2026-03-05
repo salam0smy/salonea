@@ -1,6 +1,6 @@
 <!-- app/components/admin/AdminStaffFormPanel.vue -->
 <script setup lang="ts">
-import type { StaffMember, Service, ServiceCategory } from '~/types'
+import type { StaffMember, Service, ServiceCategory, WorkingHoursDay } from '~/types'
 import type { NewStaffData } from '~/composables/admin/useStaff'
 
 const props = defineProps<{
@@ -20,6 +20,27 @@ const form = reactive({
   photoUrl: '',
   serviceIds: [] as string[],
 })
+
+const staffIdRef = computed(() => props.staff?.id ?? null)
+const { workingHours, save: saveWorkingHours } = useWorkingHours(staffIdRef)
+
+const defaultWorkingHours = (): WorkingHoursDay[] =>
+  Array.from({ length: 7 }, (_, i) => ({
+    dayOfWeek: i,
+    startTime: '09:00',
+    endTime: '21:00',
+    isWorking: true,
+  }))
+
+const localWorkingHours = ref<WorkingHoursDay[]>(defaultWorkingHours())
+
+watch(
+  workingHours,
+  (hours) => {
+    if (hours?.length === 7) localWorkingHours.value = [...hours]
+  },
+  { immediate: true },
+)
 
 watch(
   () => props.staff,
@@ -57,7 +78,7 @@ function toggleService(id: string) {
   }
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   if (!form.name.trim()) return
   emit('save', {
     name: form.name.trim(),
@@ -65,12 +86,13 @@ function handleSubmit() {
     photoUrl: form.photoUrl.trim() || null,
     serviceIds: [...form.serviceIds],
   })
+  if (props.staff) await saveWorkingHours(localWorkingHours.value)
   emit('close')
 }
 </script>
 
 <template>
-  <UDashboardPanel id="staff-form" :default-size="38" :min-size="30" :max-size="55">
+  <UDashboardPanel id="staff-form" resizable :default-size="38" :min-size="30" :max-size="55">
     <template #header>
       <UDashboardNavbar
         :title="staff ? $t('admin.editStaff') : $t('admin.addStaff')"
@@ -139,6 +161,14 @@ function handleSubmit() {
             </section>
           </div>
         </UFormField>
+
+        <!-- Working hours: only when editing existing staff -->
+        <section v-if="staff" class="space-y-3">
+          <h3 class="text-sm font-semibold text-(--color-text)">
+            {{ $t('admin.settings.workingHours') }}
+          </h3>
+          <AdminWorkingHoursEditor v-model="localWorkingHours" />
+        </section>
 
       </form>
     </template>

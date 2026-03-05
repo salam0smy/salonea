@@ -1,11 +1,29 @@
 <!-- app/pages/admin/settings.vue -->
 <script setup lang="ts">
-import type { PaymentMode } from '~/types'
+import type { PaymentMode, WorkingHoursDay } from '~/types'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
 
 const { t } = useI18n()
 const { tenant, settings, updateTenant, updateSettings } = useSettings()
+const { workingHours, save: saveWorkingHours } = useWorkingHours()
+
+const defaultWorkingHours = (): WorkingHoursDay[] =>
+  Array.from({ length: 7 }, (_, i) => ({
+    dayOfWeek: i,
+    startTime: '09:00',
+    endTime: '21:00',
+    isWorking: true,
+  }))
+
+const localWorkingHours = ref<WorkingHoursDay[]>(defaultWorkingHours())
+watch(
+  workingHours,
+  (hours) => {
+    if (hours?.length === 7) localWorkingHours.value = [...hours]
+  },
+  { immediate: true },
+)
 
 // Local draft copies — bound to the form; committed on save.
 // null → '' conversion keeps UInput happy (expects string | undefined, not null).
@@ -53,7 +71,7 @@ const depositPercentModel = computed({
   set: (v: number | undefined) => { localSettings.depositPercent = v ?? null },
 })
 
-function handleSave(): void {
+async function handleSave(): Promise<void> {
   updateTenant({
     ...localTenant,
     nameEn: localTenant.nameEn || null,
@@ -61,6 +79,7 @@ function handleSave(): void {
     description: localTenant.description || null,
   })
   updateSettings({ ...localSettings })
+  await saveWorkingHours(localWorkingHours.value)
   toast.add({
     title: t('admin.settings.saved'),
     color: 'success',
@@ -113,6 +132,17 @@ function handleSave(): void {
             </UFormField>
 
           </div>
+        </section>
+
+        <!-- ── Working hours section ───────────────────────── -->
+        <section class="bg-(--color-surface) rounded-[16px] border border-(--color-border) p-6">
+          <h2 class="text-lg font-semibold text-(--color-text) mb-2">
+            {{ $t('admin.settings.workingHours') }}
+          </h2>
+          <p class="text-sm text-(--color-text-muted) mb-6">
+            {{ $t('admin.settings.workingHoursDefault') }}
+          </p>
+          <AdminWorkingHoursEditor v-model="localWorkingHours" />
         </section>
 
         <!-- ── Booking rules section ───────────────────────── -->

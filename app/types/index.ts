@@ -88,3 +88,11 @@ export interface BookingSelection {
   contact: BookingContact | null
   bookingId: string | null       // set after step 3 submits booking; used as Moyasar metadata
 }
+
+/** One day in the 7-day working hours schedule. dayOfWeek 0 = Sunday. */
+export interface WorkingHoursDay {
+  dayOfWeek: number   // 0–6
+  startTime: string   // "09:00" 24h
+  endTime: string     // "21:00" 24h
+  isWorking: boolean
+}
