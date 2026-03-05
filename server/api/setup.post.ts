@@ -3,6 +3,21 @@ import { serverSupabaseUser } from '#supabase/server'
 
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
+/** Normalize Saudi phone to E.164 (+966XXXXXXXXX). Returns null if invalid. */
+function normalizePhone(phone: string): string | null {
+  const digits = phone.replace(/\D/g, '')
+  if (digits.length === 9 && digits.startsWith('5')) {
+    return `+966${digits}`
+  }
+  if (digits.length === 10 && digits.startsWith('05')) {
+    return `+966${digits.slice(1)}`
+  }
+  if (digits.length === 12 && digits.startsWith('966')) {
+    return `+${digits}`
+  }
+  return null
+}
+
 export default defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event)
   if (!user?.sub) {
@@ -33,6 +48,16 @@ export default defineEventHandler(async (event) => {
       message: 'name, phone and slug are required',
     })
   }
+
+  const phoneE164 = normalizePhone(phone)
+  if (!phoneE164) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+      message: 'invalid_phone',
+    })
+  }
+
   if (!SLUG_REGEX.test(slug)) {
     throw createError({
       statusCode: 400,
@@ -41,7 +66,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const client = await getServiceRoleClient(event)
+  const client = await getServerClient(event)
 
   const { data: existingSlug } = await client
     .from('tenants')
@@ -62,7 +87,7 @@ export default defineEventHandler(async (event) => {
       slug,
       name,
       name_en: nameEn,
-      phone: phone || null,
+      phone: phoneE164,
       brand_color: '#C9A87C',
     })
     .select('id')
@@ -75,7 +100,7 @@ export default defineEventHandler(async (event) => {
 
   const { error: linkError } = await client
     .from('tenant_users')
-    .insert({ user_id: user.id, tenant_id: tenant.id })
+    .insert({ user_id: user.sub, tenant_id: tenant.id })
 
   if (linkError) {
     console.error('setup: tenant_users insert error', linkError)

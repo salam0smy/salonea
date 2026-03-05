@@ -17,7 +17,7 @@ function slugFromName(value: string): string {
     .trim()
     .toLowerCase()
     .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\u0600-\u06FF-]/g, '')
+    .replace(/[^a-z0-9-]/g, '')
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '') || ''
 }
@@ -46,6 +46,8 @@ async function onSubmit() {
     const err = e as { data?: { message?: string }; statusCode?: number }
     if (err?.statusCode === 409 || err?.data?.message === 'slug_taken') {
       error.value = t('setup.slugTaken')
+    } else if (err?.data?.message === 'invalid_phone') {
+      error.value = t('auth.invalidPhone')
     } else {
       error.value = t('setup.error')
     }
@@ -58,9 +60,10 @@ const slugNormalized = computed(() =>
   slug.value.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
 )
 const canSubmit = computed(() => {
+  const phoneDigits = phone.value.replace('+966', '').replace(/\D/g, '')
   return (
     name.value.trim().length > 0 &&
-    phone.value.trim().length > 0 &&
+    phoneDigits.length >= 9 &&
     slugNormalized.value.length > 0
   )
 })
@@ -101,12 +104,10 @@ const canSubmit = computed(() => {
           />
         </UFormField>
         <UFormField :label="t('setup.phone')" required>
-          <UInput
+          <PhoneInput
             v-model="phone"
-            type="tel"
-            :placeholder="t('auth.phonePlaceholder')"
             size="lg"
-            autocomplete="tel"
+            class="w-full"
             :disabled="isLoading"
           />
         </UFormField>
